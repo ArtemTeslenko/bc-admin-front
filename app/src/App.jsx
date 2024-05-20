@@ -1,17 +1,80 @@
 import { Routes, Route } from "react-router-dom";
-import { HomePage, StudentsListPage, StudentForm } from "@/assets/pages";
-import { Layout } from "./assets/components/Layout/Layout";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import {
+  HomePage,
+  StudentsListPage,
+  StudentFormPage,
+  RegisterPage,
+  LoginPage,
+} from "@/assets/pages";
+import { getCurrentUser } from "@/assets/redux";
+import { selectIsgettingCurrent } from "@/assets/redux";
+import { Layout } from "@/assets/components/Layout/Layout";
+import { PrivateRoute, PublicRoute } from "@/assets/routes";
 
 export default function App() {
+  const dispatch = useDispatch();
+  const [currentLocation, setCurrentLocation] = useState("/");
+  const isGettingCurrentUser = useSelector(selectIsgettingCurrent);
+
+  useEffect(() => {
+    dispatch(getCurrentUser());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const path = localStorage.getItem("currentPath");
+    setCurrentLocation(path ? path : "/");
+  }, []);
+
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />}></Route>
-          <Route path="students" element={<StudentsListPage />}></Route>
-          <Route path="students/:id" element={<StudentForm />}></Route>
-        </Route>
-      </Routes>
-    </>
+    !isGettingCurrentUser && (
+      <>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route
+              index
+              element={
+                <PrivateRoute redirectTo="/login">
+                  <HomePage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="register"
+              element={
+                <PublicRoute restricted redirectTo="/">
+                  <RegisterPage />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="login"
+              element={
+                <PublicRoute restricted redirectTo={currentLocation}>
+                  <LoginPage />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="students"
+              element={
+                <PrivateRoute redirectTo="/login">
+                  <StudentsListPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="students/:id"
+              element={
+                <PrivateRoute redirectTo="/login">
+                  <StudentFormPage />
+                </PrivateRoute>
+              }
+            />
+          </Route>
+        </Routes>
+      </>
+    )
   );
 }

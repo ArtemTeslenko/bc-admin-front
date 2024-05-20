@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { LocationSelect } from "@/assets/components/LocationSelect";
+import { AuthNavigation } from "@/assets/components/AuthNavigation";
 import { Sidebar } from "@/assets/components/Sidebar";
 import { Header } from "@/assets/components/Header";
 import { Main } from "@/assets/components/Main";
@@ -12,7 +12,7 @@ export const Layout = () => {
         <Sidebar />
         <LayoutMainBox>
           <Header>
-            <LocationSelect />
+            <AuthNavigation />
           </Header>
           <Main>
             <Outlet></Outlet>
