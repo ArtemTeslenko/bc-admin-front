@@ -1,20 +1,20 @@
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { StudentsList } from "@/assets/components/StudentsList";
+import { setLocationToStorage } from "@/assets/utils";
 
 const StudentsListPage = () => {
+  const location = useLocation();
   const [students, setStudents] = useState([]);
 
   useEffect(() => {
     axios
-      .get("https://bc-admin-back.onrender.com/api/students", {
-        headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDEyNjNmMmJiOTllMDc1NTk3NmI4YiIsImlhdCI6MTcxNjA0MDQ3NCwiZXhwIjoxNzE2MDY1Njc0fQ.eanL849G7gNVn25sjW3Le36T9TVKehKOlA4qypgT-NA",
-        },
-      })
+      .get("api/students")
       .then((response) => setStudents(response.data))
       .catch((err) => console.log(console.log(err)));
+
+    setLocationToStorage(location.pathname);
   }, []);
 
   return students && <StudentsList students={students} />;

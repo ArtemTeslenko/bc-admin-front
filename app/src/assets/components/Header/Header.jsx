@@ -1,4 +1,4 @@
-import { HeaderContainer } from "./HeaderContainer.styled";
+import { HeaderContainer } from "@/assets/components/Header/";
 
 export const Header = ({ children }) => {
   return <HeaderContainer>{children}</HeaderContainer>;
