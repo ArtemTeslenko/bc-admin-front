@@ -32,7 +32,7 @@ display:flex;
 flex-direction: column
 ` 
 
-export const Toggle = styled.div `
+export const ToggleForm = styled.div `
 display:flex;
 flex-direction: row;
 margin-top:20px;

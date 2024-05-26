@@ -5,7 +5,7 @@ import {
   InputWrapper,
 } from "@/assets/components/StudentForm";
 import { useState } from "react";
-import LogicalNot from "./StudentToggle";
+import {LogicalNot} from "@/assets/components/StudentForm";
 
 export const StudentForm = ({ student }) => {
   const { name, surname, middlename } = student;
