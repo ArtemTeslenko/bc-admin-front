@@ -1,13 +1,16 @@
 import { useSelector } from "react-redux";
 import { selectIsLoggedIn } from "@/assets/redux";
 import { SidebarLink, SidebarContainer } from "@/assets/components/Sidebar";
+import logo from "../../images/logo_blue.svg";
 
 export const Sidebar = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
   return (
     <SidebarContainer>
-      <div>British camp</div>
+      <div style={{ marginTop: "-30px", marginBottom: "-20px" }}>
+        <img src={logo} alt="Logo" width="100px" height="100px" />
+      </div>
       <div>
         {isLoggedIn && (
           <>

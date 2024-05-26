@@ -5,6 +5,8 @@ import {
   HomePage,
   StudentsListPage,
   StudentFormPage,
+  UsersListPage,
+  UserFormPage,
   RegisterPage,
   LoginPage,
 } from "@/assets/pages";
@@ -69,6 +71,22 @@ export default function App() {
               element={
                 <PrivateRoute redirectTo="/login">
                   <StudentFormPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="users"
+              element={
+                <PrivateRoute redirectTo="/login">
+                  <UsersListPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="users/:id"
+              element={
+                <PrivateRoute redirectTo="/login">
+                  <UserFormPage />
                 </PrivateRoute>
               }
             />
