@@ -5,7 +5,7 @@ import {
   InputWrapper,
 } from "@/assets/components/StudentForm";
 import { useState } from "react";
-import {LogicalNot} from "@/assets/components/StudentForm";
+import { ToggleButton } from "@/assets/components/StudentForm";
 
 export const StudentForm = ({ student }) => {
   const { name, surname, middlename } = student;
@@ -49,8 +49,15 @@ export const StudentForm = ({ student }) => {
           onChange={(e) => setStudentMiddlename(e.target.value)}
         />
       </InputWrapper>
-      <InputWrapper>  
-      <LogicalNot />
+      <InputWrapper>
+        <ToggleButton />
+      </InputWrapper>
+      <InputWrapper>
+        <Label htmlFor="orderDate">Order Date</Label>
+        <Input id="orderDate" type="date" />
+      </InputWrapper>
+      <InputWrapper>
+        <ToggleButton />
       </InputWrapper>
     </Form>
   );
