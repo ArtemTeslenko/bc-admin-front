@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import html2pdf from "html-to-pdf-js";
 import { LoadStudentPdf } from "@/assets/components/StudentPDF";
+import { ButtonPdf } from "./StudentPDF.styled";
 
 export const StudentPDF = ({ location }) => {
   const [isCampbookVisible, setIsCampbookVisible] = useState(false);
@@ -19,8 +20,8 @@ export const StudentPDF = ({ location }) => {
   }
 
   return (
-    <div>
-      <LoadStudentPdf
+    <ButtonPdf>
+            <LoadStudentPdf
         type="button"
         onClick={() => setIsCampbookVisible(!isCampbookVisible)}
       >
@@ -36,6 +37,6 @@ export const StudentPDF = ({ location }) => {
       <LoadStudentPdf type="button" onClick={handlePdfLoad}>
         Load PDF
       </LoadStudentPdf>
-    </div>
+    </ButtonPdf>
   );
 };
