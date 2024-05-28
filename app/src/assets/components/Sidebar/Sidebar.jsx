@@ -1,10 +1,13 @@
 import { useSelector } from "react-redux";
-import { selectIsLoggedIn } from "@/assets/redux";
+import { selectIsLoggedIn, selectUser } from "@/assets/redux";
 import { SidebarLink, SidebarContainer } from "@/assets/components/Sidebar";
-import logo from "../../images/logo_blue.svg";
+import logo from "@/assets/images/logo_blue.svg";
 
 export const Sidebar = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const user = useSelector(selectUser);
+
+  console.log(user);
 
   return (
     <SidebarContainer>
