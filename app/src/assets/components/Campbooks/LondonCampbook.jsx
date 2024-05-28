@@ -14,9 +14,9 @@ export const LondonCampbook = (props) => {
           <div>Group</div>
         </div>
         <div>
-          <div>link</div>
-          <div>link</div>
-          <div>link</div>
+          <div>link 1</div>
+          <div>link 2</div>
+          <div>link 3</div>
         </div>
       </div>
     </div>
