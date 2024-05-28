@@ -7,7 +7,8 @@ export const Form = styled.form`
 
 export const InputWrapper = styled.div`
   display: flex;
-  align-items: center;
+  align-items: baseline;
+
   gap: 10px;
 
   &:not(:last-child) {
@@ -27,19 +28,19 @@ export const Label = styled.label`
   color: green;
 `;
 
-export const InputWrapperToggle = styled.div `
-display:flex;
-flex-direction: column
-` 
+export const InputWrapperToggle = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
-export const ToggleForm = styled.div `
-display:flex;
-flex-direction: row;
-margin-top:20px;
-padding: 10px;
-` 
+export const ToggleWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  padding: 10px;
+`;
 
-export const AgeCalculator = styled.div `
-display: flex;
-margin: 10px;
-`
+export const AgeCalculator = styled.div`
+  display: flex;
+  margin: 10px;
+`;
