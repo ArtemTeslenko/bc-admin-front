@@ -18,7 +18,21 @@ const UserFormPage = () => {
     setLocationToStorage(location.pathname);
   }, []);
 
-  return <section>{user && <User user={user} />}</section>;
+  function handleRoleChange(newRole) {
+    const roles = newRole.map((role) => role.value);
+    const requestBody = { role: roles };
+
+    axios
+      .patch(`api/users/${id}/role`, requestBody)
+      .then((response) => setUser(response.data))
+      .catch((err) => console.log(console.log(err)));
+  }
+
+  return (
+    <section>
+      {user && <User user={user} submitRoleChange={handleRoleChange} />}
+    </section>
+  );
 };
 
 export default UserFormPage;

@@ -1,2 +1,2 @@
 export { UsersList } from "./UsersList";
-export { UsersTable } from "./UsersTable.styled";
+export * from "./UsersTable.styled";

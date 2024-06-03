@@ -9,15 +9,40 @@ const UsersListPage = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("api/users")
-      .then((response) => setUsers(response.data))
-      .catch((err) => console.log(console.log(err)));
+    fetchUsersList();
 
     setLocationToStorage(location.pathname);
   }, []);
 
-  return users && <UsersList users={users} />;
+  function fetchUsersList() {
+    axios
+      .get("api/users")
+      .then((response) => setUsers(response.data))
+      .catch((err) => console.log(console.log(err)));
+  }
+
+  function handleDeleteUser(id, name) {
+    const resultOfConfirm = window.confirm(
+      `Do you want to delete user ${name}`
+    );
+
+    if (!resultOfConfirm) {
+      return;
+    }
+
+    axios
+      .delete(`api/users/${id}`)
+      .then((response) => {
+        console.log(response);
+        console.log(`User ${name} removed successfuly`);
+        fetchUsersList();
+      })
+      .catch((err) => console.log(console.log(err)));
+  }
+
+  return (
+    users && <UsersList users={users} handleDeleteUser={handleDeleteUser} />
+  );
 };
 
 export default UsersListPage;

@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectIsLoggedIn, selectUser } from "@/assets/redux";
 import { SidebarLink, SidebarContainer } from "@/assets/components/Sidebar";
@@ -6,8 +7,13 @@ import logo from "@/assets/images/logo_blue.svg";
 export const Sidebar = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const user = useSelector(selectUser);
+  const [isUsersRouteAvailable, setIsUsersRouteAvailable] = useState(false);
 
-  console.log(user);
+  useEffect(() => {
+    if (isLoggedIn && user) {
+      user.role.includes("super-admin") && setIsUsersRouteAvailable(true);
+    }
+  }, [isLoggedIn, user]);
 
   return (
     <SidebarContainer>
@@ -23,9 +29,11 @@ export const Sidebar = () => {
             <div>
               <SidebarLink to="/students">Students</SidebarLink>
             </div>
-            <div>
-              <SidebarLink to="/users">Users</SidebarLink>
-            </div>
+            {isUsersRouteAvailable && (
+              <div>
+                <SidebarLink to="/users">Users</SidebarLink>
+              </div>
+            )}
           </>
         )}
       </div>

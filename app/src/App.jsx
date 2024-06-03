@@ -77,7 +77,7 @@ export default function App() {
             <Route
               path="users"
               element={
-                <PrivateRoute redirectTo="/login">
+                <PrivateRoute redirectTo="/login" requiredRole="super-admin">
                   <UsersListPage />
                 </PrivateRoute>
               }
@@ -85,7 +85,7 @@ export default function App() {
             <Route
               path="users/:id"
               element={
-                <PrivateRoute redirectTo="/login">
+                <PrivateRoute redirectTo="/login" requiredRole="super-admin">
                   <UserFormPage />
                 </PrivateRoute>
               }

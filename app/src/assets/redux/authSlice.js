@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { register, login, logout, getCurrentUser } from "./authOperations";
 
 const initialState = {
-  user: { _id: null, name: null, email: null, role: "user" },
+  user: { _id: null, name: null, email: null, role: ["user"] },
   token: null,
   isLoggedIn: false,
   isGettingCurrent: false,
@@ -23,7 +23,9 @@ export const authSlice = createSlice({
         state.isGettingCurrent = true;
       })
       .addCase(register.fulfilled, (state, action) => {
-        state.user = action.payload.user;
+        state.user.name = action.payload.name;
+        state.user.email = action.payload.email;
+        state.user.role = action.payload.role;
         state.token = action.payload.token;
         state.isLoggedIn = true;
         state.error = null;
@@ -35,7 +37,9 @@ export const authSlice = createSlice({
         state.isGettingCurrent = true;
       })
       .addCase(login.fulfilled, (state, action) => {
-        state.user = action.payload.user;
+        state.user.name = action.payload.name;
+        state.user.email = action.payload.email;
+        state.user.role = action.payload.role;
         state.token = action.payload.token;
         state.isLoggedIn = true;
         state.error = null;
@@ -58,7 +62,9 @@ export const authSlice = createSlice({
         state.isGettingCurrent = true;
       })
       .addCase(getCurrentUser.fulfilled, (state, action) => {
-        state.user = action.payload;
+        state.user.name = action.payload.name;
+        state.user.email = action.payload.email;
+        state.user.role = action.payload.role;
         state.isLoggedIn = true;
         state.isGettingCurrent = false;
       })
