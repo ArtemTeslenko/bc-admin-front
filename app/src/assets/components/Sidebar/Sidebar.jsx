@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectIsLoggedIn, selectUser } from "@/assets/redux";
-import { SidebarLink, SidebarContainer } from "@/assets/components/Sidebar";
+import {
+  SidebarLink,
+  SidebarContainer,
+  SidebarFixed,
+} from "@/assets/components/Sidebar";
 import logo from "@/assets/images/logo_blue.svg";
 
 export const Sidebar = () => {
@@ -17,26 +21,28 @@ export const Sidebar = () => {
 
   return (
     <SidebarContainer>
-      <div style={{ marginTop: "-30px", marginBottom: "-20px" }}>
-        <img src={logo} alt="Logo" width="100px" height="100px" />
-      </div>
-      <div>
-        {isLoggedIn && (
-          <>
-            <div>
-              <SidebarLink to="/">Home</SidebarLink>
-            </div>
-            <div>
-              <SidebarLink to="/students">Students</SidebarLink>
-            </div>
-            {isUsersRouteAvailable && (
+      <SidebarFixed>
+        <div style={{ marginTop: "-30px", marginBottom: "-20px" }}>
+          <img src={logo} alt="Logo" width="100px" height="100px" />
+        </div>
+        <div>
+          {isLoggedIn && (
+            <>
               <div>
-                <SidebarLink to="/users">Users</SidebarLink>
+                <SidebarLink to="/">Home</SidebarLink>
               </div>
-            )}
-          </>
-        )}
-      </div>
+              <div>
+                <SidebarLink to="/students">Students</SidebarLink>
+              </div>
+              {isUsersRouteAvailable && (
+                <div>
+                  <SidebarLink to="/users">Users</SidebarLink>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </SidebarFixed>
     </SidebarContainer>
   );
 };

@@ -1,3 +1,3 @@
 export { Sidebar } from "./Sidebar";
-export { SidebarLink } from "./SidebarLink.styled";
-export { SidebarContainer } from "./SidebarContainer.styled";
+export * from "./SidebarLink.styled";
+export * from "./SidebarContainer.styled";

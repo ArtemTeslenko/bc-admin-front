@@ -6,17 +6,26 @@ import { setLocationToStorage } from "@/assets/utils";
 
 const UsersListPage = () => {
   const location = useLocation();
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState({});
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    fetchUsersList();
+    fetchUsersList(page);
+  }, [page]);
+
+  useEffect(() => {
+    fetchUsersList(1);
 
     setLocationToStorage(location.pathname);
   }, []);
 
-  function fetchUsersList() {
+  function fetchUsersList(page = 1) {
     axios
-      .get("api/users")
+      .get("api/users", {
+        params: {
+          page,
+        },
+      })
       .then((response) => setUsers(response.data))
       .catch((err) => console.log(console.log(err)));
   }
@@ -41,7 +50,14 @@ const UsersListPage = () => {
   }
 
   return (
-    users && <UsersList users={users} handleDeleteUser={handleDeleteUser} />
+    users && (
+      <UsersList
+        users={users}
+        handleDeleteUser={handleDeleteUser}
+        page={page}
+        handleChangePage={setPage}
+      />
+    )
   );
 };
 

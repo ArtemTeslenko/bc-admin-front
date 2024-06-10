@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const UsersTable = styled.table`
   width: 100%;
+  margin-bottom: 20px;
   box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.15);
   border-collapse: collapse;
   border-radius: 6px;

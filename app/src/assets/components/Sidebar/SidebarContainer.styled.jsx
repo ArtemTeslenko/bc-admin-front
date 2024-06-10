@@ -1,10 +1,17 @@
 import styled from "styled-components";
 
 export const SidebarContainer = styled.aside`
-  max-width: 320px;
+  width: 150px;
+  flex-shrink: 0;
+`;
+
+export const SidebarFixed = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 150px;
   height: 100vh;
   padding: 20px;
-  flex-shrink: 0;
   background: linear-gradient(
     45deg,
     rgba(255, 255, 255, 1) 0%,
