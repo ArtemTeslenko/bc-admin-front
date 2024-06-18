@@ -10,8 +10,7 @@ import {
 } from "@/assets/components/Pagination";
 
 export const Pagination = ({ list, page, handleChangePage }) => {
-  const { totalItems, itemsPerPage } = list;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const { totalItems, itemsPerPage, totalPages } = list;
 
   function decreasePage() {
     if (page < 2) {
@@ -108,11 +107,15 @@ export const Pagination = ({ list, page, handleChangePage }) => {
 
         <PaginationTotalContainer>
           <PaginationTotalText>
-            Total pages: <b>{totalPages + ""}</b>
+            Items per page: <b>{itemsPerPage + ""}</b>
           </PaginationTotalText>
 
           <PaginationTotalText>
             Total items: <b>{totalItems + ""}</b>
+          </PaginationTotalText>
+
+          <PaginationTotalText>
+            Total pages: <b>{totalPages + ""}</b>
           </PaginationTotalText>
         </PaginationTotalContainer>
       </PaginationContainer>

@@ -6,18 +6,41 @@ import { setLocationToStorage } from "@/assets/utils";
 
 const StudentsListPage = () => {
   const location = useLocation();
-  const [students, setStudents] = useState([]);
+  const [students, setStudents] = useState({});
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    axios
-      .get("api/students")
-      .then((response) => setStudents(response.data))
-      .catch((err) => console.log(console.log(err)));
+    fetchStudentsList(page);
+  }, [page]);
+
+  useEffect(() => {
+    fetchStudentsList(1);
 
     setLocationToStorage(location.pathname);
   }, []);
 
-  return students && <StudentsList students={students} />;
+  function fetchStudentsList(page = 1) {
+    axios
+      .get("api/students", {
+        params: {
+          page,
+          // ...{ role: ["admin", "super-admin"] },
+          // ...params,
+        },
+      })
+      .then((response) => setStudents(response.data))
+      .catch((err) => console.log(console.log(err)));
+  }
+
+  return (
+    students && (
+      <StudentsList
+        students={students}
+        page={page}
+        handleChangePage={setPage}
+      />
+    )
+  );
 };
 
 export default StudentsListPage;

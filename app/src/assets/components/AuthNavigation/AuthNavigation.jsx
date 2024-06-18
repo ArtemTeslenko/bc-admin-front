@@ -1,7 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
 import { logout } from "@/assets/redux";
 import { selectIsLoggedIn } from "@/assets/redux";
+import { CommonButtonPrimary, CommonNavButton } from "@/assets/styles";
+import {
+  NavigationWrapper,
+  NavLinksWrapper,
+} from "@/assets/components/AuthNavigation";
 
 export const AuthNavigation = () => {
   const dispatch = useDispatch();
@@ -12,17 +16,17 @@ export const AuthNavigation = () => {
   }
 
   return (
-    <div>
+    <NavigationWrapper>
       {isLoggedIn ? (
-        <button type="button" onClick={handleLogout}>
+        <CommonButtonPrimary type="button" onClick={handleLogout}>
           Logout
-        </button>
+        </CommonButtonPrimary>
       ) : (
-        <div style={{ display: "flex", gap: "10px" }}>
-          <NavLink to="/register">Register</NavLink>
-          <NavLink to="/login">Login</NavLink>
-        </div>
+        <NavLinksWrapper>
+          <CommonNavButton to="/register">Register</CommonNavButton>
+          <CommonNavButton to="/login">Login</CommonNavButton>
+        </NavLinksWrapper>
       )}
-    </div>
+    </NavigationWrapper>
   );
 };

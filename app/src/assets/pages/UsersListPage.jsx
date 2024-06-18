@@ -1,13 +1,42 @@
 import axios from "axios";
-import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { UsersList } from "@/assets/components/UsersList";
 import { setLocationToStorage } from "@/assets/utils";
+import { USERS_FILTERS } from "@/assets/constants";
 
 const UsersListPage = () => {
   const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [users, setUsers] = useState({});
   const [page, setPage] = useState(1);
+  const [params, setParams] = useState({});
+
+  useEffect(() => {
+    const filters = Object.values(USERS_FILTERS);
+
+    filters.forEach((filter) => {
+      const filterValue = searchParams.get(filter);
+
+      if (!filterValue && params[filter]) {
+        const newParams = { ...params };
+        delete newParams[filter];
+        setParams({ ...newParams });
+      }
+
+      if (filterValue && filter === "role") {
+        setParams({ ...params, [filter]: searchParams.getAll(filter) });
+      }
+
+      if (filterValue && filter !== "role") {
+        setParams({ ...params, [filter]: filterValue });
+      }
+    });
+  }, [searchParams]);
+
+  // useEffect(() => {
+  //   console.log(params);
+  // }, [params]);
 
   useEffect(() => {
     fetchUsersList(page);
@@ -24,6 +53,8 @@ const UsersListPage = () => {
       .get("api/users", {
         params: {
           page,
+          // ...{ role: ["admin", "super-admin"] },
+          // ...params,
         },
       })
       .then((response) => setUsers(response.data))
@@ -44,7 +75,7 @@ const UsersListPage = () => {
       .then((response) => {
         console.log(response);
         console.log(`User ${name} removed successfuly`);
-        fetchUsersList();
+        fetchUsersList(page);
       })
       .catch((err) => console.log(console.log(err)));
   }

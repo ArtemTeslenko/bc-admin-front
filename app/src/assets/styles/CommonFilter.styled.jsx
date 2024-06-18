@@ -6,7 +6,7 @@ export const FiltersContainer = styled.div`
 
 export const FieldForm = styled.form`
   display: grid;
-  grid-template-columns: 2fr 5fr 1fr 3fr;
+  grid-template-columns: 2fr 5fr 1fr 1fr 2fr;
   grid-gap: 10px;
   align-items: center;
 
@@ -16,20 +16,25 @@ export const FieldForm = styled.form`
 `;
 
 export const FieldLabel = styled.label`
-  //
+  font-weight: 600;
 `;
 
 export const FieldInput = styled.input`
-  padding: 10px;
+  padding: 8px 10px;
+  font-size: 16px;
   border-radius: 6px;
   box-shadow: inset 0px 0px 10px 1px rgba(0, 0, 0, 0.1);
+
+  &::placeholder {
+    opacity: 0.9;
+  }
 `;
 
 export const FieldButton = styled.button`
-  font-size: 14px;
+  font-size: 16px;
   color: #ffffff;
   background-color: #3e4649;
-  padding: 10px;
+  padding: 8px;
   border-radius: 6px;
   text-decoration: none;
 `;

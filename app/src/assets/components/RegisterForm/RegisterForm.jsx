@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { login } from "@/assets/redux/";
+import { register } from "@/assets/redux";
 import {
   CommonForm,
   CommonFieldWrapper,
@@ -9,8 +9,9 @@ import {
   CommonButtonPrimary,
 } from "@/assets/styles";
 
-export const LoginForm = () => {
+export const RegisterForm = () => {
   const dispatch = useDispatch();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [key, setKey] = useState("");
@@ -18,8 +19,9 @@ export const LoginForm = () => {
   function handleFormSubmit(e) {
     e.preventDefault();
 
-    dispatch(login({ email, password, key }));
+    dispatch(register({ name, email, password, key }));
 
+    setName("");
     setEmail("");
     setPassword("");
     setKey("");
@@ -29,22 +31,29 @@ export const LoginForm = () => {
     <>
       <CommonForm onSubmit={handleFormSubmit}>
         <CommonFieldWrapper>
+          <CommonFormLabel htmlFor="nameInput">Name</CommonFormLabel>
+          <CommonFormInput
+            type="text"
+            name="name"
+            id="nameInput"
+            onChange={(e) => setName(e.target.value)}
+          />
+        </CommonFieldWrapper>
+        <CommonFieldWrapper>
           <CommonFormLabel htmlFor="emailInput">Email</CommonFormLabel>
           <CommonFormInput
             type="text"
             name="email"
             id="emailInput"
-            value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </CommonFieldWrapper>
         <CommonFieldWrapper>
           <CommonFormLabel htmlFor="passwordInput">Password</CommonFormLabel>
           <CommonFormInput
-            type="password"
+            type="text"
             name="password"
             id="passwordInput"
-            value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </CommonFieldWrapper>
@@ -54,7 +63,6 @@ export const LoginForm = () => {
             type="text"
             name="key"
             id="keyInput"
-            value={key}
             onChange={(e) => setKey(e.target.value)}
           />
         </CommonFieldWrapper>

@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectIsLoggedIn, selectUser } from "@/assets/redux";
+import { TbHexagonLetterBFilled, TbHexagonLetterCFilled } from "react-icons/tb";
+import { AiOutlineHome } from "react-icons/ai";
+import { PiStudent } from "react-icons/pi";
+import { FiUsers } from "react-icons/fi";
 import {
   SidebarLink,
   SidebarContainer,
   SidebarFixed,
+  SidebarLinkWrapper,
 } from "@/assets/components/Sidebar";
-import logo from "@/assets/images/logo_blue.svg";
+// import logo from "@/assets/images/logo_blue.svg";
 
 export const Sidebar = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -22,22 +27,48 @@ export const Sidebar = () => {
   return (
     <SidebarContainer>
       <SidebarFixed>
-        <div style={{ marginTop: "-30px", marginBottom: "-20px" }}>
+        {/* <div style={{ marginTop: "-30px", marginBottom: "-20px" }}>
           <img src={logo} alt="Logo" width="100px" height="100px" />
+        </div> */}
+        <div style={{ width: "100%", height: "70px" }}>
+          <TbHexagonLetterBFilled
+            style={{
+              position: "relative",
+              width: "30px",
+              height: "30px",
+              top: "0",
+              left: "30px",
+              filter: "drop-shadow(-4px -4px 3px #85fd9d)",
+            }}
+          />
+          <TbHexagonLetterCFilled
+            style={{
+              position: "relative",
+              width: "30px",
+              height: "30px",
+              top: "22px",
+              left: "14px",
+              filter: "drop-shadow(4px 4px 3px #7abcfe)",
+            }}
+          />
         </div>
+
         <div>
           {isLoggedIn && (
             <>
-              <div>
+              <SidebarLinkWrapper>
+                <AiOutlineHome />
                 <SidebarLink to="/">Home</SidebarLink>
-              </div>
-              <div>
+              </SidebarLinkWrapper>
+              <SidebarLinkWrapper>
+                <PiStudent />
                 <SidebarLink to="/students">Students</SidebarLink>
-              </div>
+              </SidebarLinkWrapper>
               {isUsersRouteAvailable && (
-                <div>
+                <SidebarLinkWrapper>
+                  <FiUsers />
                   <SidebarLink to="/users">Users</SidebarLink>
-                </div>
+                </SidebarLinkWrapper>
               )}
             </>
           )}

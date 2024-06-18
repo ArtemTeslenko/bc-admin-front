@@ -1,19 +1,23 @@
 import { useEffect, useState } from "react";
-// import Select from "react-select";
-import { NavLink, useSearchParams } from "react-router-dom";
+import Select from "react-select";
+import { useSearchParams } from "react-router-dom";
 import {
   UsersTable,
   TableRow,
   TableHead,
   TableData,
+} from "@/assets/components/UsersList";
+import {
+  CommonNavButton,
+  CommonButtonDanger,
   FiltersContainer,
   FieldForm,
   FieldLabel,
   FieldInput,
   FieldButton,
-} from "@/assets/components/UsersList";
+} from "@/assets/styles";
 import { Pagination } from "@/assets/components/Pagination";
-// import { usersRolesOptions } from "@/assets/constants";
+import { usersRolesOptions, USERS_FILTERS } from "@/assets/constants";
 
 export const UsersList = ({
   users,
@@ -22,17 +26,27 @@ export const UsersList = ({
   handleChangePage,
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  // const [filteredRoles, setFilteredRoles] = useState([]);
+  const [nameFilter, setNameFilter] = useState("");
+  const [emailFilter, setEmailFilter] = useState("");
+  const [filteredRoles, setFilteredRoles] = useState([]);
   const usersList = users.data;
-
-  useEffect(() => {
-    console.log(searchParams.get("userName"));
-  }, [searchParams]);
 
   function sortRoles(roles) {
     return [...roles]
       .sort((a, b) => a.localeCompare(b))
       .map((role) => role + " ");
+  }
+
+  function setRoleToSearchParams() {
+    searchParams.delete(USERS_FILTERS.role);
+
+    if (filteredRoles.length) {
+      filteredRoles.forEach((role) =>
+        searchParams.append(USERS_FILTERS.role, role.value)
+      );
+    }
+
+    setSearchParams(searchParams);
   }
 
   return (
@@ -42,37 +56,77 @@ export const UsersList = ({
           <FieldLabel>Name</FieldLabel>
           <FieldInput
             type="text"
+            placeholder="Name..."
+            value={nameFilter}
             onChange={(event) => {
-              searchParams.set("userName", event.target.value);
-              setSearchParams(searchParams);
+              setNameFilter(event.target.value);
             }}
           />
-          <FieldButton>Filter</FieldButton>
+          <FieldButton
+            type="button"
+            onClick={() => {
+              searchParams.set(USERS_FILTERS.name, nameFilter);
+              setSearchParams(searchParams);
+            }}
+          >
+            Filter
+          </FieldButton>
+
+          <FieldButton
+            type="button"
+            onClick={() => {
+              setNameFilter("");
+              searchParams.delete(USERS_FILTERS.name);
+              setSearchParams(searchParams);
+            }}
+          >
+            Reset
+          </FieldButton>
         </FieldForm>
 
         <FieldForm>
           <FieldLabel>Email</FieldLabel>
           <FieldInput
             type="text"
+            placeholder="Email..."
+            value={emailFilter}
             onChange={(event) => {
-              searchParams.set("userEmail", event.target.value);
-              setSearchParams(searchParams);
+              setEmailFilter(event.target.value);
             }}
           />
-          <FieldButton>Filter</FieldButton>
+          <FieldButton
+            type="button"
+            onClick={() => {
+              searchParams.set(USERS_FILTERS.email, emailFilter);
+              setSearchParams(searchParams);
+            }}
+          >
+            Filter
+          </FieldButton>
+
+          <FieldButton
+            type="button"
+            onClick={() => {
+              setEmailFilter("");
+              searchParams.delete(USERS_FILTERS.email);
+              setSearchParams(searchParams);
+            }}
+          >
+            Reset
+          </FieldButton>
         </FieldForm>
 
-        {/* <FieldForm>
+        <FieldForm>
           <FieldLabel>Role</FieldLabel>
           <Select
             value={filteredRoles}
             onChange={(selectedRole) => {
-              if (!searchParams.get("role")) {
-                searchParams.set("role", selectedRole[0].value);
-              } else {
-                searchParams.append("role", selectedRole[1].value);
+              if (!selectedRole.length) {
+                setFilteredRoles([]);
+                searchParams.delete(USERS_FILTERS.role);
+                setSearchParams(searchParams);
               }
-              setSearchParams(searchParams);
+
               setFilteredRoles(selectedRole);
             }}
             options={usersRolesOptions}
@@ -92,8 +146,10 @@ export const UsersList = ({
               }),
             }}
           />
-          <FieldButton>Filter</FieldButton>
-        </FieldForm> */}
+          <FieldButton type="button" onClick={setRoleToSearchParams}>
+            Filter
+          </FieldButton>
+        </FieldForm>
       </FiltersContainer>
 
       <UsersTable>
@@ -112,33 +168,13 @@ export const UsersList = ({
                   <TableData>{user.email}</TableData>
                   <TableData>{sortRoles(user.role)}</TableData>
                   <TableData className="action">
-                    <NavLink
-                      style={{
-                        fontSize: "16px",
-                        color: "#ffffff",
-                        backgroundColor: "#3e4649",
-                        padding: "10px",
-                        borderRadius: "6px",
-                        textDecoration: "none",
-                      }}
-                      to={user._id}
-                    >
-                      Update
-                    </NavLink>
-                    <button
-                      style={{
-                        fontSize: "16px",
-                        color: "#ffffff",
-                        backgroundColor: "#9e3c32",
-                        padding: "10px",
-                        borderRadius: "6px",
-                        cursor: "pointer",
-                      }}
+                    <CommonNavButton to={user._id}>Update</CommonNavButton>
+                    <CommonButtonDanger
                       type="button"
                       onClick={() => handleDeleteUser(user._id, user.name)}
                     >
                       Delete
-                    </button>
+                    </CommonButtonDanger>
                   </TableData>
                 </TableRow>
               );
