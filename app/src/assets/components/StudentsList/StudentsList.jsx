@@ -13,6 +13,7 @@ import {
 } from "@/assets/styles";
 import { Pagination } from "@/assets/components/Pagination";
 import { STUDENTS_FILTERS, studentsLocationsOptions } from "@/assets/constants";
+import { controlStyles, multiValueStyles } from "@/assets/utils";
 
 export const StudentsList = ({ students, page, handleChangePage }) => {
   const studentsList = students.data;
@@ -20,7 +21,15 @@ export const StudentsList = ({ students, page, handleChangePage }) => {
   const [filteredLocations, setFilteredLocations] = useState([]);
 
   function setLocationToSearchParams() {
-    console.log("setLocationToSearchParams");
+    searchParams.delete(STUDENTS_FILTERS.location);
+
+    if (filteredLocations.length) {
+      filteredLocations.forEach((location) =>
+        searchParams.append(STUDENTS_FILTERS.location, location.value)
+      );
+    }
+
+    setSearchParams(searchParams);
   }
 
   return (
@@ -42,17 +51,11 @@ export const StudentsList = ({ students, page, handleChangePage }) => {
             options={studentsLocationsOptions}
             isMulti
             styles={{
-              control: (baseStyles, state) => ({
-                ...baseStyles,
-                fontSize: "16px",
-                boxShadow: "inset 0px 0px 10px 1px rgba(0, 0, 0, 0.1)",
-                borderRadius: "6px",
-                border: "none",
-              }),
-              multiValue: (styles, state) => ({
-                ...styles,
-                backgroundColor: "#e9f9f2",
-                borderRadius: "4px",
+              control: controlStyles,
+              multiValue: multiValueStyles,
+              clearIndicator: (a, b) => ({
+                ...a,
+                color: "red",
               }),
             }}
           />

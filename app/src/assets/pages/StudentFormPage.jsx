@@ -2,10 +2,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { StudentForm } from "@/assets/components/StudentForm";
 import { useParams, useLocation } from "react-router-dom";
-// import { Student } from "@/assets/components/Student";
 import { StudentPDF } from "@/assets/components/StudentPDF";
 import { setLocationToStorage } from "@/assets/utils";
-
 
 const StudentFormPage = () => {
   const location = useLocation();
@@ -25,9 +23,8 @@ const StudentFormPage = () => {
     <section>
       {student && (
         <>
-          {/* <Student student={student} /> */}
-          <StudentForm student={student}/>
-          <StudentPDF location="London" />
+          <StudentForm student={student} />
+          <StudentPDF location={student.location} />
         </>
       )}
     </section>

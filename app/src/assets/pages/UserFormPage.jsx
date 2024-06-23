@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import { User } from "@/assets/components/User";
+import { UserForm } from "@/assets/components/UserForm";
 import { setLocationToStorage } from "@/assets/utils";
 
 const UserFormPage = () => {
@@ -30,7 +30,7 @@ const UserFormPage = () => {
 
   return (
     <section>
-      {user && <User user={user} submitRoleChange={handleRoleChange} />}
+      {user && <UserForm user={user} submitRoleChange={handleRoleChange} />}
     </section>
   );
 };

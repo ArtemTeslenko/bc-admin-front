@@ -34,9 +34,9 @@ const UsersListPage = () => {
     });
   }, [searchParams]);
 
-  // useEffect(() => {
-  //   console.log(params);
-  // }, [params]);
+  useEffect(() => {
+    fetchUsersList(1);
+  }, [params]);
 
   useEffect(() => {
     fetchUsersList(page);
@@ -53,8 +53,7 @@ const UsersListPage = () => {
       .get("api/users", {
         params: {
           page,
-          // ...{ role: ["admin", "super-admin"] },
-          // ...params,
+          ...params,
         },
       })
       .then((response) => setUsers(response.data))

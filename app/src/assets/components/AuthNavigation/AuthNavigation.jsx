@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/assets/redux";
 import { selectIsLoggedIn } from "@/assets/redux";
-import { CommonButtonPrimary, CommonNavButton } from "@/assets/styles";
+import { IoLogOutOutline } from "react-icons/io5";
+import { CommonButtonWithIcon, CommonNavButton } from "@/assets/styles";
 import {
   NavigationWrapper,
   NavLinksWrapper,
@@ -18,9 +19,10 @@ export const AuthNavigation = () => {
   return (
     <NavigationWrapper>
       {isLoggedIn ? (
-        <CommonButtonPrimary type="button" onClick={handleLogout}>
-          Logout
-        </CommonButtonPrimary>
+        <CommonButtonWithIcon type="button" onClick={handleLogout}>
+          <span>Logout</span>
+          <IoLogOutOutline />
+        </CommonButtonWithIcon>
       ) : (
         <NavLinksWrapper>
           <CommonNavButton to="/register">Register</CommonNavButton>

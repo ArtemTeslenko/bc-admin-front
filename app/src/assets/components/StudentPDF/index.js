@@ -1,2 +1,2 @@
 export * from "./StudentPDF";
-export * from "./StudentPDF.styled";
+export * from "./ContainerPDF.styled";
