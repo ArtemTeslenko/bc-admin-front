@@ -16,6 +16,7 @@ import {
   CommonButtonToggler,
 } from "@/assets/styles";
 import { arrowStyles } from "@/assets/utils";
+import { UaVoucher } from "../Vouchers/UaVoucher";
 
 export const StudentForm = ({ student }) => {
   const {
@@ -41,7 +42,6 @@ export const StudentForm = ({ student }) => {
   // const [studentName, setStudentName] = useState(name);
   // const [studentSurname, setStudentSurname] = useState(surname);
   // const [studentMiddlename, setStudentMiddlename] = useState(middlename);
-
   return (
     <>
       <ListItemFormTitle>Student: {studentName}</ListItemFormTitle>
@@ -188,6 +188,7 @@ export const StudentForm = ({ student }) => {
           </CommonButtonPrimary>
         </ListItemForm>
       )}
+      <UaVoucher />
     </>
   );
 };
