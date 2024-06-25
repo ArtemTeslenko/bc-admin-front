@@ -82,6 +82,7 @@ margin-left: 75px;
 `
 
 export const LabelInfo = styled.label `
+width: 240px;
 font-family: Museo Sans Cyrl;
 font-size: 23px;
 font-weight: 400;
@@ -118,6 +119,10 @@ cursor: pointer;
 &:last-child {
   margin-right: 0;
 }
+
+&:nth-child(2) {
+  text-decoration: underline;
+}
 `
 
 export const DetailsInfo = styled.h5 `
@@ -126,4 +131,33 @@ font-size: 11px;
 font-weight: 400;
 line-height: 75px;
 color: #fff;
+`
+
+export const DynamicFieldName = styled.span `
+margin-left: 50px;
+font-family: Museo Sans Cyrl;
+font-size: 23px;
+font-weight: 700;
+line-height: 33px;
+letter-spacing: 0.01em;
+color:#0526DF;
+`
+
+export const DynamicNumber = styled.span `
+margin-left: 140px;
+font-family: Museo Sans Cyrl;
+font-size: 23px;
+font-weight: 700;
+line-height: 33px;
+letter-spacing: 0.01em;
+color: #0526DF;
+`
+
+export const EmailText = styled.span `
+font-family: Museo Sans Cyrl;
+font-size: 23px;
+font-weight: 700;
+line-height: 30px;
+letter-spacing: 0.01em;
+color: #F4F2ED;
 `
