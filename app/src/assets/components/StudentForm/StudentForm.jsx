@@ -16,6 +16,7 @@ import {
   CommonButtonToggler,
 } from "@/assets/styles";
 import { arrowStyles } from "@/assets/utils";
+import {UaVoucher} from "@/assets/components/Vouchers/UaVoucher.jsx"
 
 export const StudentForm = ({ student }) => {
   const {
@@ -188,6 +189,7 @@ export const StudentForm = ({ student }) => {
           </CommonButtonPrimary>
         </ListItemForm>
       )}
+      <UaVoucher />
     </>
   );
 };
