@@ -1,19 +1,22 @@
 import { Routes, Route } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
+import "react-datepicker/dist/react-datepicker.css";
 import {
   HomePage,
   StudentsListPage,
   StudentFormPage,
+  StudentCreatePage,
   UsersListPage,
   UserFormPage,
+  PeriodsListPage,
   RegisterPage,
   LoginPage,
 } from "@/assets/pages";
-import { getCurrentUser } from "@/assets/redux";
-import { selectIsgettingCurrent } from "@/assets/redux";
+import { getCurrentUser, selectIsgettingCurrent } from "@/assets/redux";
 import { Layout } from "@/assets/components/Layout/Layout";
 import { PrivateRoute, PublicRoute } from "@/assets/routes";
+import { Loader } from "@/assets/components/Loader";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -30,8 +33,8 @@ export default function App() {
   }, []);
 
   return (
-    !isGettingCurrentUser && (
-      <>
+    <>
+      {!isGettingCurrentUser ? (
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route
@@ -67,6 +70,14 @@ export default function App() {
               }
             />
             <Route
+              path="students/create"
+              element={
+                <PrivateRoute redirectTo="/login">
+                  <StudentCreatePage />
+                </PrivateRoute>
+              }
+            />
+            <Route
               path="students/:id"
               element={
                 <PrivateRoute redirectTo="/login">
@@ -77,7 +88,10 @@ export default function App() {
             <Route
               path="users"
               element={
-                <PrivateRoute redirectTo="/login" requiredRole="super-admin">
+                <PrivateRoute
+                  redirectTo="/login"
+                  requiredRole={["super-admin"]}
+                >
                   <UsersListPage />
                 </PrivateRoute>
               }
@@ -85,14 +99,30 @@ export default function App() {
             <Route
               path="users/:id"
               element={
-                <PrivateRoute redirectTo="/login" requiredRole="super-admin">
+                <PrivateRoute
+                  redirectTo="/login"
+                  requiredRole={["super-admin"]}
+                >
                   <UserFormPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="periods"
+              element={
+                <PrivateRoute
+                  redirectTo="/periods"
+                  requiredRole={["super-admin", "admin"]}
+                >
+                  <PeriodsListPage />
                 </PrivateRoute>
               }
             />
           </Route>
         </Routes>
-      </>
-    )
+      ) : (
+        <Loader isLoading={true} />
+      )}
+    </>
   );
 }

@@ -14,14 +14,14 @@ export const STUDENTS_LOCATION = [
 
 export const studentsLocationsOptions = [
   { value: "default", label: "Default" },
-  { value: "miska", label: "Miska" },
-  { value: "girska", label: "Girska" },
+  { value: "miska", label: "Town Ua" },
+  { value: "girska", label: "Mountain Ua" },
   { value: "termalna", label: "Termalna" },
-  { value: "ozerna", label: "Ozerna" },
+  { value: "ozerna", label: "Lake" },
   { value: "london", label: "London" },
-  { value: "richna", label: "Richna" },
-  { value: "valencia", label: "Valencia" },
-  { value: "queens", label: "Queens" },
-  { value: "mountain", label: "Mountain" },
-  { value: "sielanka", label: "Sielanka" },
+  { value: "richna", label: "River Ua" },
+  { value: "valencia", label: "Sea" },
+  { value: "queens", label: "Town Pl" },
+  { value: "mountain", label: "Mountain Pl" },
+  { value: "sielanka", label: "River Pl" },
 ];

@@ -5,6 +5,7 @@ import { TbHexagonLetterBFilled, TbHexagonLetterCFilled } from "react-icons/tb";
 import { AiOutlineHome } from "react-icons/ai";
 import { PiStudent } from "react-icons/pi";
 import { FiUsers } from "react-icons/fi";
+import { GoCalendar } from "react-icons/go";
 import {
   SidebarLink,
   SidebarContainer,
@@ -17,10 +18,15 @@ export const Sidebar = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const user = useSelector(selectUser);
   const [isUsersRouteAvailable, setIsUsersRouteAvailable] = useState(false);
+  const [isPeriodsRouteAvailable, setIsPeriodsRouteAvailable] = useState(false);
 
   useEffect(() => {
     if (isLoggedIn && user) {
-      user.role.includes("super-admin") && setIsUsersRouteAvailable(true);
+      const isPeriodsAvailable =
+        user.role?.includes("super-admin") || user.role.includes("admin");
+
+      user.role?.includes("super-admin") && setIsUsersRouteAvailable(true);
+      isPeriodsAvailable && setIsPeriodsRouteAvailable(true);
     }
   }, [isLoggedIn, user]);
 
@@ -68,6 +74,12 @@ export const Sidebar = () => {
                 <SidebarLinkWrapper>
                   <FiUsers />
                   <SidebarLink to="/users">Users</SidebarLink>
+                </SidebarLinkWrapper>
+              )}
+              {isPeriodsRouteAvailable && (
+                <SidebarLinkWrapper>
+                  <GoCalendar />
+                  <SidebarLink to="/periods">Periods</SidebarLink>
                 </SidebarLinkWrapper>
               )}
             </>

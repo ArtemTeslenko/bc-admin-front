@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import Select from "react-select";
-import { Table, TableRow, TableHead, TableData } from "@/assets/styles";
 import {
   CommonNavButton,
   CommonButtonDanger,
@@ -10,12 +9,21 @@ import {
   FieldLabel,
   FieldInput,
   FieldButton,
+  Table,
+  TableRow,
+  TableHead,
+  TableData,
 } from "@/assets/styles";
 import { Pagination } from "@/assets/components/Pagination";
 import { STUDENTS_FILTERS, studentsLocationsOptions } from "@/assets/constants";
 import { controlStyles, multiValueStyles } from "@/assets/utils";
 
-export const StudentsList = ({ students, page, handleChangePage }) => {
+export const StudentsList = ({
+  students,
+  page,
+  handleChangePage,
+  handleDeleteStudent,
+}) => {
   const studentsList = students.data;
   const [searchParams, setSearchParams] = useSearchParams();
   const [filteredLocations, setFilteredLocations] = useState([]);
@@ -65,6 +73,10 @@ export const StudentsList = ({ students, page, handleChangePage }) => {
         </FieldForm>
       </FiltersContainer>
 
+      <CommonNavButton className="right mb20" to={"/students/create"}>
+        Create student
+      </CommonNavButton>
+
       <Table>
         <tbody>
           <TableRow>
@@ -87,7 +99,7 @@ export const StudentsList = ({ students, page, handleChangePage }) => {
                     <CommonButtonDanger
                       type="button"
                       onClick={() =>
-                        console.log(student._id, student.studentName)
+                        handleDeleteStudent(student._id, student.studentName)
                       }
                     >
                       Delete

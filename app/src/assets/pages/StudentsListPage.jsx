@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { StudentsList } from "@/assets/components/StudentsList";
 import { setLocationToStorage } from "@/assets/utils";
 import { STUDENTS_FILTERS } from "@/assets/constants";
+import { Loader } from "@/assets/components/Loader";
 
 const StudentsListPage = () => {
   const location = useLocation();
@@ -11,6 +12,7 @@ const StudentsListPage = () => {
   const [students, setStudents] = useState({});
   const [page, setPage] = useState(1);
   const [params, setParams] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     fetchStudentsList(page);
@@ -49,6 +51,7 @@ const StudentsListPage = () => {
   }, [params]);
 
   function fetchStudentsList(page = 1) {
+    setIsLoading(true);
     axios
       .get("api/students", {
         params: {
@@ -57,17 +60,47 @@ const StudentsListPage = () => {
         },
       })
       .then((response) => setStudents(response.data))
-      .catch((err) => console.log(console.log(err)));
+      .catch((err) => console.log(console.log(err)))
+      .finally(() => setIsLoading(false));
+  }
+
+  function handleDeleteStudent(id, name) {
+    const resultOfConfirm = window.confirm(
+      `Do you want to delete student ${name}`
+    );
+
+    if (!resultOfConfirm) {
+      return;
+    }
+
+    setIsLoading(true);
+    axios
+      .delete(`api/students/${id}`)
+      .then((response) => {
+        console.log(response);
+
+        if (students.itemsPerPage < 2 && page - 1 !== 0) {
+          setPage(page - 1);
+        } else {
+          fetchStudentsList(page);
+        }
+      })
+      .catch((err) => console.log(console.log(err)))
+      .finally(() => setIsLoading(false));
   }
 
   return (
-    students && (
-      <StudentsList
-        students={students}
-        page={page}
-        handleChangePage={setPage}
-      />
-    )
+    <>
+      {students && (
+        <StudentsList
+          students={students}
+          page={page}
+          handleChangePage={setPage}
+          handleDeleteStudent={handleDeleteStudent}
+        />
+      )}
+      <Loader isLoading={isLoading} />
+    </>
   );
 };
 

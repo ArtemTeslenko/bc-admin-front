@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import DatePicker from "react-datepicker";
 
 export const ListItemFormTitle = styled.h2`
   margin-bottom: 20px;
@@ -47,6 +48,26 @@ export const ListItemFormLabel = styled.label`
 `;
 
 export const ListItemFormInput = styled.input`
+  padding: 10px;
+  font-size: 16px;
+  box-shadow: inset 0px 0px 10px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  border-color: #bef8f8;
+`;
+
+export const ListItemFormTextarea = styled.textarea`
+  padding: 10px;
+  height: 80px;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  box-shadow: inset 0px 0px 10px 1px rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 6px;
+  border-color: #bef8f8;
+  resize: none;
+`;
+
+export const ListItemFormDatepicker = styled(DatePicker)`
   padding: 10px;
   font-size: 16px;
   box-shadow: inset 0px 0px 10px 1px rgba(0, 0, 0, 0.1);

@@ -4,6 +4,10 @@ import { NavLink } from "react-router-dom";
 export const CommonButtonFlexContainer = styled.div`
   display: flex;
   gap: 20px;
+
+  &.right {
+    justify-content: end;
+  }
 `;
 
 export const CommonButtonPrimary = styled.button`
@@ -17,6 +21,10 @@ export const CommonButtonPrimary = styled.button`
 
   &.right {
     margin-left: auto;
+  }
+
+  &.mb20 {
+    margin-bottom: 20px;
   }
 `;
 
@@ -38,6 +46,15 @@ export const CommonNavButton = styled(NavLink)`
   padding: 8px;
   border-radius: 6px;
   text-decoration: none;
+
+  &.right {
+    width: fit-content;
+    margin-left: auto;
+  }
+
+  &.mb20 {
+    margin-bottom: 20px;
+  }
 `;
 
 export const CommonButtonToggler = styled.button`

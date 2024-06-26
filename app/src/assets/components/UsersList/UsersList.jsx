@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Select from "react-select";
+// import Select from "react-select";
 import { useSearchParams } from "react-router-dom";
 import {
   UsersTable,
@@ -10,11 +10,11 @@ import {
 import {
   CommonNavButton,
   CommonButtonDanger,
-  FiltersContainer,
-  FieldForm,
-  FieldLabel,
-  FieldInput,
-  FieldButton,
+  // FiltersContainer,
+  // FieldForm,
+  // FieldLabel,
+  // FieldInput,
+  // FieldButton,
 } from "@/assets/styles";
 import { Pagination } from "@/assets/components/Pagination";
 import { usersRolesOptions, USERS_FILTERS } from "@/assets/constants";
@@ -26,8 +26,8 @@ export const UsersList = ({
   handleChangePage,
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [nameFilter, setNameFilter] = useState("");
-  const [emailFilter, setEmailFilter] = useState("");
+  // const [nameFilter, setNameFilter] = useState("");
+  // const [emailFilter, setEmailFilter] = useState("");
   const [filteredRoles, setFilteredRoles] = useState([]);
   const usersList = users.data;
 
@@ -51,7 +51,7 @@ export const UsersList = ({
 
   return (
     <>
-      <FiltersContainer>
+      {/* <FiltersContainer>
         <FieldForm>
           <FieldLabel>Name</FieldLabel>
           <FieldInput
@@ -150,7 +150,7 @@ export const UsersList = ({
             Filter
           </FieldButton>
         </FieldForm>
-      </FiltersContainer>
+      </FiltersContainer> */}
 
       <UsersTable>
         <tbody>

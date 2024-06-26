@@ -74,7 +74,12 @@ const UsersListPage = () => {
       .then((response) => {
         console.log(response);
         console.log(`User ${name} removed successfuly`);
-        fetchUsersList(page);
+
+        if (users.itemsPerPage < 2 && page - 1 !== 0) {
+          setPage(page - 1);
+        } else {
+          fetchUsersList(page);
+        }
       })
       .catch((err) => console.log(console.log(err)));
   }

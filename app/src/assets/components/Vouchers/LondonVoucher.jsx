@@ -13,6 +13,9 @@ export const LondonVoucher = (props) => {
             <div
               id="firstImageContainer"
               style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
                 borderRadius: "20px",
                 overflow: "hidden",
                 width: "300px",
@@ -22,6 +25,9 @@ export const LondonVoucher = (props) => {
             <div
               id="secondImageContainer"
               style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
                 borderRadius: "20px",
                 overflow: "hidden",
                 width: "300px",

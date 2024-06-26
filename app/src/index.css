@@ -44,3 +44,7 @@ h6 {
   line-height: 1.2;
   color: #292929;
 }
+
+.react-datepicker-wrapper {
+  width: 190px;
+}

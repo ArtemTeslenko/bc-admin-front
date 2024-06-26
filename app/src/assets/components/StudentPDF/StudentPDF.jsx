@@ -49,7 +49,7 @@ export const StudentPDF = ({ location }) => {
       .then((pdfBlob) => {
         const formData = new FormData();
         formData.append("pdf", pdfBlob, "document.pdf");
-        formData.append("correspondent", "tyrpakmaria@gmail.com");
+        formData.append("correspondent", "artem.teslenko.w126@gmail.com");
         formData.append("emailSubject", "Test email");
 
         axios
@@ -77,9 +77,9 @@ export const StudentPDF = ({ location }) => {
 
         img.src = e.target.result;
         img.style.display = "block";
-        img.style.width = "100%";
+        img.style.width = "auto";
         img.style.height = "100%";
-        img.style.objectFit = "cover";
+        // img.style.objectFit = "cover";
         imageContainer.appendChild(img);
       };
       reader.readAsDataURL(file);

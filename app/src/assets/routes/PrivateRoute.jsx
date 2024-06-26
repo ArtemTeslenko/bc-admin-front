@@ -16,7 +16,11 @@ export const PrivateRoute = ({ children, redirectTo = "/", requiredRole }) => {
 
   useEffect(() => {
     if (user.name && requiredRole && !isRefreshing) {
-      !user.role.includes(requiredRole) && setIsRouteAvailable(false);
+      const isRoleInRequiredRoles = user.role.some((item) =>
+        requiredRole.includes(item)
+      );
+
+      !isRoleInRequiredRoles && setIsRouteAvailable(false);
     }
   }, [user, requiredRole]);
 

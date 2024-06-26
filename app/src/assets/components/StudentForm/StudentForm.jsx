@@ -1,4 +1,6 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
+import Select from "react-select";
 import {
   IoArrowDownCircleOutline,
   IoArrowUpCircleOutline,
@@ -11,13 +13,20 @@ import {
   ListItemFieldWrapper,
   ListItemFormLabel,
   ListItemFormInput,
+  ListItemFormTextarea,
+  ListItemFormDatepicker,
   CommonButtonPrimary,
   InnerFormWrapper,
   CommonButtonToggler,
 } from "@/assets/styles";
-import { arrowStyles } from "@/assets/utils";
+import { arrowStyles, controlStyles, multiValueStyles } from "@/assets/utils";
+import {
+  studentsCountriesOptions,
+  studentsLocationsOptions,
+} from "@/assets/constants";
+import { Loader } from "@/assets/components/Loader";
 
-export const StudentForm = ({ student }) => {
+export const StudentForm = ({ student, submitStudentChange }) => {
   const {
     _id,
     country,
@@ -33,14 +42,104 @@ export const StudentForm = ({ student }) => {
     campPeriod,
     comments,
   } = student;
-  const [period, setPeriod] = useState("");
+
+  const [countryState, setCountryState] = useState({});
+  const [locationState, setLocationState] = useState({});
+  const [studentNameState, setStudentNameState] = useState(studentName);
+  const [studentBirthdayState, setStudentBirthdayState] =
+    useState(studentBirthday);
+  const [periodState, setPeriodState] = useState(campPeriod);
+  const [commentState, setCommentState] = useState(comments);
+  const [parentNameState, setParentNameState] = useState(parentName);
+  const [parentPassportState, setParentPassportState] =
+    useState(parentPassport);
+  const [parentTaxpayerNumberState, setParentTaxpayerNumberState] =
+    useState(parentTaxpayerNumber);
+  const [parentAddressState, setParentAddressState] = useState(parentAddress);
+  const [parentPhoneNumberState, setParentPhoneNumberState] =
+    useState(parentPhoneNumber);
+  const [parentEmailState, setParentEmailState] = useState(parentEmail);
   const [isParentVisible, setIsParentVisible] = useState(false);
+  const [periodsList, setPeriodsList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => setPeriod(campPeriod[Object.keys(campPeriod)[0]]), [student]);
+  useEffect(() => {
+    const periods = Object.keys(campPeriod).map((key) => {
+      return { label: campPeriod[key], value: key };
+    });
+    setPeriodState(periods);
+  }, [student]);
 
-  // const [studentName, setStudentName] = useState(name);
-  // const [studentSurname, setStudentSurname] = useState(surname);
-  // const [studentMiddlename, setStudentMiddlename] = useState(middlename);
+  useEffect(() => {
+    if (country) {
+      const countryOption = studentsCountriesOptions.find(
+        (option) => option.value === country
+      );
+      setCountryState(countryOption);
+    }
+
+    fetchPeriodsList();
+  }, []);
+
+  useEffect(() => {
+    if (location) {
+      const locationOption = studentsLocationsOptions.find(
+        (option) => option.value === location
+      );
+      setLocationState(locationOption);
+    }
+  }, []);
+
+  function handleUpdateAction(event) {
+    event.preventDefault();
+
+    const newEntity = prepareEntityToSend();
+
+    submitStudentChange(newEntity);
+  }
+
+  function prepareEntityToSend() {
+    const preparedPeriods = {};
+    periodState.forEach(
+      (period) => (preparedPeriods[period.value] = period.label)
+    );
+
+    const newStudentEntity = {
+      location: locationState.value,
+      parentName: parentNameState,
+      parentPassport: parentPassportState,
+      parentTaxpayerNumber: parentTaxpayerNumberState,
+      parentAddress: parentAddressState,
+      parentPhoneNumber: parentPhoneNumberState,
+      parentEmail: parentEmailState,
+      studentName: studentNameState,
+      studentBirthday: studentBirthdayState,
+      campPeriod: preparedPeriods,
+      comments: commentState,
+      country: countryState.value,
+    };
+
+    return newStudentEntity;
+  }
+
+  function fetchPeriodsList() {
+    setIsLoading(true);
+
+    axios
+      .get("api/periods")
+      .then((response) => {
+        const periodsOptions = preparePeriodsOptions(response.data);
+        setPeriodsList(periodsOptions);
+      })
+      .catch((err) => console.log(console.log(err)))
+      .finally(() => setIsLoading(false));
+  }
+
+  function preparePeriodsOptions(periods) {
+    return periods.data.map((periodItem) => {
+      return { label: periodItem.period, value: periodItem._id };
+    });
+  }
 
   return (
     <>
@@ -55,14 +154,45 @@ export const StudentForm = ({ student }) => {
 
             <ListItemFieldWrapperGrid>
               <ListItemFormLabel htmlFor="country">Country</ListItemFormLabel>
-              <ListItemFormInput id="country" value={country} disabled />
+              <Select
+                id="country"
+                value={countryState}
+                onChange={(selectedCountry) => setCountryState(selectedCountry)}
+                options={studentsCountriesOptions}
+                styles={{
+                  control: controlStyles,
+                  multiValue: multiValueStyles,
+                }}
+              />
             </ListItemFieldWrapperGrid>
 
             <ListItemFieldWrapperGrid>
               <ListItemFormLabel htmlFor="location">Location</ListItemFormLabel>
-              <ListItemFormInput id="location" value={location} disabled />
+              <Select
+                id="location"
+                value={locationState}
+                onChange={(selectedLocation) =>
+                  setLocationState(selectedLocation)
+                }
+                options={studentsLocationsOptions}
+                styles={{
+                  control: controlStyles,
+                  multiValue: multiValueStyles,
+                }}
+              />
             </ListItemFieldWrapperGrid>
           </ListItemFieldsGrid>
+
+          <ListItemFieldWrapper>
+            <ListItemFormLabel htmlFor="studentName">
+              Student name
+            </ListItemFormLabel>
+            <ListItemFormInput
+              id="studentName"
+              value={studentNameState}
+              onChange={(e) => setStudentNameState(e.target.value)}
+            />
+          </ListItemFieldWrapper>
 
           <ListItemFieldWrapper>
             <ListItemFormLabel htmlFor="studentBirthday">
@@ -70,8 +200,8 @@ export const StudentForm = ({ student }) => {
             </ListItemFormLabel>
             <ListItemFormInput
               id="studentBirthday"
-              value={studentBirthday}
-              disabled
+              value={studentBirthdayState}
+              onChange={(e) => setStudentBirthdayState(e.target.value)}
             />
           </ListItemFieldWrapper>
 
@@ -79,12 +209,26 @@ export const StudentForm = ({ student }) => {
             <ListItemFormLabel htmlFor="campPeriod">
               Camp period
             </ListItemFormLabel>
-            <ListItemFormInput id="campPeriod" value={period} disabled />
+            <Select
+              id="campPeriod"
+              value={periodState}
+              onChange={(selectedPeriod) => setPeriodState(selectedPeriod)}
+              options={periodsList}
+              isMulti
+              styles={{
+                control: controlStyles,
+                multiValue: multiValueStyles,
+              }}
+            />
           </ListItemFieldWrapper>
 
           <ListItemFieldWrapper>
             <ListItemFormLabel htmlFor="comments">Comments</ListItemFormLabel>
-            <ListItemFormInput id="comments" value={comments} disabled />
+            <ListItemFormTextarea
+              id="comments"
+              value={commentState}
+              onChange={(e) => setCommentState(e.target.value)}
+            />
           </ListItemFieldWrapper>
 
           <InnerFormWrapper>
@@ -113,8 +257,8 @@ export const StudentForm = ({ student }) => {
                   </ListItemFormLabel>
                   <ListItemFormInput
                     id="parentName"
-                    value={parentName}
-                    disabled
+                    value={parentNameState}
+                    onChange={(e) => setParentNameState(e.target.value)}
                   />
                 </ListItemFieldWrapper>
 
@@ -124,8 +268,8 @@ export const StudentForm = ({ student }) => {
                   </ListItemFormLabel>
                   <ListItemFormInput
                     id="parentPassport"
-                    value={parentPassport}
-                    disabled
+                    value={parentPassportState}
+                    onChange={(e) => setParentPassportState(e.target.value)}
                   />
                 </ListItemFieldWrapper>
 
@@ -135,8 +279,10 @@ export const StudentForm = ({ student }) => {
                   </ListItemFormLabel>
                   <ListItemFormInput
                     id="parentTaxpayerNumber"
-                    value={parentTaxpayerNumber}
-                    disabled
+                    value={parentTaxpayerNumberState}
+                    onChange={(e) =>
+                      setParentTaxpayerNumberState(e.target.value)
+                    }
                   />
                 </ListItemFieldWrapper>
 
@@ -146,8 +292,8 @@ export const StudentForm = ({ student }) => {
                   </ListItemFormLabel>
                   <ListItemFormInput
                     id="parentAddress"
-                    value={parentAddress}
-                    disabled
+                    value={parentAddressState}
+                    onChange={(e) => setParentAddressState(e.target.value)}
                   />
                 </ListItemFieldWrapper>
 
@@ -157,8 +303,8 @@ export const StudentForm = ({ student }) => {
                   </ListItemFormLabel>
                   <ListItemFormInput
                     id="parentPhoneNumber"
-                    value={parentPhoneNumber}
-                    disabled
+                    value={parentPhoneNumberState}
+                    onChange={(e) => setParentPhoneNumberState(e.target.value)}
                   />
                 </ListItemFieldWrapper>
 
@@ -168,8 +314,8 @@ export const StudentForm = ({ student }) => {
                   </ListItemFormLabel>
                   <ListItemFormInput
                     id="parentEmail"
-                    value={parentEmail}
-                    disabled
+                    value={parentEmailState}
+                    onChange={(e) => setParentEmailState(e.target.value)}
                   />
                 </ListItemFieldWrapper>
               </div>
@@ -179,15 +325,13 @@ export const StudentForm = ({ student }) => {
           <CommonButtonPrimary
             type="submit"
             className="right"
-            onClick={(e) => {
-              e.preventDefault();
-              // submitRoleChange(userRole);
-            }}
+            onClick={(e) => handleUpdateAction(e)}
           >
             Update student
           </CommonButtonPrimary>
         </ListItemForm>
       )}
+      <Loader isLoading={isLoading} />
     </>
   );
 };
