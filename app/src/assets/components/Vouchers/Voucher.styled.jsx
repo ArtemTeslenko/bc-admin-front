@@ -42,13 +42,9 @@ width: 970px;
 margin-top: 50px;
 `
 
-export const BritishLogo = styled.h2 `
-font-family: Hofisem;
-font-size: 76.8px;
-font-weight: 400;
-line-height: 117.12px;
-text-align: left;
-color: #FF6F2E;
+export const BritishLogo = styled.img `
+width: 530px;
+height: 130px;
 `
 
 export const ContainerInfo = styled.div `
