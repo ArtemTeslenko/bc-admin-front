@@ -12,5 +12,5 @@ export const PdfContainer = styled.div`
 `;
 
 export const ClientPdf = styled.div`
-  margin-bottom: 20px;
+  //
 `;

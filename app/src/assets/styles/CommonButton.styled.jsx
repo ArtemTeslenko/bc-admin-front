@@ -8,6 +8,10 @@ export const CommonButtonFlexContainer = styled.div`
   &.right {
     justify-content: end;
   }
+
+  &.mt20 {
+    margin-top: 20px;
+  }
 `;
 
 export const CommonButtonPrimary = styled.button`

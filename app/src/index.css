@@ -45,6 +45,10 @@ h6 {
   color: #292929;
 }
 
+p {
+  margin: 0;
+}
+
 .react-datepicker-wrapper {
   width: 190px;
 }

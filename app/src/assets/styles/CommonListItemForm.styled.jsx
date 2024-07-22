@@ -33,12 +33,16 @@ export const ListItemFieldWrapperGrid = styled.div`
 
 export const ListItemFieldWrapper = styled.div`
   display: grid;
-  grid-template-columns: 15% 1fr;
+  grid-template-columns: 18% 1fr;
   gap: 10px;
   align-items: center;
 
   &:not(:last-child) {
     margin-bottom: 20px;
+  }
+
+  &.mt20 {
+    margin-top: 20px;
   }
 `;
 

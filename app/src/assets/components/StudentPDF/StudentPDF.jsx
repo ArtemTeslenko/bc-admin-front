@@ -1,6 +1,4 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
-import html2pdf from "html-to-pdf-js";
 import {
   IoArrowDownCircleOutline,
   IoArrowUpCircleOutline,
@@ -11,126 +9,51 @@ import {
   CommonButtonPrimary,
   CommonButtonToggler,
   CommonButtonFlexContainer,
+  ListItemFieldWrapper,
+  ListItemFormLabel,
+  ListItemFormInput,
+  ListItemFormTextarea,
 } from "@/assets/styles";
-import { PdfWrapper } from "@/assets/components/StudentPDF";
-import { arrowStyles } from "@/assets/utils";
+import {
+  PdfWrapper,
+  InputResultWrapper,
+  InputResultInfo,
+  InputResultAttantion,
+} from "@/assets/components/StudentPDF";
+import { arrowStyles, handlePdfSend, handlePdfLoad } from "@/assets/utils";
+import { ImageUploader } from "@/assets/components/ImageUploader";
 
-export const StudentPDF = ({ location }) => {
+export const StudentPDF = ({ student }) => {
+  const { country, parentEmail } = student;
+
   const [isCampbookVisible, setIsCampbookVisible] = useState(false);
   const [isVoucherVisible, setIsVoucherVisible] = useState(false);
   const [campbook, setCampbook] = useState(null);
   const [voucher, setVoucher] = useState(null);
+  const [voucherRecipientEmail, setVoucherRecipientEmail] =
+    useState(parentEmail);
+  const [campbookRecipientEmail, setCampbookRecipientEmail] =
+    useState(parentEmail);
+  const [teacherName, setTeacherName] = useState("");
+  const [tutorName, setTutorName] = useState("");
+  const [feedback, setFeedback] = useState("");
 
   useEffect(() => {
-    if (location) {
-      const firstLetter = location.charAt(0).toUpperCase();
-      const formatedLocation = firstLetter + location.slice(1);
+    if (country) {
+      const firstLetterCountry = country.charAt(0).toUpperCase();
+      const formatedCountry = firstLetterCountry + country.slice(1);
 
-      import(`../Campbooks/${formatedLocation}Campbook.jsx`).then((result) =>
+      import(`../Campbooks/${formatedCountry}Campbook.jsx`).then((result) =>
         setCampbook(result)
       );
-      import(`../Vouchers/${formatedLocation}Voucher.jsx`).then((result) =>
+      import(`../Vouchers/${formatedCountry}Voucher.jsx`).then((result) =>
         setVoucher(result)
       );
     }
   }, []);
 
-  function handlePdfLoad(selector) {
-    const pdfContainer = document.querySelector(selector);
-    html2pdf().from(pdfContainer).save();
-  }
-
-  function handlePdfSend(selector) {
-    const pdfContainer = document.querySelector(selector);
-    html2pdf()
-      .from(pdfContainer)
-      .toPdf()
-      .output("blob")
-      .then((pdfBlob) => {
-        const formData = new FormData();
-        formData.append("pdf", pdfBlob, "document.pdf");
-        formData.append("correspondent", "artem.teslenko.w126@gmail.com");
-        formData.append("emailSubject", "Test email");
-
-        axios
-          .post("api/email", formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          })
-          .then((response) => console.log(response))
-          .catch((err) => console.log(console.log(err)));
-      });
-  }
-
-  function handleUploadImage(event, imageSelector) {
-    const files = event.target.files;
-    const imageContainer = document.getElementById(imageSelector);
-
-    imageContainer.innerHTML = "";
-
-    Array.from(files).forEach((file) => {
-      const reader = new FileReader();
-
-      reader.onload = (e) => {
-        const img = document.createElement("img");
-
-        img.src = e.target.result;
-        img.style.display = "block";
-        img.style.width = "auto";
-        img.style.height = "100%";
-        // img.style.objectFit = "cover";
-        imageContainer.appendChild(img);
-      };
-      reader.readAsDataURL(file);
-    });
-  }
-
   return (
     <>
-      <PdfContainer>
-        <CommonButtonToggler
-          type="button"
-          onClick={() => setIsCampbookVisible(!isCampbookVisible)}
-        >
-          {isCampbookVisible ? (
-            <>
-              <span>Hide campbook PDF </span>
-              <IoArrowUpCircleOutline style={arrowStyles} />
-            </>
-          ) : (
-            <>
-              <span>Show campbook PDF </span>
-              <IoArrowDownCircleOutline style={arrowStyles} />
-            </>
-          )}
-        </CommonButtonToggler>
-
-        {campbook && isCampbookVisible && (
-          <PdfWrapper>
-            <ClientPdf className="campbook__pdf">
-              <campbook.LondonCampbook name="Name Surname" />
-            </ClientPdf>
-
-            <CommonButtonFlexContainer>
-              <CommonButtonPrimary
-                type="button"
-                onClick={() => handlePdfLoad(".campbook__pdf")}
-              >
-                Load PDF
-              </CommonButtonPrimary>
-
-              <CommonButtonPrimary
-                type="button"
-                onClick={() => handlePdfSend(".campbook__pdf")}
-              >
-                Send PDF
-              </CommonButtonPrimary>
-            </CommonButtonFlexContainer>
-          </PdfWrapper>
-        )}
-      </PdfContainer>
-
       <PdfContainer>
         <CommonButtonToggler
           type="button"
@@ -150,30 +73,31 @@ export const StudentPDF = ({ location }) => {
         </CommonButtonToggler>
 
         {voucher && isVoucherVisible && (
-          <PdfWrapper>
-            <ClientPdf className="voucher__pdf">
-              <voucher.LondonVoucher name="Name Surname" />
-            </ClientPdf>
+          <>
+            <PdfWrapper>
+              <ClientPdf className="voucher__pdf">
+                <voucher.Voucher student={student} />
+              </ClientPdf>
+            </PdfWrapper>
 
-            <input
-              type="file"
-              id="firstImageUpload"
-              accept="image/*"
-              multiple
-              onChange={(event) =>
-                handleUploadImage(event, "firstImageContainer")
-              }
-            />
+            <ListItemFieldWrapper className="mt20">
+              <ListItemFormLabel htmlFor="voucherRecipientEmail">
+                Change recipient email
+              </ListItemFormLabel>
+              <ListItemFormInput
+                id="voucherRecipientEmail"
+                value={voucherRecipientEmail}
+                onChange={(e) => setVoucherRecipientEmail(e.target.value)}
+              />
+            </ListItemFieldWrapper>
 
-            <input
-              type="file"
-              id="secondImageUpload"
-              accept="image/*"
-              multiple
-              onChange={(event) =>
-                handleUploadImage(event, "secondImageContainer")
-              }
-            />
+            <InputResultWrapper>
+              <InputResultInfo>The voucher will be send to </InputResultInfo>
+
+              <InputResultAttantion>
+                {voucherRecipientEmail}
+              </InputResultAttantion>
+            </InputResultWrapper>
 
             <CommonButtonFlexContainer>
               <CommonButtonPrimary
@@ -185,12 +109,191 @@ export const StudentPDF = ({ location }) => {
 
               <CommonButtonPrimary
                 type="button"
-                onClick={() => handlePdfSend(".voucher__pdf")}
+                onClick={() =>
+                  handlePdfSend(".voucher__pdf", voucherRecipientEmail)
+                }
               >
                 Send PDF
               </CommonButtonPrimary>
             </CommonButtonFlexContainer>
-          </PdfWrapper>
+          </>
+        )}
+      </PdfContainer>
+
+      <PdfContainer>
+        <CommonButtonToggler
+          type="button"
+          onClick={() => setIsCampbookVisible(!isCampbookVisible)}
+        >
+          {isCampbookVisible ? (
+            <>
+              <span>Hide campbook PDF </span>
+              <IoArrowUpCircleOutline style={arrowStyles} />
+            </>
+          ) : (
+            <>
+              <span>Show campbook PDF </span>
+              <IoArrowDownCircleOutline style={arrowStyles} />
+            </>
+          )}
+        </CommonButtonToggler>
+
+        {campbook && isCampbookVisible && (
+          <>
+            <PdfWrapper>
+              <ClientPdf className="campbook__pdf">
+                <campbook.Campbook
+                  student={student}
+                  teacherName={teacherName}
+                  tutorName={tutorName}
+                  feedback={feedback}
+                />
+              </ClientPdf>
+            </PdfWrapper>
+
+            <ImageUploader
+              stylesClasses="parent mt20"
+              inputId="firstImageUpload"
+              interimImageId="first-image-interim"
+              resultImageId="mainPageImage"
+              previewImageId="first-image-preview"
+              requiredWidth={673}
+              requiredHeight={517}
+              imageName="main"
+            />
+
+            <ImageUploader
+              stylesClasses="parent mt20"
+              inputId="secondImageUpload"
+              interimImageId="second-image-interim"
+              resultImageId="sessionPageImage"
+              previewImageId="second-image-preview"
+              requiredWidth={673}
+              requiredHeight={517}
+              imageName="summary"
+            />
+
+            <ImageUploader
+              stylesClasses="parent mt20"
+              inputId="thirdImageUpload"
+              interimImageId="third-image-interim"
+              resultImageId="teacherImage"
+              previewImageId="third-image-preview"
+              requiredWidth={243}
+              requiredHeight={243}
+              imageName="teacher"
+            />
+
+            <ImageUploader
+              stylesClasses="parent mt20"
+              inputId="fourthImageUpload"
+              interimImageId="fourth-image-interim"
+              resultImageId="tutorImage"
+              previewImageId="fourth-image-preview"
+              requiredWidth={243}
+              requiredHeight={243}
+              imageName="tutor"
+            />
+
+            <ImageUploader
+              stylesClasses="parent mt20 mb20"
+              inputId="fifthImageUpload"
+              interimImageId="fifth-image-interim"
+              resultImageId="heroesPageImage"
+              previewImageId="fifth-image-preview"
+              requiredWidth={608}
+              requiredHeight={362}
+              imageName="group"
+            />
+
+            <ListItemFieldWrapper>
+              <ListItemFormLabel htmlFor="teacherName">
+                Put teacher name
+              </ListItemFormLabel>
+              <ListItemFormInput
+                id="teacherName"
+                value={teacherName}
+                onChange={(e) => setTeacherName(e.target.value)}
+              />
+            </ListItemFieldWrapper>
+
+            <InputResultWrapper>
+              <InputResultInfo>The teacher name is</InputResultInfo>
+
+              <InputResultAttantion>{teacherName}</InputResultAttantion>
+            </InputResultWrapper>
+
+            <ListItemFieldWrapper>
+              <ListItemFormLabel htmlFor="tutorName">
+                Put tutor name
+              </ListItemFormLabel>
+              <ListItemFormInput
+                id="tutorName"
+                value={tutorName}
+                onChange={(e) => setTutorName(e.target.value)}
+              />
+            </ListItemFieldWrapper>
+
+            <InputResultWrapper>
+              <InputResultInfo>The tutor name is </InputResultInfo>
+
+              <InputResultAttantion>{tutorName}</InputResultAttantion>
+            </InputResultWrapper>
+
+            <ListItemFieldWrapper>
+              <ListItemFormLabel htmlFor="feedback">
+                Put feedback
+              </ListItemFormLabel>
+              <ListItemFormTextarea
+                id="feedback"
+                value={feedback}
+                onChange={(e) => setFeedback(e.target.value)}
+              />
+            </ListItemFieldWrapper>
+
+            <InputResultWrapper>
+              <InputResultInfo>The feedback </InputResultInfo>
+
+              <InputResultAttantion>{feedback}</InputResultAttantion>
+            </InputResultWrapper>
+
+            <ListItemFieldWrapper>
+              <ListItemFormLabel htmlFor="campbookRecipientEmail">
+                Change recipient email
+              </ListItemFormLabel>
+              <ListItemFormInput
+                id="campbookRecipientEmail"
+                value={campbookRecipientEmail}
+                onChange={(e) => setCampbookRecipientEmail(e.target.value)}
+              />
+            </ListItemFieldWrapper>
+
+            <InputResultWrapper>
+              <InputResultInfo>The campbook will be send to </InputResultInfo>
+
+              <InputResultAttantion>
+                {campbookRecipientEmail}
+              </InputResultAttantion>
+            </InputResultWrapper>
+
+            <CommonButtonFlexContainer>
+              <CommonButtonPrimary
+                type="button"
+                onClick={() => handlePdfLoad(".campbook__pdf")}
+              >
+                Load PDF
+              </CommonButtonPrimary>
+
+              <CommonButtonPrimary
+                type="button"
+                onClick={() =>
+                  handlePdfSend(".campbook__pdf", campbookRecipientEmail)
+                }
+              >
+                Send PDF
+              </CommonButtonPrimary>
+            </CommonButtonFlexContainer>
+          </>
         )}
       </PdfContainer>
     </>

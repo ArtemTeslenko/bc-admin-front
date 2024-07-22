@@ -1,8 +1,28 @@
 import styled from "styled-components";
 
 export const PdfWrapper = styled.div`
-  width: 100%;
-  /* padding: 20px;
-  border-radius: 6px;
-  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.15); */
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+export const InputResultWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 18% 1fr;
+  gap: 10px;
+  align-items: center;
+
+  &:not(:last-child) {
+    margin-bottom: 20px;
+  }
+`;
+
+export const InputResultInfo = styled.p`
+  font-size: 16px;
+`;
+
+export const InputResultAttantion = styled.span`
+  font-size: 18px;
+  font-weight: 700;
+  color: #9e3c32;
 `;
