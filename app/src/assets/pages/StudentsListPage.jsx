@@ -26,24 +26,19 @@ const StudentsListPage = () => {
 
   useEffect(() => {
     const filters = Object.values(STUDENTS_FILTERS);
+    const preparedParams = {};
 
     filters.forEach((filter) => {
-      const filterValue = searchParams.get(filter);
-
-      if (!filterValue && params[filter]) {
-        const newParams = { ...params };
-        delete newParams[filter];
-        setParams({ ...newParams });
+      if (filter === "location") {
+        preparedParams[filter] = searchParams.getAll(filter);
       }
 
-      if (filterValue && filter === "location") {
-        setParams({ ...params, [filter]: searchParams.getAll(filter) });
-      }
-
-      if (filterValue && filter !== "location") {
-        setParams({ ...params, [filter]: filterValue });
+      if (filter !== "location") {
+        preparedParams[filter] = searchParams.get(filter);
       }
     });
+
+    setParams(preparedParams);
   }, [searchParams]);
 
   useEffect(() => {

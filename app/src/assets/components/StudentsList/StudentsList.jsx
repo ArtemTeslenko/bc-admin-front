@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import Select from "react-select";
 import {
@@ -27,6 +27,7 @@ export const StudentsList = ({
   const studentsList = students.data;
   const [searchParams, setSearchParams] = useSearchParams();
   const [filteredLocations, setFilteredLocations] = useState([]);
+  const [filteredName, setFilteredName] = useState("");
 
   function setLocationToSearchParams() {
     searchParams.delete(STUDENTS_FILTERS.location);
@@ -35,6 +36,16 @@ export const StudentsList = ({
       filteredLocations.forEach((location) =>
         searchParams.append(STUDENTS_FILTERS.location, location.value)
       );
+    }
+
+    setSearchParams(searchParams);
+  }
+
+  function setNameToSearchParams() {
+    searchParams.delete(STUDENTS_FILTERS.name);
+
+    if (filteredName.trim()) {
+      searchParams.append(STUDENTS_FILTERS.name, filteredName);
     }
 
     setSearchParams(searchParams);
@@ -68,6 +79,17 @@ export const StudentsList = ({
             }}
           />
           <FieldButton type="button" onClick={setLocationToSearchParams}>
+            Filter
+          </FieldButton>
+        </FieldForm>
+
+        <FieldForm>
+          <FieldLabel>Name</FieldLabel>
+          <FieldInput
+            value={filteredName}
+            onChange={(e) => setFilteredName(e.target.value)}
+          />
+          <FieldButton type="button" onClick={setNameToSearchParams}>
             Filter
           </FieldButton>
         </FieldForm>

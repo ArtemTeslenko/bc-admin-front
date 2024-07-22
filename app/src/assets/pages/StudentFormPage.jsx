@@ -40,7 +40,8 @@ const StudentFormPage = () => {
             student={student}
             submitStudentChange={handleStudentChange}
           />
-          {/* <StudentPDF location={student.location} /> */}
+
+          <StudentPDF student={student} />
         </>
       )}
       <Loader isLoading={isLoading} />
