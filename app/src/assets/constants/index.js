@@ -5,3 +5,4 @@ export * from "./studentsFilters";
 export * from "./studentsCountries";
 export * from "./studentsLocations";
 export * from "./campbookProgramText";
+export * from "./emailContent";

@@ -19,6 +19,7 @@ import {
   InputResultWrapper,
   InputResultInfo,
   InputResultAttantion,
+  Notification,
 } from "@/assets/components/StudentPDF";
 import { arrowStyles, handlePdfSend, handlePdfLoad } from "@/assets/utils";
 import { ImageUploader } from "@/assets/components/ImageUploader";
@@ -34,9 +35,11 @@ export const StudentPDF = ({ student }) => {
     useState(parentEmail);
   const [campbookRecipientEmail, setCampbookRecipientEmail] =
     useState(parentEmail);
+  const [photosUrl, setPhotosUrl] = useState("");
   const [teacherName, setTeacherName] = useState("");
   const [tutorName, setTutorName] = useState("");
   const [feedback, setFeedback] = useState("");
+  const [isNotificationVisible, setIsNotificationVisible] = useState(false);
 
   useEffect(() => {
     if (country) {
@@ -51,6 +54,35 @@ export const StudentPDF = ({ student }) => {
       );
     }
   }, []);
+
+  useEffect(() => {
+    if (isNotificationVisible) {
+      setTimeout(() => setIsNotificationVisible(false), 3500);
+    }
+  }, [isNotificationVisible]);
+
+  function handleCampbookSend() {
+    const isCampbookValid = validateCampbook();
+
+    if (!isCampbookValid) {
+      setIsNotificationVisible(true);
+      return;
+    }
+    handlePdfSend(".campbook__pdf", campbookRecipientEmail, country);
+  }
+
+  function validateCampbook() {
+    if (
+      !photosUrl.trim() ||
+      !teacherName.trim() ||
+      !tutorName.trim() ||
+      !feedback.trim()
+    ) {
+      return false;
+    }
+
+    return true;
+  }
 
   return (
     <>
@@ -110,7 +142,7 @@ export const StudentPDF = ({ student }) => {
               <CommonButtonPrimary
                 type="button"
                 onClick={() =>
-                  handlePdfSend(".voucher__pdf", voucherRecipientEmail)
+                  handlePdfSend(".voucher__pdf", voucherRecipientEmail, country)
                 }
               >
                 Send PDF
@@ -147,6 +179,7 @@ export const StudentPDF = ({ student }) => {
                   teacherName={teacherName}
                   tutorName={tutorName}
                   feedback={feedback}
+                  photosUrl={photosUrl}
                 />
               </ClientPdf>
             </PdfWrapper>
@@ -205,6 +238,23 @@ export const StudentPDF = ({ student }) => {
               requiredHeight={362}
               imageName="group"
             />
+
+            <ListItemFieldWrapper>
+              <ListItemFormLabel htmlFor="photosLink">
+                Put photos link
+              </ListItemFormLabel>
+              <ListItemFormInput
+                id="photosLink"
+                value={photosUrl}
+                onChange={(e) => setPhotosUrl(e.target.value)}
+              />
+            </ListItemFieldWrapper>
+
+            <InputResultWrapper>
+              <InputResultInfo>The photos link</InputResultInfo>
+
+              <InputResultAttantion>{photosUrl}</InputResultAttantion>
+            </InputResultWrapper>
 
             <ListItemFieldWrapper>
               <ListItemFormLabel htmlFor="teacherName">
@@ -284,15 +334,14 @@ export const StudentPDF = ({ student }) => {
                 Load PDF
               </CommonButtonPrimary>
 
-              <CommonButtonPrimary
-                type="button"
-                onClick={() =>
-                  handlePdfSend(".campbook__pdf", campbookRecipientEmail)
-                }
-              >
+              <CommonButtonPrimary type="button" onClick={handleCampbookSend}>
                 Send PDF
               </CommonButtonPrimary>
             </CommonButtonFlexContainer>
+
+            {isNotificationVisible && (
+              <Notification>Please fill in all campbook fields</Notification>
+            )}
           </>
         )}
       </PdfContainer>

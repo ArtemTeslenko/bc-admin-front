@@ -80,6 +80,15 @@ export const CampbookMainPageText = styled.p`
   color: #0526df;
 `;
 
+export const CampbookMainPagePhotosLink = styled.a`
+  font-family: "Open Sans", sans-serif;
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.66;
+  color: #0526df;
+  text-decoration: none;
+`;
+
 export const CampbookSessionSvgDecoration = styled.div`
   position: absolute;
   top: 0;

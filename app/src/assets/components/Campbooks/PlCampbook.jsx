@@ -9,6 +9,7 @@ import {
   CampbookStarSVG,
   CampbookLocationImageWrapper,
   CampbookMainPageText,
+  CampbookMainPagePhotosLink,
   CampbookSessionSvgDecoration,
   CampbookSessionImageBackground,
   CampbookSessionImageWrapper,
@@ -37,7 +38,13 @@ import {
 } from "./Campbook.styled";
 import { studentsLocationsSimple, programText } from "@/assets/constants";
 
-export const Campbook = ({ student, teacherName, tutorName, feedback }) => {
+export const Campbook = ({
+  student,
+  teacherName,
+  tutorName,
+  feedback,
+  photosUrl,
+}) => {
   const { location, studentName, campPeriod, country } = student;
 
   const [periodStart, setPeriodStart] = useState(null);
@@ -124,6 +131,10 @@ export const Campbook = ({ student, teacherName, tutorName, feedback }) => {
         </CampbookMainPageText>
 
         <CampbookMainPageText>{studentName}</CampbookMainPageText>
+
+        <CampbookMainPagePhotosLink href={photosUrl ? photosUrl : ""}>
+          Photo report
+        </CampbookMainPagePhotosLink>
       </CampbookPage>
 
       <span className="nextPage"></span>
@@ -151,14 +162,14 @@ export const Campbook = ({ student, teacherName, tutorName, feedback }) => {
         </CampbookSessionSummary>
 
         <CampbookSessionText>
-          Якщо ви отримали цей лист, то один із заїздів у кемпі завершився! На
-          церемонії закриття ми домовилися з кемперами зустрітися знову, щоб
-          закарбувати ще більше спільних спогадів :)
+          If you have received this letter, one of the camp sessions has
+          concluded! At the closing ceremony, we agreed with the campers to meet
+          again to create even more shared memories :)
         </CampbookSessionText>
 
         <CampbookSessionText>
-          Нашій команді вдалося організувати комфортний та насичений пригодами
-          відпочинок для кемперів. Запрошуємо вас переглянути, як це було!
+          Our team managed to organize a comfortable and adventure-filled stay
+          for the campers. We invite you to take a look at how it went!
         </CampbookSessionText>
       </CampbookPage>
 
@@ -237,9 +248,9 @@ export const Campbook = ({ student, teacherName, tutorName, feedback }) => {
         $pb={"150px"}
         $bgc={"#E1EFA1"}
       >
-        <CampbookFeebackTitle>Індивідуальний фідбек</CampbookFeebackTitle>
+        <CampbookFeebackTitle>Individual feedback</CampbookFeebackTitle>
         <CampbookFeebackTitleText>
-          від викладача з англійської мови British Camp
+          from the English teacher at British Camp
         </CampbookFeebackTitleText>
 
         <CampbookFeebackContent>{feedback && feedback}</CampbookFeebackContent>

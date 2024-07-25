@@ -9,6 +9,7 @@ import {
   CampbookStarSVG,
   CampbookLocationImageWrapper,
   CampbookMainPageText,
+  CampbookMainPagePhotosLink,
   CampbookSessionSvgDecoration,
   CampbookSessionImageBackground,
   CampbookSessionImageWrapper,
@@ -49,7 +50,13 @@ import {
 } from "./Campbook.styled";
 import { studentsLocationsSimple, programText } from "@/assets/constants";
 
-export const Campbook = ({ student, teacherName, tutorName, feedback }) => {
+export const Campbook = ({
+  student,
+  teacherName,
+  tutorName,
+  feedback,
+  photosUrl,
+}) => {
   const { location, studentName, campPeriod, country } = student;
 
   const [periodStart, setPeriodStart] = useState(null);
@@ -136,6 +143,10 @@ export const Campbook = ({ student, teacherName, tutorName, feedback }) => {
         </CampbookMainPageText>
 
         <CampbookMainPageText>{studentName}</CampbookMainPageText>
+
+        <CampbookMainPagePhotosLink href={photosUrl ? photosUrl : ""}>
+          Photo report
+        </CampbookMainPagePhotosLink>
       </CampbookPage>
 
       <span className="nextPage"></span>

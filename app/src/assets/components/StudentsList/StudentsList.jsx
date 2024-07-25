@@ -29,7 +29,9 @@ export const StudentsList = ({
   const [filteredLocations, setFilteredLocations] = useState([]);
   const [filteredName, setFilteredName] = useState("");
 
-  function setLocationToSearchParams() {
+  function setLocationToSearchParams(e) {
+    e.preventDefault();
+
     searchParams.delete(STUDENTS_FILTERS.location);
 
     if (filteredLocations.length) {
@@ -41,7 +43,9 @@ export const StudentsList = ({
     setSearchParams(searchParams);
   }
 
-  function setNameToSearchParams() {
+  function setNameToSearchParams(e) {
+    e.preventDefault();
+
     searchParams.delete(STUDENTS_FILTERS.name);
 
     if (filteredName.trim()) {
@@ -54,7 +58,7 @@ export const StudentsList = ({
   return (
     <>
       <FiltersContainer>
-        <FieldForm>
+        <FieldForm onSubmit={setLocationToSearchParams}>
           <FieldLabel>Location</FieldLabel>
           <Select
             value={filteredLocations}
@@ -83,7 +87,7 @@ export const StudentsList = ({
           </FieldButton>
         </FieldForm>
 
-        <FieldForm>
+        <FieldForm onSubmit={setNameToSearchParams}>
           <FieldLabel>Name</FieldLabel>
           <FieldInput
             value={filteredName}

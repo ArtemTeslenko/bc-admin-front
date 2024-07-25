@@ -1,10 +1,18 @@
 import axios from "axios";
 import html2pdf from "html-to-pdf-js";
+import { emailContent } from "@/assets/constants";
 
-export const handlePdfSend = (selector, recipient) => {
+export const handlePdfSend = (selector, recipient, country) => {
+  const isVoucher = selector === ".voucher__pdf";
+  const emailContentText = isVoucher
+    ? emailContent.voucher[country]
+    : emailContent.campbook[country];
+  const emailSubject = isVoucher
+    ? "British Camp Voucher"
+    : "British Camp Campbook";
   const pdfContainer = document.querySelector(selector);
   const options = {
-    margin: selector === ".voucher__pdf" ? [0, 0, -0.01, 0] : 0,
+    margin: isVoucher ? [0, 0, -0.01, 0] : 0,
     jsPDF: {
       unit: "in",
       format: "a4",
@@ -26,7 +34,8 @@ export const handlePdfSend = (selector, recipient) => {
       const formData = new FormData();
       formData.append("pdf", pdfBlob, "document.pdf");
       formData.append("correspondent", recipient);
-      formData.append("emailSubject", "Test email");
+      formData.append("emailSubject", emailSubject);
+      formData.append("emailContent", emailContentText);
 
       axios
         .post("api/email", formData, {
