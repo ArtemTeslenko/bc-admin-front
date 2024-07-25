@@ -19,10 +19,12 @@ import {
   InputResultWrapper,
   InputResultInfo,
   InputResultAttantion,
-  Notification,
+  NotificationDanger,
+  NotificationSuccess,
 } from "@/assets/components/StudentPDF";
 import { arrowStyles, handlePdfSend, handlePdfLoad } from "@/assets/utils";
 import { ImageUploader } from "@/assets/components/ImageUploader";
+import { Loader } from "@/assets/components/Loader";
 
 export const StudentPDF = ({ student }) => {
   const { country, parentEmail } = student;
@@ -40,6 +42,9 @@ export const StudentPDF = ({ student }) => {
   const [tutorName, setTutorName] = useState("");
   const [feedback, setFeedback] = useState("");
   const [isNotificationVisible, setIsNotificationVisible] = useState(false);
+  const [isSendSuccess, setIsSendSuccess] = useState(false);
+  const [isSendReject, setIsSendReject] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (country) {
@@ -61,6 +66,18 @@ export const StudentPDF = ({ student }) => {
     }
   }, [isNotificationVisible]);
 
+  useEffect(() => {
+    if (isSendSuccess) {
+      setTimeout(() => setIsSendSuccess(false), 3500);
+    }
+  }, [isSendSuccess]);
+
+  useEffect(() => {
+    if (isSendReject) {
+      setTimeout(() => setIsSendReject(false), 3500);
+    }
+  }, [isSendReject]);
+
   function handleCampbookSend() {
     const isCampbookValid = validateCampbook();
 
@@ -68,7 +85,17 @@ export const StudentPDF = ({ student }) => {
       setIsNotificationVisible(true);
       return;
     }
-    handlePdfSend(".campbook__pdf", campbookRecipientEmail, country);
+
+    setIsLoading(true);
+
+    handlePdfSend(
+      ".campbook__pdf",
+      campbookRecipientEmail,
+      country,
+      setIsSendSuccess,
+      setIsSendReject,
+      setIsLoading
+    );
   }
 
   function validateCampbook() {
@@ -134,16 +161,25 @@ export const StudentPDF = ({ student }) => {
             <CommonButtonFlexContainer>
               <CommonButtonPrimary
                 type="button"
-                onClick={() => handlePdfLoad(".voucher__pdf")}
+                onClick={() => handlePdfLoad(".voucher__pdf", country)}
               >
                 Load PDF
               </CommonButtonPrimary>
 
               <CommonButtonPrimary
                 type="button"
-                onClick={() =>
-                  handlePdfSend(".voucher__pdf", voucherRecipientEmail, country)
-                }
+                onClick={() => {
+                  setIsLoading(true);
+
+                  handlePdfSend(
+                    ".voucher__pdf",
+                    voucherRecipientEmail,
+                    country,
+                    setIsSendSuccess,
+                    setIsSendReject,
+                    setIsLoading
+                  );
+                }}
               >
                 Send PDF
               </CommonButtonPrimary>
@@ -329,7 +365,7 @@ export const StudentPDF = ({ student }) => {
             <CommonButtonFlexContainer>
               <CommonButtonPrimary
                 type="button"
-                onClick={() => handlePdfLoad(".campbook__pdf")}
+                onClick={() => handlePdfLoad(".campbook__pdf", country)}
               >
                 Load PDF
               </CommonButtonPrimary>
@@ -340,11 +376,24 @@ export const StudentPDF = ({ student }) => {
             </CommonButtonFlexContainer>
 
             {isNotificationVisible && (
-              <Notification>Please fill in all campbook fields</Notification>
+              <NotificationDanger>
+                Please fill in all campbook fields
+              </NotificationDanger>
+            )}
+
+            {isSendSuccess && (
+              <NotificationSuccess>Email successfuly sent</NotificationSuccess>
+            )}
+
+            {isSendReject && (
+              <NotificationDanger>
+                Something went wrong, please try again
+              </NotificationDanger>
             )}
           </>
         )}
       </PdfContainer>
+      <Loader isLoading={isLoading} />
     </>
   );
 };

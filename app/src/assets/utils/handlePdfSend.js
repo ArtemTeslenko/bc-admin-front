@@ -2,7 +2,14 @@ import axios from "axios";
 import html2pdf from "html-to-pdf-js";
 import { emailContent } from "@/assets/constants";
 
-export const handlePdfSend = (selector, recipient, country) => {
+export const handlePdfSend = (
+  selector,
+  recipient,
+  country,
+  setIsSendSuccess,
+  setIsSendReject,
+  setIsLoading
+) => {
   const isVoucher = selector === ".voucher__pdf";
   const emailContentText = isVoucher
     ? emailContent.voucher[country]
@@ -43,7 +50,12 @@ export const handlePdfSend = (selector, recipient, country) => {
             "Content-Type": "multipart/form-data",
           },
         })
-        .then((response) => console.log(response))
-        .catch((err) => console.log(console.log(err)));
+        .then((response) => {
+          if (response.status === 200) {
+            setIsSendSuccess(true);
+          }
+        })
+        .catch((error) => setIsSendReject(true))
+        .finally(setIsLoading(false));
     });
 };

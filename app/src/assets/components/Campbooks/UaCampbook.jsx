@@ -100,7 +100,9 @@ export const Campbook = ({
       return text.country === country && text[location] ? text[location] : "";
     });
 
-    textWrapper.innerHTML = campbookProgramText[location];
+    textWrapper.innerHTML = campbookProgramText[location]
+      ? campbookProgramText[location]
+      : "";
   }, []);
 
   function getFormatedMonth(month) {
