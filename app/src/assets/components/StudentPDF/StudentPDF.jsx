@@ -13,14 +13,14 @@ import {
   ListItemFormLabel,
   ListItemFormInput,
   ListItemFormTextarea,
+  NotificationDanger,
+  NotificationSuccess,
 } from "@/assets/styles";
 import {
   PdfWrapper,
   InputResultWrapper,
   InputResultInfo,
   InputResultAttantion,
-  NotificationDanger,
-  NotificationSuccess,
 } from "@/assets/components/StudentPDF";
 import { arrowStyles, handlePdfSend, handlePdfLoad } from "@/assets/utils";
 import { ImageUploader } from "@/assets/components/ImageUploader";
@@ -380,19 +380,20 @@ export const StudentPDF = ({ student }) => {
                 Please fill in all campbook fields
               </NotificationDanger>
             )}
-
-            {isSendSuccess && (
-              <NotificationSuccess>Email successfuly sent</NotificationSuccess>
-            )}
-
-            {isSendReject && (
-              <NotificationDanger>
-                Something went wrong, please try again
-              </NotificationDanger>
-            )}
           </>
         )}
       </PdfContainer>
+
+      {isSendSuccess && (
+        <NotificationSuccess>Email successfuly sent</NotificationSuccess>
+      )}
+
+      {isSendReject && (
+        <NotificationDanger>
+          Something went wrong, please try again
+        </NotificationDanger>
+      )}
+
       <Loader isLoading={isLoading} />
     </>
   );

@@ -4,6 +4,7 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import { UsersList } from "@/assets/components/UsersList";
 import { setLocationToStorage } from "@/assets/utils";
 import { USERS_FILTERS } from "@/assets/constants";
+import { Loader } from "@/assets/components/Loader";
 
 const UsersListPage = () => {
   const location = useLocation();
@@ -11,6 +12,7 @@ const UsersListPage = () => {
   const [users, setUsers] = useState({});
   const [page, setPage] = useState(1);
   const [params, setParams] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const filters = Object.values(USERS_FILTERS);
@@ -49,6 +51,7 @@ const UsersListPage = () => {
   }, []);
 
   function fetchUsersList(page = 1) {
+    setIsLoading(true);
     axios
       .get("api/users", {
         params: {
@@ -57,7 +60,8 @@ const UsersListPage = () => {
         },
       })
       .then((response) => setUsers(response.data))
-      .catch((err) => console.log(console.log(err)));
+      .catch((err) => console.log(console.log(err)))
+      .finally(() => setIsLoading(false));
   }
 
   function handleDeleteUser(id, name) {
@@ -69,6 +73,7 @@ const UsersListPage = () => {
       return;
     }
 
+    setIsLoading(true);
     axios
       .delete(`api/users/${id}`)
       .then((response) => {
@@ -81,18 +86,22 @@ const UsersListPage = () => {
           fetchUsersList(page);
         }
       })
-      .catch((err) => console.log(console.log(err)));
+      .catch((err) => console.log(console.log(err)))
+      .finally(() => setIsLoading(false));
   }
 
   return (
-    users && (
-      <UsersList
-        users={users}
-        handleDeleteUser={handleDeleteUser}
-        page={page}
-        handleChangePage={setPage}
-      />
-    )
+    <>
+      {users && (
+        <UsersList
+          users={users}
+          handleDeleteUser={handleDeleteUser}
+          page={page}
+          handleChangePage={setPage}
+        />
+      )}
+      <Loader isLoading={isLoading} />
+    </>
   );
 };
 
