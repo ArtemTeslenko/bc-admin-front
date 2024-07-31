@@ -442,7 +442,7 @@ export const CampbookFeebackTitle = styled.p`
 `;
 
 export const CampbookFeebackTitleText = styled.p`
-  margin-bottom: 64px;
+  margin-bottom: 38px;
   font-family: "Open Sans", sans-serif;
   font-size: 24px;
   font-weight: 400;
@@ -454,7 +454,19 @@ export const CampbookFeebackContent = styled.p`
   font-family: "Open Sans", sans-serif;
   font-size: 18px;
   font-weight: 400;
-  line-height: 1;
+  line-height: 1.3;
+  color: #0526df;
+
+  &:not(:last-child) {
+    margin-bottom: 12px;
+  }
+`;
+
+export const CampbookFeebackContentTitle = styled.span`
+  font-family: "Open Sans", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
   color: #0526df;
 `;
 

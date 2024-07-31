@@ -31,6 +31,10 @@ export const FieldInput = styled.input`
 `;
 
 export const FieldButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   font-size: 16px;
   color: #ffffff;
   background-color: #3e4649;

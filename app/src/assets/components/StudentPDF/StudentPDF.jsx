@@ -15,6 +15,7 @@ import {
   ListItemFormTextarea,
   NotificationDanger,
   NotificationSuccess,
+  InnerFormWrapper,
 } from "@/assets/styles";
 import {
   PdfWrapper,
@@ -40,7 +41,18 @@ export const StudentPDF = ({ student }) => {
   const [photosUrl, setPhotosUrl] = useState("");
   const [teacherName, setTeacherName] = useState("");
   const [tutorName, setTutorName] = useState("");
-  const [feedback, setFeedback] = useState("");
+  const [feedback, setFeedback] = useState({
+    materialsTaught: "",
+    testResult: "",
+    topicsCovered: "",
+    workingMode: "",
+    speakingSkills: "",
+    readingSkills: "",
+    listeningSkills: "",
+    writingSkills: "",
+    additionalInfo: "",
+  });
+  const [isFeedbackVisible, setIsFeedbackVisible] = useState(true);
   const [isNotificationVisible, setIsNotificationVisible] = useState(false);
   const [isSendSuccess, setIsSendSuccess] = useState(false);
   const [isSendReject, setIsSendReject] = useState(false);
@@ -99,11 +111,13 @@ export const StudentPDF = ({ student }) => {
   }
 
   function validateCampbook() {
+    const isEmptyFeedback = Object.keys(feedback).some((key) => !feedback[key]);
+
     if (
       !photosUrl.trim() ||
       !teacherName.trim() ||
       !tutorName.trim() ||
-      !feedback.trim()
+      isEmptyFeedback
     ) {
       return false;
     }
@@ -219,7 +233,6 @@ export const StudentPDF = ({ student }) => {
                 />
               </ClientPdf>
             </PdfWrapper>
-
             <ImageUploader
               stylesClasses="parent mt20"
               inputId="firstImageUpload"
@@ -230,7 +243,6 @@ export const StudentPDF = ({ student }) => {
               requiredHeight={517}
               imageName="main"
             />
-
             <ImageUploader
               stylesClasses="parent mt20"
               inputId="secondImageUpload"
@@ -241,7 +253,6 @@ export const StudentPDF = ({ student }) => {
               requiredHeight={517}
               imageName="summary"
             />
-
             <ImageUploader
               stylesClasses="parent mt20"
               inputId="thirdImageUpload"
@@ -252,7 +263,6 @@ export const StudentPDF = ({ student }) => {
               requiredHeight={243}
               imageName="teacher"
             />
-
             <ImageUploader
               stylesClasses="parent mt20"
               inputId="fourthImageUpload"
@@ -263,7 +273,6 @@ export const StudentPDF = ({ student }) => {
               requiredHeight={243}
               imageName="tutor"
             />
-
             <ImageUploader
               stylesClasses="parent mt20 mb20"
               inputId="fifthImageUpload"
@@ -274,7 +283,6 @@ export const StudentPDF = ({ student }) => {
               requiredHeight={362}
               imageName="group"
             />
-
             <ListItemFieldWrapper>
               <ListItemFormLabel htmlFor="photosLink">
                 Put photos link
@@ -285,13 +293,11 @@ export const StudentPDF = ({ student }) => {
                 onChange={(e) => setPhotosUrl(e.target.value)}
               />
             </ListItemFieldWrapper>
-
             <InputResultWrapper>
               <InputResultInfo>The photos link</InputResultInfo>
 
               <InputResultAttantion>{photosUrl}</InputResultAttantion>
             </InputResultWrapper>
-
             <ListItemFieldWrapper>
               <ListItemFormLabel htmlFor="teacherName">
                 Put teacher name
@@ -302,13 +308,11 @@ export const StudentPDF = ({ student }) => {
                 onChange={(e) => setTeacherName(e.target.value)}
               />
             </ListItemFieldWrapper>
-
             <InputResultWrapper>
               <InputResultInfo>The teacher name is</InputResultInfo>
 
               <InputResultAttantion>{teacherName}</InputResultAttantion>
             </InputResultWrapper>
-
             <ListItemFieldWrapper>
               <ListItemFormLabel htmlFor="tutorName">
                 Put tutor name
@@ -319,29 +323,271 @@ export const StudentPDF = ({ student }) => {
                 onChange={(e) => setTutorName(e.target.value)}
               />
             </ListItemFieldWrapper>
-
             <InputResultWrapper>
               <InputResultInfo>The tutor name is </InputResultInfo>
 
               <InputResultAttantion>{tutorName}</InputResultAttantion>
             </InputResultWrapper>
 
-            <ListItemFieldWrapper>
-              <ListItemFormLabel htmlFor="feedback">
-                Put feedback
-              </ListItemFormLabel>
-              <ListItemFormTextarea
-                id="feedback"
-                value={feedback}
-                onChange={(e) => setFeedback(e.target.value)}
-              />
-            </ListItemFieldWrapper>
+            <InnerFormWrapper>
+              <CommonButtonToggler
+                type="button"
+                onClick={() => setIsFeedbackVisible(!isFeedbackVisible)}
+              >
+                {isFeedbackVisible ? (
+                  <>
+                    <span>Hide feedback </span>
+                    <IoArrowUpCircleOutline style={arrowStyles} />
+                  </>
+                ) : (
+                  <>
+                    <span>Show feedback </span>
+                    <IoArrowDownCircleOutline style={arrowStyles} />
+                  </>
+                )}
+              </CommonButtonToggler>
 
-            <InputResultWrapper>
-              <InputResultInfo>The feedback </InputResultInfo>
+              {isFeedbackVisible && (
+                <>
+                  <ListItemFieldWrapper>
+                    <ListItemFormLabel htmlFor="materialsTaught">
+                      Level of the materials taught
+                    </ListItemFormLabel>
 
-              <InputResultAttantion>{feedback}</InputResultAttantion>
-            </InputResultWrapper>
+                    <ListItemFormInput
+                      id="materialsTaught"
+                      value={feedback.materialsTaught}
+                      onChange={(e) =>
+                        setFeedback({
+                          ...feedback,
+                          materialsTaught: e.target.value,
+                        })
+                      }
+                    />
+                  </ListItemFieldWrapper>
+
+                  <InputResultWrapper>
+                    <InputResultInfo>
+                      Level of the materials taught
+                    </InputResultInfo>
+
+                    <InputResultAttantion>
+                      {feedback.materialsTaught}
+                    </InputResultAttantion>
+                  </InputResultWrapper>
+
+                  <ListItemFieldWrapper>
+                    <ListItemFormLabel htmlFor="testResult">
+                      Final test result
+                    </ListItemFormLabel>
+
+                    <ListItemFormInput
+                      id="testResult"
+                      value={feedback.testResult}
+                      onChange={(e) =>
+                        setFeedback({
+                          ...feedback,
+                          testResult: e.target.value,
+                        })
+                      }
+                    />
+                  </ListItemFieldWrapper>
+
+                  <InputResultWrapper>
+                    <InputResultInfo>Final test result</InputResultInfo>
+
+                    <InputResultAttantion>
+                      {feedback.testResult}
+                    </InputResultAttantion>
+                  </InputResultWrapper>
+
+                  <ListItemFieldWrapper>
+                    <ListItemFormLabel htmlFor="topicsCovered">
+                      Topics covered
+                    </ListItemFormLabel>
+
+                    <ListItemFormTextarea
+                      id="topicsCovered"
+                      value={feedback.topicsCovered}
+                      onChange={(e) =>
+                        setFeedback({
+                          ...feedback,
+                          topicsCovered: e.target.value,
+                        })
+                      }
+                    />
+                  </ListItemFieldWrapper>
+
+                  <InputResultWrapper>
+                    <InputResultInfo>Topics covered</InputResultInfo>
+
+                    <InputResultAttantion>
+                      {feedback.topicsCovered}
+                    </InputResultAttantion>
+                  </InputResultWrapper>
+
+                  <ListItemFieldWrapper>
+                    <ListItemFormLabel htmlFor="workingMode">
+                      Working mode
+                    </ListItemFormLabel>
+
+                    <ListItemFormTextarea
+                      id="workingMode"
+                      value={feedback.workingMode}
+                      onChange={(e) =>
+                        setFeedback({
+                          ...feedback,
+                          workingMode: e.target.value,
+                        })
+                      }
+                    />
+                  </ListItemFieldWrapper>
+
+                  <InputResultWrapper>
+                    <InputResultInfo>Working mode</InputResultInfo>
+
+                    <InputResultAttantion>
+                      {feedback.workingMode}
+                    </InputResultAttantion>
+                  </InputResultWrapper>
+
+                  <ListItemFieldWrapper>
+                    <ListItemFormLabel htmlFor="speakingSkills">
+                      In order to further improve speaking skills
+                    </ListItemFormLabel>
+
+                    <ListItemFormTextarea
+                      id="speakingSkills"
+                      value={feedback.speakingSkills}
+                      onChange={(e) =>
+                        setFeedback({
+                          ...feedback,
+                          speakingSkills: e.target.value,
+                        })
+                      }
+                    />
+                  </ListItemFieldWrapper>
+
+                  <InputResultWrapper>
+                    <InputResultInfo>
+                      In order to further improve speaking skills
+                    </InputResultInfo>
+
+                    <InputResultAttantion>
+                      {feedback.speakingSkills}
+                    </InputResultAttantion>
+                  </InputResultWrapper>
+
+                  <ListItemFieldWrapper>
+                    <ListItemFormLabel htmlFor="readingSkills">
+                      In order to further develop reading skills
+                    </ListItemFormLabel>
+
+                    <ListItemFormTextarea
+                      id="readingSkills"
+                      value={feedback.readingSkills}
+                      onChange={(e) =>
+                        setFeedback({
+                          ...feedback,
+                          readingSkills: e.target.value,
+                        })
+                      }
+                    />
+                  </ListItemFieldWrapper>
+
+                  <InputResultWrapper>
+                    <InputResultInfo>
+                      In order to further develop reading skills
+                    </InputResultInfo>
+
+                    <InputResultAttantion>
+                      {feedback.readingSkills}
+                    </InputResultAttantion>
+                  </InputResultWrapper>
+
+                  <ListItemFieldWrapper>
+                    <ListItemFormLabel htmlFor="listeningSkills">
+                      Listening skills can be further developed by
+                    </ListItemFormLabel>
+
+                    <ListItemFormTextarea
+                      id="listeningSkills"
+                      value={feedback.listeningSkills}
+                      onChange={(e) =>
+                        setFeedback({
+                          ...feedback,
+                          listeningSkills: e.target.value,
+                        })
+                      }
+                    />
+                  </ListItemFieldWrapper>
+
+                  <InputResultWrapper>
+                    <InputResultInfo>
+                      Listening skills can be further developed by
+                    </InputResultInfo>
+
+                    <InputResultAttantion>
+                      {feedback.listeningSkills}
+                    </InputResultAttantion>
+                  </InputResultWrapper>
+
+                  <ListItemFieldWrapper>
+                    <ListItemFormLabel htmlFor="writingSkills">
+                      While speaking of writing skills
+                    </ListItemFormLabel>
+
+                    <ListItemFormTextarea
+                      id="writingSkills"
+                      value={feedback.writingSkills}
+                      onChange={(e) =>
+                        setFeedback({
+                          ...feedback,
+                          writingSkills: e.target.value,
+                        })
+                      }
+                    />
+                  </ListItemFieldWrapper>
+
+                  <InputResultWrapper>
+                    <InputResultInfo>
+                      While speaking of writing skills
+                    </InputResultInfo>
+
+                    <InputResultAttantion>
+                      {feedback.writingSkills}
+                    </InputResultAttantion>
+                  </InputResultWrapper>
+
+                  <ListItemFieldWrapper>
+                    <ListItemFormLabel htmlFor="additionalInfo">
+                      Additional information about the camper:
+                    </ListItemFormLabel>
+
+                    <ListItemFormTextarea
+                      id="additionalInfo"
+                      value={feedback.additionalInfo}
+                      onChange={(e) =>
+                        setFeedback({
+                          ...feedback,
+                          additionalInfo: e.target.value,
+                        })
+                      }
+                    />
+                  </ListItemFieldWrapper>
+
+                  <InputResultWrapper>
+                    <InputResultInfo>
+                      Additional information about the camper:
+                    </InputResultInfo>
+
+                    <InputResultAttantion>
+                      {feedback.additionalInfo}
+                    </InputResultAttantion>
+                  </InputResultWrapper>
+                </>
+              )}
+            </InnerFormWrapper>
 
             <ListItemFieldWrapper>
               <ListItemFormLabel htmlFor="campbookRecipientEmail">
@@ -353,7 +599,6 @@ export const StudentPDF = ({ student }) => {
                 onChange={(e) => setCampbookRecipientEmail(e.target.value)}
               />
             </ListItemFieldWrapper>
-
             <InputResultWrapper>
               <InputResultInfo>The campbook will be send to </InputResultInfo>
 
@@ -361,7 +606,6 @@ export const StudentPDF = ({ student }) => {
                 {campbookRecipientEmail}
               </InputResultAttantion>
             </InputResultWrapper>
-
             <CommonButtonFlexContainer>
               <CommonButtonPrimary
                 type="button"
@@ -374,7 +618,6 @@ export const StudentPDF = ({ student }) => {
                 Send PDF
               </CommonButtonPrimary>
             </CommonButtonFlexContainer>
-
             {isNotificationVisible && (
               <NotificationDanger>
                 Please fill in all campbook fields

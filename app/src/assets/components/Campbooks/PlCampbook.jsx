@@ -34,6 +34,7 @@ import {
   CampbookFeebackTitle,
   CampbookFeebackTitleText,
   CampbookFeebackContent,
+  CampbookFeebackContentTitle,
   CampbookFeebackBottomIcons,
 } from "./Campbook.styled";
 import { studentsLocationsSimple, programText } from "@/assets/constants";
@@ -255,7 +256,70 @@ export const Campbook = ({
           from the English teacher at British Camp
         </CampbookFeebackTitleText>
 
-        <CampbookFeebackContent>{feedback && feedback}</CampbookFeebackContent>
+        <CampbookFeebackContent>
+          <CampbookFeebackContentTitle>
+            LEVEL OF THE MATERIALS TAUGHT:{" "}
+          </CampbookFeebackContentTitle>
+          {feedback.materialsTaught && feedback.materialsTaught}
+        </CampbookFeebackContent>
+
+        <CampbookFeebackContent>
+          <CampbookFeebackContentTitle>
+            FINAL TEST RESULTS:{" "}
+          </CampbookFeebackContentTitle>
+          {feedback.testResult && feedback.testResult}
+        </CampbookFeebackContent>
+
+        <CampbookFeebackContent>
+          <CampbookFeebackContentTitle>
+            TOPICS COVERED:{" "}
+          </CampbookFeebackContentTitle>
+          {feedback.topicsCovered && feedback.topicsCovered}
+        </CampbookFeebackContent>
+
+        <CampbookFeebackContent>
+          <CampbookFeebackContentTitle>
+            WORKING MODE:{" "}
+          </CampbookFeebackContentTitle>
+          {feedback.workingMode && feedback.workingMode}
+        </CampbookFeebackContent>
+
+        <CampbookFeebackContent>
+          <CampbookFeebackContentTitle>
+            AREAS FOR FURTHER DEVELOPMENT
+          </CampbookFeebackContentTitle>
+        </CampbookFeebackContent>
+
+        <CampbookFeebackContent>
+          <CampbookFeebackContentTitle>
+            In order to further improve speaking skills,{" "}
+          </CampbookFeebackContentTitle>
+          {feedback.speakingSkills && feedback.speakingSkills}
+        </CampbookFeebackContent>
+        <CampbookFeebackContent>
+          <CampbookFeebackContentTitle>
+            In order to further develop reading skills,{" "}
+          </CampbookFeebackContentTitle>
+          {feedback.readingSkills && feedback.readingSkills}
+        </CampbookFeebackContent>
+        <CampbookFeebackContent>
+          <CampbookFeebackContentTitle>
+            Listening skills can be further developed by{" "}
+          </CampbookFeebackContentTitle>
+          {feedback.listeningSkills && feedback.listeningSkills}
+        </CampbookFeebackContent>
+        <CampbookFeebackContent>
+          <CampbookFeebackContentTitle>
+            While speaking of writing skills,{" "}
+          </CampbookFeebackContentTitle>
+          {feedback.writingSkills && feedback.writingSkills}
+        </CampbookFeebackContent>
+        <CampbookFeebackContent>
+          <CampbookFeebackContentTitle>
+            Additional information about the camper:{" "}
+          </CampbookFeebackContentTitle>
+          {feedback.additionalInfo && feedback.additionalInfo}
+        </CampbookFeebackContent>
 
         <CampbookFeebackBottomIcons />
       </CampbookPage>

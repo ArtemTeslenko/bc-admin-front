@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import Select from "react-select";
+import { FiFilter } from "react-icons/fi";
 import {
   CommonNavButton,
   CommonButtonDanger,
@@ -83,6 +84,7 @@ export const StudentsList = ({
             }}
           />
           <FieldButton type="button" onClick={setLocationToSearchParams}>
+            <FiFilter />
             Filter
           </FieldButton>
         </FieldForm>
@@ -94,6 +96,7 @@ export const StudentsList = ({
             onChange={(e) => setFilteredName(e.target.value)}
           />
           <FieldButton type="button" onClick={setNameToSearchParams}>
+            <FiFilter />
             Filter
           </FieldButton>
         </FieldForm>
