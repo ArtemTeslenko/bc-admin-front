@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "@/assets/redux";
-import { selectIsLoggedIn } from "@/assets/redux";
-import { IoLogOutOutline } from "react-icons/io5";
+import { logout, selectIsLoggedIn } from "@/assets/redux";
+import { IoLogOutOutline, IoLogInOutline } from "react-icons/io5";
+import { BiUserPlus } from "react-icons/bi";
 import { CommonButtonWithIcon, CommonNavButton } from "@/assets/styles";
 import { commonButtonIcon } from "@/assets/utils";
 import {
@@ -21,13 +21,20 @@ export const AuthNavigation = () => {
     <NavigationWrapper>
       {isLoggedIn ? (
         <CommonButtonWithIcon type="button" onClick={handleLogout}>
-          <span>Logout</span>
+          Logout
           <IoLogOutOutline style={commonButtonIcon} />
         </CommonButtonWithIcon>
       ) : (
         <NavLinksWrapper>
-          <CommonNavButton to="/register">Register</CommonNavButton>
-          <CommonNavButton to="/login">Login</CommonNavButton>
+          <CommonNavButton to="/register" className="flex-center">
+            <BiUserPlus style={commonButtonIcon} />
+            Register
+          </CommonNavButton>
+
+          <CommonNavButton to="/login" className="flex-center">
+            <IoLogInOutline style={commonButtonIcon} />
+            Login
+          </CommonNavButton>
         </NavLinksWrapper>
       )}
     </NavigationWrapper>

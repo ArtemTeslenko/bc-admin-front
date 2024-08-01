@@ -42,6 +42,7 @@ export const ImageUploader = ({
             )
           }
         />
+
         <CommonUploaderButton type="button" onClick={handleUploadButtonClick}>
           Load {imageName} image{" "}
           <IoCloudUploadOutline className="uploader__icon" />

@@ -111,7 +111,7 @@ export default function App() {
               path="periods"
               element={
                 <PrivateRoute
-                  redirectTo="/periods"
+                  redirectTo="/login"
                   requiredRole={["super-admin", "admin"]}
                 >
                   <PeriodsListPage />

@@ -10,10 +10,12 @@ export const Layout = () => {
     <>
       <LayoutContainer>
         <Sidebar />
+
         <LayoutMainBox>
           <Header>
             <AuthNavigation />
           </Header>
+
           <Main>
             <Outlet></Outlet>
           </Main>
