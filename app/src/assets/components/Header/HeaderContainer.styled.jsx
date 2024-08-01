@@ -6,6 +6,7 @@ export const HeaderContainer = styled.header`
   left: 150px;
   display: block;
   width: calc(100% - 150px);
+  min-height: 58px;
   padding: 10px 20px;
   z-index: 2;
   background: linear-gradient(

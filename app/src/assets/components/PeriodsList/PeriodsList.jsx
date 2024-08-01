@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import moment from "moment";
+import { GoCalendar } from "react-icons/go";
+import { IoAddCircleOutline } from "react-icons/io5";
 import {
   Table,
   TableRow,
@@ -6,17 +9,31 @@ import {
   TableData,
   CommonButtonFlexContainer,
   CommonButtonPrimary,
+  CommonButtonWithIcon,
   CommonButtonDanger,
   ListItemForm,
-  ListItemFieldWrapper,
+  ListItemFieldWrapperGrid,
+  ListItemFieldsGrid,
   ListItemFormLabel,
-  ListItemFormInput,
+  ListItemFormDatepicker,
+  ListItemFormAttention,
 } from "@/assets/styles";
+import { commonButtonIcon } from "@/assets/utils";
 
 export const PeriodsList = ({ periods, createNewPeriod, deletePeriod }) => {
   const periodsList = periods.data;
   const [isPeriodFormVisible, setIsPeriodFormVisible] = useState(false);
   const [newPeriod, setNewPeriod] = useState("");
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+
+  useEffect(() => {
+    setNewPeriod(
+      `${moment(startDate).format("DD.MM.YYYY")} - ${moment(endDate).format(
+        "DD.MM.YYYY"
+      )}`
+    );
+  }, [startDate, endDate]);
 
   function handlePeriodCreate() {
     createNewPeriod(newPeriod);
@@ -30,27 +47,51 @@ export const PeriodsList = ({ periods, createNewPeriod, deletePeriod }) => {
 
   return (
     <>
-      <CommonButtonPrimary
+      <CommonButtonWithIcon
         className="right mb20"
         type="button"
         onClick={() => setIsPeriodFormVisible(true)}
       >
+        <IoAddCircleOutline style={commonButtonIcon} />
         Add period
-      </CommonButtonPrimary>
+      </CommonButtonWithIcon>
 
       {isPeriodFormVisible && (
         <ListItemForm>
-          <ListItemFieldWrapper>
-            <ListItemFormLabel htmlFor="addPeriod">
-              Add period
-            </ListItemFormLabel>
-            <ListItemFormInput
-              id="addPeriod"
-              value={newPeriod}
-              placeholder="dd.mm.yyyy – dd.mm.yyyy"
-              onChange={(e) => setNewPeriod(e.target.value)}
-            />
-          </ListItemFieldWrapper>
+          <ListItemFieldsGrid $columns={2}>
+            <ListItemFieldWrapperGrid>
+              <ListItemFormLabel htmlFor="periodFrom">
+                Date from
+              </ListItemFormLabel>
+
+              <ListItemFormDatepicker
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                selectsStart
+                dateFormat="dd/MM/yyyy"
+                showIcon
+                icon={<GoCalendar style={{ width: "14px", height: "14px" }} />}
+              />
+            </ListItemFieldWrapperGrid>
+
+            <ListItemFieldWrapperGrid>
+              <ListItemFormLabel htmlFor="periodTo">Date to</ListItemFormLabel>
+
+              <ListItemFormDatepicker
+                selected={endDate}
+                onChange={(date) => setEndDate(date)}
+                selectsEnd
+                dateFormat="dd/MM/yyyy"
+                showIcon
+                icon={<GoCalendar style={{ width: "14px", height: "14px" }} />}
+              />
+            </ListItemFieldWrapperGrid>
+          </ListItemFieldsGrid>
+
+          <ListItemFormAttention>
+            {moment(startDate).format("DD.MM.YYYY")} -{" "}
+            {moment(endDate).format("DD.MM.YYYY")}
+          </ListItemFormAttention>
 
           <CommonButtonFlexContainer className="right">
             <CommonButtonDanger type="button" onClick={handlePeriodFormClose}>

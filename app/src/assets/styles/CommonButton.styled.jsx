@@ -19,7 +19,7 @@ export const CommonButtonPrimary = styled.button`
   font-size: 16px;
   color: #ffffff;
   background-color: #3e4649;
-  padding: 8px;
+  padding: 8px 12px;
   border-radius: 6px;
   cursor: pointer;
 
@@ -37,7 +37,7 @@ export const CommonButtonDanger = styled.button`
   font-size: 16px;
   color: #ffffff;
   background-color: #9e3c32;
-  padding: 8px;
+  padding: 8px 12px;
   border-radius: 6px;
   cursor: pointer;
 `;
@@ -47,7 +47,7 @@ export const CommonNavButton = styled(NavLink)`
   font-size: 16px;
   color: #ffffff;
   background-color: #3e4649;
-  padding: 8px;
+  padding: 8px 12px;
   border-radius: 6px;
   text-decoration: none;
 
@@ -59,6 +59,12 @@ export const CommonNavButton = styled(NavLink)`
   &.mb20 {
     margin-bottom: 20px;
   }
+
+  &.flex-center {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
 `;
 
 export const CommonButtonToggler = styled.button`
@@ -68,7 +74,7 @@ export const CommonButtonToggler = styled.button`
   font-size: 16px;
   color: #ffffff;
   background-color: #3e4649;
-  padding: 8px;
+  padding: 8px 12px;
   border-radius: 6px;
   cursor: pointer;
 
@@ -84,7 +90,15 @@ export const CommonButtonWithIcon = styled.button`
   font-size: 16px;
   color: #ffffff;
   background-color: #3e4649;
-  padding: 8px;
+  padding: 8px 12px;
   border-radius: 6px;
   cursor: pointer;
+
+  &.right {
+    margin-left: auto;
+  }
+
+  &.mb20 {
+    margin-bottom: 20px;
+  }
 `;

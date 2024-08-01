@@ -71,6 +71,12 @@ export const ListItemFormTextarea = styled.textarea`
   resize: none;
 `;
 
+export const ListItemFormAttention = styled.p`
+  font-size: 18px;
+  font-weight: 700;
+  color: #9e3c32;
+`;
+
 export const ListItemFormDatepicker = styled(DatePicker)`
   padding: 10px;
   font-size: 16px;

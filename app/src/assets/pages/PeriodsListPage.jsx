@@ -48,6 +48,12 @@ const PeriodsListPage = () => {
   }
 
   function removePeriod(id) {
+    const resultOfConfirm = window.confirm("Do you want to delete period");
+
+    if (!resultOfConfirm) {
+      return;
+    }
+
     setIsLoading(true);
     axios
       .delete(`api/periods/${id}`)

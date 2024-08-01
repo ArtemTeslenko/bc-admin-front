@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import Select from "react-select";
 import { FiFilter } from "react-icons/fi";
+import { IoAddCircleOutline } from "react-icons/io5";
 import {
   CommonNavButton,
   CommonButtonDanger,
@@ -17,7 +18,11 @@ import {
 } from "@/assets/styles";
 import { Pagination } from "@/assets/components/Pagination";
 import { STUDENTS_FILTERS, studentsLocationsOptions } from "@/assets/constants";
-import { controlStyles, multiValueStyles } from "@/assets/utils";
+import {
+  controlStyles,
+  multiValueStyles,
+  commonButtonIcon,
+} from "@/assets/utils";
 
 export const StudentsList = ({
   students,
@@ -102,7 +107,11 @@ export const StudentsList = ({
         </FieldForm>
       </FiltersContainer>
 
-      <CommonNavButton className="right mb20" to={"/students/create"}>
+      <CommonNavButton
+        className="right mb20 flex-center"
+        to={"/students/create"}
+      >
+        <IoAddCircleOutline style={commonButtonIcon} />
         Create student
       </CommonNavButton>
 

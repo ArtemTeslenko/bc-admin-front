@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const MainContainer = styled.main`
   position: relative;
-  top: 52px;
+  top: 58px;
   min-height: calc(100vh - 60px);
   padding: 20px;
   background: linear-gradient(

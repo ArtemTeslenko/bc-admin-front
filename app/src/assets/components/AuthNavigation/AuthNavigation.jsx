@@ -3,6 +3,7 @@ import { logout } from "@/assets/redux";
 import { selectIsLoggedIn } from "@/assets/redux";
 import { IoLogOutOutline } from "react-icons/io5";
 import { CommonButtonWithIcon, CommonNavButton } from "@/assets/styles";
+import { commonButtonIcon } from "@/assets/utils";
 import {
   NavigationWrapper,
   NavLinksWrapper,
@@ -21,7 +22,7 @@ export const AuthNavigation = () => {
       {isLoggedIn ? (
         <CommonButtonWithIcon type="button" onClick={handleLogout}>
           <span>Logout</span>
-          <IoLogOutOutline />
+          <IoLogOutOutline style={commonButtonIcon} />
         </CommonButtonWithIcon>
       ) : (
         <NavLinksWrapper>
