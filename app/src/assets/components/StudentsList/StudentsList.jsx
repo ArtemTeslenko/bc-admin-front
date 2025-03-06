@@ -29,6 +29,7 @@ export const StudentsList = ({
   page,
   handleChangePage,
   handleDeleteStudent,
+  locationsList,
 }) => {
   const studentsList = students.data;
   const [searchParams, setSearchParams] = useSearchParams();
@@ -59,6 +60,13 @@ export const StudentsList = ({
     }
 
     setSearchParams(searchParams);
+  }
+
+  function getSludentLocationName(locationSlug) {
+    return (
+      locationsList.data?.find((location) => location.slug === locationSlug)
+        ?.name || "No location"
+    );
   }
 
   return (
@@ -130,7 +138,9 @@ export const StudentsList = ({
                 <TableRow key={student._id}>
                   <TableData>{student.studentName}</TableData>
                   <TableData>{student.studentBirthday}</TableData>
-                  <TableData>{student.location}</TableData>
+                  <TableData>
+                    {getSludentLocationName(student.locationSlug)}
+                  </TableData>
                   <TableData>{student.comments}</TableData>
                   <TableData className="action">
                     <CommonNavButton to={student._id}>Update</CommonNavButton>

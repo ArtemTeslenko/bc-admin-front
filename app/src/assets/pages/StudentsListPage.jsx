@@ -13,6 +13,7 @@ const StudentsListPage = () => {
   const [page, setPage] = useState(1);
   const [params, setParams] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [locationsList, setLocationsList] = useState([]);
 
   useEffect(() => {
     fetchStudentsList(page);
@@ -22,6 +23,15 @@ const StudentsListPage = () => {
     fetchStudentsList(1);
 
     setLocationToStorage(location.pathname);
+  }, []);
+
+  useEffect(() => {
+    setIsLoading(true);
+    axios
+      .get("api/locations")
+      .then((response) => setLocationsList(response.data))
+      .catch((err) => console.log(console.log(err)))
+      .finally(() => setIsLoading(false));
   }, []);
 
   useEffect(() => {
@@ -92,6 +102,7 @@ const StudentsListPage = () => {
           page={page}
           handleChangePage={setPage}
           handleDeleteStudent={handleDeleteStudent}
+          locationsList={locationsList}
         />
       )}
       <Loader isLoading={isLoading} />

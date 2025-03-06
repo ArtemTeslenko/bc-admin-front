@@ -37,7 +37,7 @@ import {
   CampbookFeebackContentTitle,
   CampbookFeebackBottomIcons,
 } from "./Campbook.styled";
-import { studentsLocationsSimple, programText } from "@/assets/constants";
+import { programText } from "@/assets/constants";
 
 export const Campbook = ({
   student,
@@ -45,8 +45,9 @@ export const Campbook = ({
   tutorName,
   feedback,
   photosUrl,
+  locationsList,
 }) => {
-  const { location, studentName, campPeriod, country } = student;
+  const { locationSlug, studentName, campPeriod, country } = student;
 
   const [periodStart, setPeriodStart] = useState(null);
   const [periodEnd, setPeriodEnd] = useState(null);
@@ -85,12 +86,17 @@ export const Campbook = ({
 
   useEffect(() => {
     const textWrapper = document.getElementById("achievementsText");
+    const locationName = locationsList.data.find(
+      (location) => location.slug === locationSlug
+    )?.name;
     const campbookProgramText = programText.find((text) => {
-      return text.country === country && text[location] ? text[location] : "";
+      return text.country === country && text[locationName]
+        ? text[locationName]
+        : "";
     });
 
-    textWrapper.innerHTML = campbookProgramText[location]
-      ? campbookProgramText[location]
+    textWrapper.innerHTML = campbookProgramText?.[locationName]
+      ? campbookProgramText[locationName]
       : "";
   }, []);
 
@@ -98,11 +104,11 @@ export const Campbook = ({
     return month.toString().padStart(2, 0);
   }
 
-  function getFormatedLocation(studentLocation) {
-    const locationAddres = studentsLocationsSimple.find(
-      (locationAdresses) => locationAdresses.location === studentLocation
+  function getFormatedLocation(locationSlug) {
+    const locationEntity = locationsList.data.find(
+      (location) => location.slug === locationSlug
     );
-    return locationAddres.address;
+    return locationEntity?.address || "";
   }
 
   return (
@@ -130,7 +136,7 @@ export const Campbook = ({
         </CampbookLocationImageWrapper>
 
         <CampbookMainPageText>
-          {getFormatedLocation(location)} location
+          {getFormatedLocation(locationSlug)} location
         </CampbookMainPageText>
 
         <CampbookMainPageText>{studentName}</CampbookMainPageText>

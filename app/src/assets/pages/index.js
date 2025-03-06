@@ -7,3 +7,4 @@ export { default as UserFormPage } from "./UserFormPage";
 export { default as RegisterPage } from "./RegisterPage";
 export { default as LoginPage } from "./LoginPage";
 export { default as PeriodsListPage } from "./PeriodsListPage";
+export { default as LocationsListPage } from "./LocationsListPage";

@@ -36,20 +36,8 @@ import {
   CampbookFeebackContent,
   CampbookFeebackContentTitle,
   CampbookFeebackBottomIcons,
-  CampbookSocialMissionTitle,
-  CampbookSocialMissionTextWrapped,
-  CampbookSocialMissionText,
-  CampbookSocialMissionAchievementsWrapper,
-  CampbookSocialMissionAchievementBlock,
-  CampbookSocialMissionAchievementTitle,
-  CampbookSocialMissionAchievementText,
-  CampbookSocialMissionAchievementSubtitle,
-  CampbookSocialMissionAchievementCharity,
-  CampbookSocialMissionAchievementCharityTextWrapper,
-  CampbookSocialMissionAchievementCharityText,
-  CampbookSocialMissionAchievementCharityQR,
 } from "./Campbook.styled";
-import { studentsLocationsSimple, programText } from "@/assets/constants";
+import { programText } from "@/assets/constants";
 
 export const Campbook = ({
   student,
@@ -57,8 +45,9 @@ export const Campbook = ({
   tutorName,
   feedback,
   photosUrl,
+  locationsList,
 }) => {
-  const { location, studentName, campPeriod, country } = student;
+  const { locationSlug, studentName, campPeriod, country } = student;
 
   const [periodStart, setPeriodStart] = useState(null);
   const [periodEnd, setPeriodEnd] = useState(null);
@@ -97,12 +86,17 @@ export const Campbook = ({
 
   useEffect(() => {
     const textWrapper = document.getElementById("achievementsText");
+    const locationName = locationsList.data.find(
+      (location) => location.slug === locationSlug
+    )?.name;
     const campbookProgramText = programText.find((text) => {
-      return text.country === country && text[location] ? text[location] : "";
+      return text.country === country && text[locationName]
+        ? text[locationName]
+        : "";
     });
 
-    textWrapper.innerHTML = campbookProgramText[location]
-      ? campbookProgramText[location]
+    textWrapper.innerHTML = campbookProgramText?.[locationName]
+      ? campbookProgramText[locationName]
       : "";
   }, []);
 
@@ -110,11 +104,11 @@ export const Campbook = ({
     return month.toString().padStart(2, 0);
   }
 
-  function getFormatedLocation(studentLocation) {
-    const locationAddres = studentsLocationsSimple.find(
-      (locationAdresses) => locationAdresses.location === studentLocation
+  function getFormatedLocation(locationSlug) {
+    const locationEntity = locationsList.data.find(
+      (location) => location.slug === locationSlug
     );
-    return locationAddres.address;
+    return locationEntity?.address || "";
   }
 
   return (
@@ -142,7 +136,7 @@ export const Campbook = ({
         </CampbookLocationImageWrapper>
 
         <CampbookMainPageText>
-          {getFormatedLocation(location)} location
+          {getFormatedLocation(locationSlug)} location
         </CampbookMainPageText>
 
         <CampbookMainPageText>{studentName}</CampbookMainPageText>
@@ -334,92 +328,6 @@ export const Campbook = ({
         </CampbookFeebackContent>
 
         <CampbookFeebackBottomIcons />
-      </CampbookPage>
-
-      <span className="nextPage"></span>
-
-      <CampbookPage className="page" $pt={"42px"} $pb={"50px"} $bgc={"#A9CEFB"}>
-        <CampbookSocialMissionTitle />
-
-        <CampbookSocialMissionTextWrapped>
-          British Camp Supports – проєкт підтримки, який заснувала команда
-          British Camp у 2022 році, щоб допомагати дітям, які постраждали від
-          повномасштабної війни в Україні.
-        </CampbookSocialMissionTextWrapped>
-
-        <CampbookSocialMissionText $mb={"48px"}>
-          І наша місія – забезпечити базові потреби та повернути повноцінне
-          шкільне навчання цих дітей.
-        </CampbookSocialMissionText>
-
-        <CampbookSocialMissionAchievementsWrapper>
-          <CampbookSocialMissionAchievementBlock>
-            <CampbookSocialMissionAchievementTitle>
-              ₴ 4,7 млн
-            </CampbookSocialMissionAchievementTitle>
-
-            <CampbookSocialMissionAchievementText>
-              спрямовано на допомогу дітям та їх сім’ям
-            </CampbookSocialMissionAchievementText>
-          </CampbookSocialMissionAchievementBlock>
-
-          <CampbookSocialMissionAchievementBlock>
-            <CampbookSocialMissionAchievementTitle>
-              1650 запитів
-            </CampbookSocialMissionAchievementTitle>
-
-            <CampbookSocialMissionAchievementText>
-              про допомогу виконано
-            </CampbookSocialMissionAchievementText>
-          </CampbookSocialMissionAchievementBlock>
-
-          <CampbookSocialMissionAchievementBlock>
-            <CampbookSocialMissionAchievementTitle>
-              25+
-            </CampbookSocialMissionAchievementTitle>
-
-            <CampbookSocialMissionAchievementText>
-              нових партнерств (серед яких благодійні фонди, школи та освітні
-              компанії
-            </CampbookSocialMissionAchievementText>
-          </CampbookSocialMissionAchievementBlock>
-        </CampbookSocialMissionAchievementsWrapper>
-
-        <CampbookSocialMissionAchievementSubtitle>
-          Новий проєкт British Camp Supports
-        </CampbookSocialMissionAchievementSubtitle>
-
-        <CampbookSocialMissionTextWrapped>
-          Відбудова 2.0 або, як ми приєдналися до проєкту відбудови Центрального
-          ліцею Миколаївської області спільно з savED:
-        </CampbookSocialMissionTextWrapped>
-
-        <CampbookSocialMissionText $mb={"28px"}>
-          Селище Центральне віддалене від інших цивільних населених пунктів, а
-          всі, що є поблизу – зруйновані обстрілами. І єдина можливість отримати
-          освіту для дітей з цього та сусідніх сіл – навчання у Центральному
-          ліцеї, та поки це можливо лише дистанційно.
-        </CampbookSocialMissionText>
-
-        <CampbookSocialMissionAchievementCharity>
-          <CampbookSocialMissionAchievementCharityTextWrapper>
-            <CampbookSocialMissionAchievementCharityText>
-              Тому, щоб повернути дітям доступ до якісної освіти, безпечного
-              офлайн-навчання та соціалізації – ми збираємо 1 000 000 грн на
-              укриття та його облаштування.
-            </CampbookSocialMissionAchievementCharityText>
-
-            <CampbookSocialMissionAchievementCharityText>
-              Дітям Миколаївщини важлива ваша підтримка – тож долучайтесь!
-            </CampbookSocialMissionAchievementCharityText>
-          </CampbookSocialMissionAchievementCharityTextWrapper>
-
-          <CampbookSocialMissionAchievementCharityQR />
-        </CampbookSocialMissionAchievementCharity>
-
-        <CampbookSocialMissionText $mb={"0px"}>
-          Впевнені, об’єднавшись ми зможемо все!
-        </CampbookSocialMissionText>
       </CampbookPage>
     </>
   );

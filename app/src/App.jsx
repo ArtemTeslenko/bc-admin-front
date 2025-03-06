@@ -10,6 +10,7 @@ import {
   UsersListPage,
   UserFormPage,
   PeriodsListPage,
+  LocationsListPage,
   RegisterPage,
   LoginPage,
 } from "@/assets/pages";
@@ -115,6 +116,17 @@ export default function App() {
                   requiredRole={["super-admin", "admin"]}
                 >
                   <PeriodsListPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="locations"
+              element={
+                <PrivateRoute
+                  redirectTo="/login"
+                  requiredRole={["super-admin", "admin"]}
+                >
+                  <LocationsListPage />
                 </PrivateRoute>
               }
             />

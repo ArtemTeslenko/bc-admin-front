@@ -21,10 +21,9 @@ import {
   ContactsText,
   ContactsNotification,
 } from "./Voucher.styled";
-import { studentsLocationsAddress } from "@/assets/constants";
 
-export const Voucher = ({ student }) => {
-  const { location, studentName, studentBirthday, parentName, campPeriod } =
+export const Voucher = ({ student, locationsList }) => {
+  const { locationSlug, studentName, studentBirthday, parentName, campPeriod } =
     student;
   const [birthday, setBirthday] = useState(
     moment(studentBirthday, "DD.MM.YYYY")
@@ -68,11 +67,11 @@ export const Voucher = ({ student }) => {
     return month.toString().padStart(2, 0);
   }
 
-  function getFormatedLocation(studentLocation) {
-    const locationAddres = studentsLocationsAddress.find(
-      (a) => a.location === studentLocation
+  function getFormatedLocation(locationSlug) {
+    const locationEntity = locationsList.data.find(
+      (location) => location.slug === locationSlug
     );
-    return locationAddres.address;
+    return locationEntity?.address || "";
   }
 
   return (
@@ -119,7 +118,7 @@ export const Voucher = ({ student }) => {
             <SectionInfoTitle>Адреса отримання послуг:</SectionInfoTitle>
             <SectionInfoField>
               <SectionInfoName id="voucherServiceAddress">
-                {getFormatedLocation(location)}
+                {getFormatedLocation(locationSlug)}
               </SectionInfoName>
             </SectionInfoField>
           </SectionInfo>

@@ -25,7 +25,11 @@ import {
 } from "@/assets/constants";
 import { Loader } from "@/assets/components/Loader";
 
-export const StudentCreateForm = ({ submitStudentCreate, created }) => {
+export const StudentCreateForm = ({
+  submitStudentCreate,
+  created,
+  locationsList,
+}) => {
   const [countryState, setCountryState] = useState({});
   const [locationState, setLocationState] = useState({});
   const [studentNameState, setStudentNameState] = useState("");
@@ -42,6 +46,7 @@ export const StudentCreateForm = ({ submitStudentCreate, created }) => {
   const [isParentVisible, setIsParentVisible] = useState(true);
   const [periodsList, setPeriodsList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [locationsOptions, setLocationsOptions] = useState([]);
 
   useEffect(() => {
     fetchPeriodsList();
@@ -52,6 +57,14 @@ export const StudentCreateForm = ({ submitStudentCreate, created }) => {
       resetForm();
     }
   }, [created]);
+
+  useEffect(() => {
+    if (locationsList.data?.length) {
+      const options = prepareLocationsOptions(locationsList);
+
+      setLocationsOptions(options);
+    }
+  }, [locationsList]);
 
   function handleCreateAction(event) {
     event.preventDefault();
@@ -68,7 +81,7 @@ export const StudentCreateForm = ({ submitStudentCreate, created }) => {
     );
 
     const newStudentEntity = {
-      location: locationState.value,
+      locationSlug: locationState.value,
       parentName: parentNameState,
       parentPassport: parentPassportState,
       parentTaxpayerNumber: parentTaxpayerNumberState,
@@ -101,6 +114,12 @@ export const StudentCreateForm = ({ submitStudentCreate, created }) => {
   function preparePeriodsOptions(periods) {
     return periods.data.map((periodItem) => {
       return { label: periodItem.period, value: periodItem._id };
+    });
+  }
+
+  function prepareLocationsOptions(locations) {
+    return locations.data.map(({ name, slug }) => {
+      return { label: name, value: slug };
     });
   }
 
@@ -147,7 +166,7 @@ export const StudentCreateForm = ({ submitStudentCreate, created }) => {
               onChange={(selectedLocation) =>
                 setLocationState(selectedLocation)
               }
-              options={studentsLocationsOptions}
+              options={locationsOptions}
               styles={{
                 control: controlStyles,
                 multiValue: multiValueStyles,

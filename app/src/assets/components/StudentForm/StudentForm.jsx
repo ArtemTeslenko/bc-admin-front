@@ -14,23 +14,23 @@ import {
   ListItemFormLabel,
   ListItemFormInput,
   ListItemFormTextarea,
-  ListItemFormDatepicker,
   CommonButtonPrimary,
   InnerFormWrapper,
   CommonButtonToggler,
 } from "@/assets/styles";
 import { arrowStyles, controlStyles, multiValueStyles } from "@/assets/utils";
-import {
-  studentsCountriesOptions,
-  studentsLocationsOptions,
-} from "@/assets/constants";
+import { studentsCountriesOptions } from "@/assets/constants";
 import { Loader } from "@/assets/components/Loader";
 
-export const StudentForm = ({ student, submitStudentChange }) => {
+export const StudentForm = ({
+  student,
+  submitStudentChange,
+  locationsList,
+}) => {
   const {
     _id,
     country,
-    location,
+    locationSlug,
     parentName,
     parentPassport,
     parentTaxpayerNumber,
@@ -61,6 +61,7 @@ export const StudentForm = ({ student, submitStudentChange }) => {
   const [parentEmailState, setParentEmailState] = useState(parentEmail);
   const [isParentVisible, setIsParentVisible] = useState(false);
   const [periodsList, setPeriodsList] = useState([]);
+  const [locationsOptions, setLocationsOptions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -82,13 +83,24 @@ export const StudentForm = ({ student, submitStudentChange }) => {
   }, []);
 
   useEffect(() => {
-    if (location) {
-      const locationOption = studentsLocationsOptions.find(
-        (option) => option.value === location
+    if (locationSlug && locationsList.data?.length) {
+      const currentLocation = locationsList.data.find(
+        (location) => location.slug === locationSlug
       );
-      setLocationState(locationOption);
+
+      const currentOption = currentLocation
+        ? {
+            value: currentLocation?.slug,
+            label: currentLocation?.name,
+          }
+        : {};
+      setLocationState(currentOption);
+
+      const options = prepareLocationsOptions(locationsList);
+
+      setLocationsOptions(options);
     }
-  }, []);
+  }, [locationsList]);
 
   function handleUpdateAction(event) {
     event.preventDefault();
@@ -105,7 +117,7 @@ export const StudentForm = ({ student, submitStudentChange }) => {
     );
 
     const newStudentEntity = {
-      location: locationState.value,
+      locationSlug: locationState.value,
       parentName: parentNameState,
       parentPassport: parentPassportState,
       parentTaxpayerNumber: parentTaxpayerNumberState,
@@ -138,6 +150,12 @@ export const StudentForm = ({ student, submitStudentChange }) => {
   function preparePeriodsOptions(periods) {
     return periods.data.map((periodItem) => {
       return { label: periodItem.period, value: periodItem._id };
+    });
+  }
+
+  function prepareLocationsOptions(locations) {
+    return locations.data.map(({ name, slug }) => {
+      return { label: name, value: slug };
     });
   }
 
@@ -174,7 +192,7 @@ export const StudentForm = ({ student, submitStudentChange }) => {
                 onChange={(selectedLocation) =>
                   setLocationState(selectedLocation)
                 }
-                options={studentsLocationsOptions}
+                options={locationsOptions}
                 styles={{
                   control: controlStyles,
                   multiValue: multiValueStyles,

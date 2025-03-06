@@ -11,6 +11,7 @@ const StudentFormPage = () => {
   const [student, setStudent] = useState(null);
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(false);
+  const [locationsList, setLocationsList] = useState([]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -21,6 +22,15 @@ const StudentFormPage = () => {
       .finally(() => setIsLoading(false));
 
     setLocationToStorage(location.pathname);
+  }, []);
+
+  useEffect(() => {
+    setIsLoading(true);
+    axios
+      .get("api/locations")
+      .then((response) => setLocationsList(response.data))
+      .catch((err) => console.log(console.log(err)))
+      .finally(() => setIsLoading(false));
   }, []);
 
   function handleStudentChange(newEntity) {
@@ -39,9 +49,10 @@ const StudentFormPage = () => {
           <StudentForm
             student={student}
             submitStudentChange={handleStudentChange}
+            locationsList={locationsList}
           />
 
-          <StudentPDF student={student} />
+          <StudentPDF student={student} locationsList={locationsList} />
         </>
       )}
       <Loader isLoading={isLoading} />

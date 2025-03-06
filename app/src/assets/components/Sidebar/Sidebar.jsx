@@ -6,6 +6,7 @@ import { AiOutlineHome } from "react-icons/ai";
 import { PiStudent } from "react-icons/pi";
 import { FiUsers } from "react-icons/fi";
 import { GoCalendar } from "react-icons/go";
+import { IoLocationOutline } from "react-icons/io5";
 import {
   SidebarLink,
   SidebarContainer,
@@ -19,14 +20,20 @@ export const Sidebar = () => {
   const user = useSelector(selectUser);
   const [isUsersRouteAvailable, setIsUsersRouteAvailable] = useState(false);
   const [isPeriodsRouteAvailable, setIsPeriodsRouteAvailable] = useState(false);
+  const [isLocationsRouteAvailable, setIsLocationsRouteAvailable] =
+    useState(false);
 
   useEffect(() => {
     if (isLoggedIn && user) {
       const isPeriodsAvailable =
         user.role?.includes("super-admin") || user.role.includes("admin");
 
+      const isLocationsAvailable =
+        user.role?.includes("super-admin") || user.role.includes("admin");
+
       user.role?.includes("super-admin") && setIsUsersRouteAvailable(true);
       isPeriodsAvailable && setIsPeriodsRouteAvailable(true);
+      isLocationsAvailable && setIsLocationsRouteAvailable(true);
     }
   }, [isLoggedIn, user]);
 
@@ -80,6 +87,12 @@ export const Sidebar = () => {
                 <SidebarLinkWrapper>
                   <GoCalendar />
                   <SidebarLink to="/periods">Periods</SidebarLink>
+                </SidebarLinkWrapper>
+              )}
+              {isLocationsRouteAvailable && (
+                <SidebarLinkWrapper>
+                  <IoLocationOutline />
+                  <SidebarLink to="/locations">Locations</SidebarLink>
                 </SidebarLinkWrapper>
               )}
             </>

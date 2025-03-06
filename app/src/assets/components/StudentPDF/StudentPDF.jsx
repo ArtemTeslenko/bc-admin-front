@@ -27,7 +27,7 @@ import { arrowStyles, handlePdfSend, handlePdfLoad } from "@/assets/utils";
 import { ImageUploader } from "@/assets/components/ImageUploader";
 import { Loader } from "@/assets/components/Loader";
 
-export const StudentPDF = ({ student }) => {
+export const StudentPDF = ({ student, locationsList }) => {
   const { country, parentEmail } = student;
 
   const [isCampbookVisible, setIsCampbookVisible] = useState(false);
@@ -149,7 +149,10 @@ export const StudentPDF = ({ student }) => {
           <>
             <PdfWrapper>
               <ClientPdf className="voucher__pdf">
-                <voucher.Voucher student={student} />
+                <voucher.Voucher
+                  student={student}
+                  locationsList={locationsList}
+                />
               </ClientPdf>
             </PdfWrapper>
 
@@ -230,6 +233,7 @@ export const StudentPDF = ({ student }) => {
                   tutorName={tutorName}
                   feedback={feedback}
                   photosUrl={photosUrl}
+                  locationsList={locationsList}
                 />
               </ClientPdf>
             </PdfWrapper>
