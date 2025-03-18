@@ -39,11 +39,11 @@ const StudentsListPage = () => {
     const preparedParams = {};
 
     filters.forEach((filter) => {
-      if (filter === "location") {
+      if (filter === "locationSlug") {
         preparedParams[filter] = searchParams.getAll(filter);
       }
 
-      if (filter !== "location") {
+      if (filter !== "locationSlug") {
         preparedParams[filter] = searchParams.get(filter);
       }
     });

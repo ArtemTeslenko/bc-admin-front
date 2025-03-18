@@ -19,10 +19,7 @@ import {
   CommonButtonToggler,
 } from "@/assets/styles";
 import { arrowStyles, controlStyles, multiValueStyles } from "@/assets/utils";
-import {
-  studentsCountriesOptions,
-  studentsLocationsOptions,
-} from "@/assets/constants";
+import { studentsCountriesOptions } from "@/assets/constants";
 import { Loader } from "@/assets/components/Loader";
 
 export const StudentCreateForm = ({

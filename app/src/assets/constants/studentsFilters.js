@@ -1,4 +1,4 @@
 export const STUDENTS_FILTERS = {
-  location: "location",
+  location: "locationSlug",
   name: "studentName",
 };

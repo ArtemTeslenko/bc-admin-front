@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Select from "react-select";
 import { FiFilter } from "react-icons/fi";
@@ -17,7 +17,7 @@ import {
   TableData,
 } from "@/assets/styles";
 import { Pagination } from "@/assets/components/Pagination";
-import { STUDENTS_FILTERS, studentsLocationsOptions } from "@/assets/constants";
+import { STUDENTS_FILTERS } from "@/assets/constants";
 import {
   controlStyles,
   multiValueStyles,
@@ -35,6 +35,15 @@ export const StudentsList = ({
   const [searchParams, setSearchParams] = useSearchParams();
   const [filteredLocations, setFilteredLocations] = useState([]);
   const [filteredName, setFilteredName] = useState("");
+  const [locationsOptions, setLocationsOptions] = useState([]);
+
+  useEffect(() => {
+    if (locationsList.data?.length) {
+      const options = prepareLocationsOptions(locationsList);
+
+      setLocationsOptions(options);
+    }
+  }, [locationsList]);
 
   function setLocationToSearchParams(e) {
     e.preventDefault();
@@ -69,6 +78,12 @@ export const StudentsList = ({
     );
   }
 
+  function prepareLocationsOptions(locations) {
+    return locations.data.map(({ name, slug }) => {
+      return { label: name, value: slug };
+    });
+  }
+
   return (
     <>
       <FiltersContainer>
@@ -85,7 +100,7 @@ export const StudentsList = ({
 
               setFilteredLocations(selectedLocation);
             }}
-            options={studentsLocationsOptions}
+            options={locationsOptions}
             isMulti
             styles={{
               control: controlStyles,
