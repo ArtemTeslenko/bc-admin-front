@@ -1,3 +1,27 @@
+@font-face {
+  font-family: "Hany";
+  src: url("./assets/fonts/hany/Hany-M.woff") format("woff"),
+    url("./assets/fonts/hany/Hany-M.ttf") format("ttf");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("./assets/fonts/nunito/Nunito-400.woff") format("woff"),
+    url("./assets/fonts/nunito/Nunito-400.ttf") format("ttf");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("./assets/fonts/nunito/Nunito-900.woff") format("woff"),
+    url("./assets/fonts/nunito/Nunito-900.ttf") format("ttf");
+  font-weight: 900;
+  font-style: normal;
+}
+
 *,
 *::before,
 *::after {

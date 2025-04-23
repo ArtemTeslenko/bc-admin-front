@@ -33,7 +33,6 @@ export const Voucher = ({ student, locationsList }) => {
     parentName,
     parentAddress,
     parentPassport,
-    parentTaxpayerNumber,
     parentPhoneNumber,
     parentEmail,
     campPeriod,
@@ -113,16 +112,17 @@ export const Voucher = ({ student, locationsList }) => {
       <VoucherContainer className="page">
         <VoucherHeader>
           <Title>
-            Umowa uczestnictwa
-            <br />w obozie "BRITISH CAMP"
+            Participation Agreement
+            <br />
+            for the British Camp
           </Title>
 
           <VoucherHeaderInfo>
             <p>
-              Lokalizacja: <span>{getFormatedLocation(locationSlug)}</span>
+              Location: <span>{getFormatedLocation(locationSlug)}</span>
             </p>
             <p>
-              Terminy sesji: <span>od </span>
+              Period of Stay: <span>from </span>
               {periodStart && (
                 <span>
                   {periodStart.date().toString().padStart(2, 0)}.
@@ -130,7 +130,7 @@ export const Voucher = ({ student, locationsList }) => {
                   {periodStart.year()}
                 </span>
               )}{" "}
-              <span>do </span>
+              <span>to </span>
               {periodEnd && (
                 <span>
                   {periodEnd.date().toString().padStart(2, 0)}.
@@ -144,32 +144,33 @@ export const Voucher = ({ student, locationsList }) => {
         <VoucherBody>
           <VoucherBodySection>
             <VoucherBodySubtitleM>
-              Zawarta w dniu «
+              Concluded on the «
               {agreementState && (
                 <span>
                   {agreementState.date().toString().padStart(2, 0)}.
                   {getFormatedMonth(agreementState.month() + 1)}
                 </span>
               )}
-              » {agreementState && agreementState.year()} roku pomiędzy:
+              » day of {agreementState && agreementState.year()}, between:
             </VoucherBodySubtitleM>
           </VoucherBodySection>
 
           <VoucherBodySection>
             <VoucherBodySubtitleL style={{ textTransform: "uppercase" }}>
-              Organizatorem: British Camp Sp. z o.o.
+              Organizer: British Camp Sp. z o.o.
             </VoucherBodySubtitleL>
 
             <VoucherSectionList>
               <VoucherSectionListItem>
                 <p>
-                  Adres: <span>WARSZAWA, 03-216, MODLIŃSKA 6A/222</span>
+                  Registered address:{" "}
+                  <span>WARSZAWA, 03-216, MODLIŃSKA 6A/222</span>
                 </p>
               </VoucherSectionListItem>
 
               <VoucherSectionListItem>
                 <p>
-                  Telefon: <a href="tel:+48799360556">+48799360556</a>
+                  Phone: <a href="tel:+48799360620">+48799360620</a>
                 </p>
               </VoucherSectionListItem>
 
@@ -182,13 +183,13 @@ export const Voucher = ({ student, locationsList }) => {
 
               <VoucherSectionListItem>
                 <p>
-                  NIP: <span>5242956029</span>
+                  Tax Identification Number (NIP): <span>5242956029</span>
                 </p>
               </VoucherSectionListItem>
             </VoucherSectionList>
 
             <VoucherBodySubtitleS $mb={"16px"}>
-              Konto do wpłat:
+              Bank accounts for payments:
             </VoucherBodySubtitleS>
 
             <VoucherSectionList>
@@ -212,51 +213,48 @@ export const Voucher = ({ student, locationsList }) => {
             </VoucherSectionList>
 
             <VoucherBodySubtitleS>
-              Reprezentowanym przez:{" "}
-              <span>Vitalii Bresler, Prezes zarządu</span>
+              Represented by:{" "}
+              <span>Vitalii Bresler, President of the Board</span>
             </VoucherBodySubtitleS>
           </VoucherBodySection>
 
           <VoucherBodySection>
             <VoucherBodySubtitleL style={{ textTransform: "uppercase" }}>
-              Oraz Opiekunem prawnym/pełnoletnim uczestnikiem:
+              And Legal Guardian/Adult Participant
             </VoucherBodySubtitleL>
+
+            <VoucherBodySubtitleS $mb={"16px"}>
+              Details of the Legal Guardian/Adult Participant:
+            </VoucherBodySubtitleS>
 
             <VoucherSectionList>
               <VoucherSectionListItem>
                 <p>
-                  Imię i Nazwisko: <span>{parentName}</span>
+                  Full name: <span>{parentName}</span>
                 </p>
               </VoucherSectionListItem>
 
               <VoucherSectionListItem>
                 <p>
-                  Numer dowodu osobistego opiekuna:{" "}
-                  <span>{parentPassport}</span>
+                  Guardian's ID number: <span>{parentPassport}</span>
                 </p>
               </VoucherSectionListItem>
 
               <VoucherSectionListItem>
                 <p>
-                  PESEL: <span>{parentTaxpayerNumber}</span>
+                  Address: <span>{parentAddress}</span>
                 </p>
               </VoucherSectionListItem>
 
               <VoucherSectionListItem>
                 <p>
-                  Adres: <span>{parentAddress}</span>
+                  Phone number: <span>{parentPhoneNumber}</span>
                 </p>
               </VoucherSectionListItem>
 
               <VoucherSectionListItem>
                 <p>
-                  Numer telefonu: <span>{parentPhoneNumber}</span>
-                </p>
-              </VoucherSectionListItem>
-
-              <VoucherSectionListItem>
-                <p>
-                  Adres E-mail: <span>{parentEmail}</span>
+                  E-mail address: <span>{parentEmail}</span>
                 </p>
               </VoucherSectionListItem>
             </VoucherSectionList>
@@ -268,13 +266,13 @@ export const Voucher = ({ student, locationsList }) => {
             <VoucherSectionList>
               <VoucherSectionListItem>
                 <p>
-                  Imię i Nazwisko: <span>{studentName}</span>
+                  Full name: <span>{studentName}</span>
                 </p>
               </VoucherSectionListItem>
 
               <VoucherSectionListItem>
                 <p>
-                  Data urodzenia:{" "}
+                  Date of birth:{" "}
                   {birthday && (
                     <span>
                       {birthday.date().toString().padStart(2, 0)}.
@@ -289,35 +287,44 @@ export const Voucher = ({ student, locationsList }) => {
           <VoucherFooter>
             <VoucherFooterList>
               <VoucherFooterListItem>
-                Przedmiotem umowy jest udział Uczestnika w obozie organizowanym
-                przez Organizatora.
+                The subject of the Agreement is the participation of the
+                Participant in the camp organized by the Organizer.
               </VoucherFooterListItem>
 
               <VoucherFooterListItem>
-                Szczegółowe informacje dotyczące obozu znajdują się na stronie
-                internetowej: <a href={clientUrl}>&#40;link&#41;</a>, dostępnej
-                do zapoznania się przez Opiekuna przed zawarciem Umowy.
+                Detailed information regarding the camp is available on the
+                website <a href={clientUrl}>&#40;link&#41;</a>, accessible for
+                review by the Guardian before concluding the Agreement.
               </VoucherFooterListItem>
 
               <VoucherFooterListItem>
-                Opiekun akceptuje wszystkie zasady i warunki określone na
-                stronie internetowej, w tym wysokość opłat, terminy ich
-                uiszczenia itp.
+                The Guardian agrees to all rules and conditions specified on the
+                website, including payment amounts, payment deadlines, and other
+                relevant terms.
               </VoucherFooterListItem>
 
               <VoucherFooterListItem>
-                Opiekun zobowiązuje się do uiszczenia pełnej kwoty nie później
-                niż 30 dni przed rozpoczęciem obozu. Opiekun akceptuje, że co
-                najmniej 30% wartości Usług jest przeznaczane przez Wykonawcę na
-                pokrycie podstawowych i niezbędnych kosztów organizacyjnych,
-                które nie podlegają zwrotowi Opiekunowi, niezależnie od
-                przyczyny rezygnacji z Usług i/lub rozwiązania Umowy.
+                The Guardian undertakes to make the full payment no later than
+                30 days before the start of the camp. The Guardian acknowledges
+                that the Contractor allocates at least 30% of the Service fee to
+                cover basic and essential costs necessary for the provision of
+                the Services, which are non-refundable to the Guardian,
+                regardless of the reason for withdrawal from the Services and/or
+                termination of the Agreement.
               </VoucherFooterListItem>
 
               <VoucherFooterListItem>
-                Opiekun zobowiązuje się do wypełnienia Karty Kwalifikacyjnej
-                przed rozpoczęciem obozu oraz do podania wszelkich ograniczeń
-                medycznych i przeciwwskazań dotyczących Uczestnika.
+                The Guardian is obliged to complete the Qualification Form prior
+                to the start of the camp and provide all relevant medical
+                restrictions or contraindications concerning the Participant.
+              </VoucherFooterListItem>
+
+              <VoucherFooterListItem>
+                The Organizer undertakes to organize the Camp following the
+                conditions specified on the website{" "}
+                <a href={clientUrl}>&#40;link&#41;</a> for the person indicated
+                by the Guardian, i.e., the Participant, for an appropriate fee
+                in the form of an Advance Payment and Camp Fee.
               </VoucherFooterListItem>
             </VoucherFooterList>
 
@@ -326,7 +333,7 @@ export const Voucher = ({ student, locationsList }) => {
 
               <VoucherFooterSigns>
                 <VoucherFooterClientPlaceholder>
-                  / Podpis Opiekuna/petnoletniego uczestnika /
+                  / Signature of the guardian /
                 </VoucherFooterClientPlaceholder>
 
                 <VoucherFooterManagerNamePlEng />
@@ -334,7 +341,7 @@ export const Voucher = ({ student, locationsList }) => {
                 <VoucherFooterManagerSignPlEng />
 
                 <VoucherFooterManagerPlaceholder>
-                  / Podpis Organizatora /
+                  / Signature of the organizer /
                 </VoucherFooterManagerPlaceholder>
               </VoucherFooterSigns>
             </VoucherFooterAccess>

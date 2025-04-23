@@ -5,6 +5,8 @@ import {
   IoArrowDownCircleOutline,
   IoArrowUpCircleOutline,
 } from "react-icons/io5";
+import { GoCalendar } from "react-icons/go";
+import moment from "moment";
 import {
   ListItemFormTitle,
   ListItemForm,
@@ -17,6 +19,7 @@ import {
   CommonButtonPrimary,
   InnerFormWrapper,
   CommonButtonToggler,
+  ListItemFormDatepicker,
 } from "@/assets/styles";
 import { arrowStyles, controlStyles, multiValueStyles } from "@/assets/utils";
 import { studentsCountriesOptions } from "@/assets/constants";
@@ -40,6 +43,7 @@ export const StudentForm = ({
     studentName,
     studentBirthday,
     campPeriod,
+    agreementDate,
     comments,
   } = student;
 
@@ -49,6 +53,7 @@ export const StudentForm = ({
   const [studentBirthdayState, setStudentBirthdayState] =
     useState(studentBirthday);
   const [periodState, setPeriodState] = useState(campPeriod);
+  const [agreementDateState, setAgreementDateState] = useState(agreementDate);
   const [commentState, setCommentState] = useState(comments);
   const [parentNameState, setParentNameState] = useState(parentName);
   const [parentPassportState, setParentPassportState] =
@@ -129,6 +134,7 @@ export const StudentForm = ({
       campPeriod: preparedPeriods,
       comments: commentState,
       country: countryState.value,
+      agreementDate: moment(agreementDateState, "DD.MM.YYYY").toISOString(),
     };
 
     return newStudentEntity;
@@ -237,6 +243,20 @@ export const StudentForm = ({
                 control: controlStyles,
                 multiValue: multiValueStyles,
               }}
+            />
+          </ListItemFieldWrapper>
+
+          <ListItemFieldWrapper>
+            <ListItemFormLabel htmlFor="agreementDate">
+              Agreement date
+            </ListItemFormLabel>
+            <ListItemFormDatepicker
+              selected={agreementDateState}
+              onChange={(date) => setAgreementDateState(date)}
+              selectsStart
+              dateFormat="dd/MM/yyyy"
+              showIcon
+              icon={<GoCalendar style={{ width: "14px", height: "14px" }} />}
             />
           </ListItemFieldWrapper>
 

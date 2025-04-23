@@ -4,3 +4,4 @@ export * from "./studentsFilters";
 export * from "./studentsCountries";
 export * from "./campbookProgramText";
 export * from "./emailContent";
+export * from "./clientBaseUrl";

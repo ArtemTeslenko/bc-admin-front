@@ -72,11 +72,6 @@ export const StudentCreateForm = ({
   }
 
   function prepareEntityToSend() {
-    const preparedPeriods = {};
-    periodState.forEach(
-      (period) => (preparedPeriods[period.value] = period.label)
-    );
-
     const newStudentEntity = {
       locationSlug: locationState.value,
       parentName: parentNameState,
@@ -87,7 +82,7 @@ export const StudentCreateForm = ({
       parentEmail: parentEmailState,
       studentName: studentNameState,
       studentBirthday: studentBirthdayState,
-      campPeriod: preparedPeriods,
+      campPeriod: getPreparedPeriodsToSend(),
       comments: commentState,
       country: countryState.value,
     };
@@ -118,6 +113,14 @@ export const StudentCreateForm = ({
     return locations.data.map(({ name, slug }) => {
       return { label: name, value: slug };
     });
+  }
+
+  function getPreparedPeriodsToSend() {
+    return periodState?.length
+      ? Object.fromEntries(
+          periodState.map(({ value, label }) => [value, label])
+        )
+      : null;
   }
 
   function resetForm() {
