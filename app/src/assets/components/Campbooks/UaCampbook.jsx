@@ -9,45 +9,19 @@ import {
   CampbookStarSVG,
   CampbookLocationImageWrapper,
   CampbookMainPageText,
-  CampbookMainPagePhotosLink,
-  CampbookSessionSvgDecoration,
-  CampbookSessionImageBackground,
-  CampbookSessionImageWrapper,
-  CampbookSessionLogoWrapper,
-  CampbookSessionSummary,
-  CampbookSessionSummaryText,
-  CampbookSessionSummaryPseudoButton,
-  CampbookSessionText,
-  CampbookAchievementsTitleTextFirst,
-  CampbookAchievementsTitleTextSecond,
-  CampbookAchievementsText,
-  CampbookAchievementsBottomIcons,
-  CampbookHeroesTitleTextFirst,
-  CampbookHeroesTitleTextSecond,
-  CampbookHeroesInfoWrapper,
-  CampbookHeroesInfoHeroBlock,
-  CampbookHeroesInfoPhoto,
-  CampbookHeroesInfoTitle,
-  CampbookHeroesImageBackground,
-  CampbookHeroesImageWrapper,
-  CampbookHeroesBottomIcons,
+  CampbookMainPageSecondaryText,
+  CampbookMainPageGroup,
   CampbookFeebackTitle,
   CampbookFeebackTitleText,
+  CampbookFeebackTitleSecondary,
+  CampbookFeebackTitleTextSecondary,
   CampbookFeebackContent,
   CampbookFeebackContentTitle,
   CampbookFeebackBottomIcons,
 } from "./Campbook.styled";
-import { programText } from "@/assets/constants";
 
-export const Campbook = ({
-  student,
-  teacherName,
-  tutorName,
-  feedback,
-  photosUrl,
-  locationsList,
-}) => {
-  const { locationSlug, studentName, campPeriod, country } = student;
+export const Campbook = ({ student, feedback, locationsList }) => {
+  const { locationSlug, studentName, campPeriod } = student;
 
   const [periodStart, setPeriodStart] = useState(null);
   const [periodEnd, setPeriodEnd] = useState(null);
@@ -84,22 +58,6 @@ export const Campbook = ({
     setPeriodEnd(moment(maxPeriod, "DD.MM.YYYY"));
   }, []);
 
-  useEffect(() => {
-    const textWrapper = document.getElementById("achievementsText");
-    const locationName = locationsList.data.find(
-      (location) => location.slug === locationSlug
-    )?.name;
-    const campbookProgramText = programText.find((text) => {
-      return text.country === country && text[locationName]
-        ? text[locationName]
-        : "";
-    });
-
-    textWrapper.innerHTML = campbookProgramText?.[locationName]
-      ? campbookProgramText[locationName]
-      : "";
-  }, []);
-
   function getFormatedMonth(month) {
     return month.toString().padStart(2, 0);
   }
@@ -108,12 +66,15 @@ export const Campbook = ({
     const locationEntity = locationsList.data.find(
       (location) => location.slug === locationSlug
     );
-    return locationEntity?.address || "";
+
+    const formatedName = locationEntity?.name.replace(/\s[A-Z]{2}$/, "");
+
+    return formatedName || "";
   }
 
   return (
     <>
-      <CampbookPage className="page" $pt={"36px"} $pb={"60px"} $bgc={"#e1efa1"}>
+      <CampbookPage className="page" $pt={"30px"} $pb={"60px"} $bgc={"#CEF488"}>
         <CampbookMainLogoImage />
 
         <CampbookMainLogoText>Camp Book</CampbookMainLogoText>
@@ -131,6 +92,7 @@ export const Campbook = ({
         </CampbookPeriod>
 
         <CampbookStarSVG />
+
         <CampbookLocationImageWrapper id="mainPageImage">
           <IoImageOutline style={{ width: "670px", height: "515px" }} />
         </CampbookLocationImageWrapper>
@@ -139,123 +101,22 @@ export const Campbook = ({
           {getFormatedLocation(locationSlug)} location
         </CampbookMainPageText>
 
-        <CampbookMainPageText>{studentName}</CampbookMainPageText>
+        <CampbookMainPageSecondaryText>
+          {studentName}
+        </CampbookMainPageSecondaryText>
 
-        <CampbookMainPagePhotosLink href={photosUrl ? photosUrl : ""}>
-          Photo report
-        </CampbookMainPagePhotosLink>
+        <CampbookMainPageGroup>
+          Group {feedback.group && feedback.group}
+        </CampbookMainPageGroup>
       </CampbookPage>
 
       <span className="nextPage"></span>
 
       <CampbookPage
         className="page"
-        $pt={"100px"}
-        $pb={"60px"}
-        $bgc={"#e1efa1"}
-      >
-        <CampbookSessionSvgDecoration />
-        <CampbookSessionImageBackground>
-          <CampbookSessionImageWrapper id="sessionPageImage">
-            <IoImageOutline style={{ width: "638px", height: "456px" }} />
-          </CampbookSessionImageWrapper>
-        </CampbookSessionImageBackground>
-
-        <CampbookSessionLogoWrapper />
-
-        <CampbookSessionSummary>
-          <CampbookSessionSummaryText>Session</CampbookSessionSummaryText>
-          <CampbookSessionSummaryPseudoButton>
-            Summary
-          </CampbookSessionSummaryPseudoButton>
-        </CampbookSessionSummary>
-
-        <CampbookSessionText>
-          Якщо ви отримали цей лист, то один із заїздів у кемпі завершився! На
-          церемонії закриття ми домовилися з кемперами зустрітися знову, щоб
-          закарбувати ще більше спільних спогадів :)
-        </CampbookSessionText>
-
-        <CampbookSessionText>
-          Нашій команді вдалося організувати комфортний та насичений пригодами
-          відпочинок для кемперів. Запрошуємо вас переглянути, як це було!
-        </CampbookSessionText>
-      </CampbookPage>
-
-      <span className="nextPage"></span>
-
-      <CampbookPage
-        className="page"
-        $pt={"75px"}
-        $pb={"200px"}
-        $bgc={"#FAE0C8"}
-      >
-        <CampbookAchievementsTitleTextFirst>
-          English learning progress
-        </CampbookAchievementsTitleTextFirst>
-        <CampbookAchievementsTitleTextSecond>
-          Our achievements
-        </CampbookAchievementsTitleTextSecond>
-
-        <CampbookAchievementsText id="achievementsText" />
-
-        <CampbookAchievementsBottomIcons />
-      </CampbookPage>
-
-      <span className="nextPage"></span>
-
-      <CampbookPage
-        className="page"
-        $pt={"68px"}
-        $pb={"124px"}
-        $bgc={"#A9CEFB"}
-      >
-        <CampbookHeroesTitleTextFirst>
-          Our Group Family
-        </CampbookHeroesTitleTextFirst>
-        <CampbookHeroesTitleTextSecond>
-          Camp Heroes
-        </CampbookHeroesTitleTextSecond>
-        <CampbookHeroesInfoWrapper>
-          <CampbookHeroesInfoHeroBlock>
-            <CampbookHeroesInfoPhoto id="teacherImage">
-              <IoImageOutline style={{ width: "243px", height: "186px" }} />
-            </CampbookHeroesInfoPhoto>
-
-            <CampbookHeroesInfoTitle>
-              {teacherName && teacherName}
-            </CampbookHeroesInfoTitle>
-            <CampbookHeroesInfoTitle>Teacher</CampbookHeroesInfoTitle>
-          </CampbookHeroesInfoHeroBlock>
-
-          <CampbookHeroesInfoHeroBlock>
-            <CampbookHeroesInfoPhoto id="tutorImage">
-              <IoImageOutline style={{ width: "243px", height: "186px" }} />
-            </CampbookHeroesInfoPhoto>
-
-            <CampbookHeroesInfoTitle>
-              {tutorName && tutorName}
-            </CampbookHeroesInfoTitle>
-            <CampbookHeroesInfoTitle>Tutor</CampbookHeroesInfoTitle>
-          </CampbookHeroesInfoHeroBlock>
-        </CampbookHeroesInfoWrapper>
-
-        <CampbookHeroesImageBackground>
-          <CampbookHeroesImageWrapper id="heroesPageImage">
-            <IoImageOutline style={{ width: "608px", height: "362px" }} />
-          </CampbookHeroesImageWrapper>
-        </CampbookHeroesImageBackground>
-
-        <CampbookHeroesBottomIcons />
-      </CampbookPage>
-
-      <span className="nextPage"></span>
-
-      <CampbookPage
-        className="page"
-        $pt={"116px"}
+        $pt={"74px"}
         $pb={"150px"}
-        $bgc={"#E1EFA1"}
+        $bgc={"#CEF488"}
       >
         <CampbookFeebackTitle>Індивідуальний фідбек</CampbookFeebackTitle>
         <CampbookFeebackTitleText>
@@ -283,18 +144,18 @@ export const Campbook = ({
           {feedback.topicsCovered && feedback.topicsCovered}
         </CampbookFeebackContent>
 
-        <CampbookFeebackContent>
+        <CampbookFeebackContent $mb={"52px"}>
           <CampbookFeebackContentTitle>
             WORKING MODE:{" "}
           </CampbookFeebackContentTitle>
           {feedback.workingMode && feedback.workingMode}
         </CampbookFeebackContent>
 
-        <CampbookFeebackContent>
-          <CampbookFeebackContentTitle>
+        <CampbookFeebackTitleSecondary>
+          <CampbookFeebackTitleTextSecondary>
             AREAS FOR FURTHER DEVELOPMENT
-          </CampbookFeebackContentTitle>
-        </CampbookFeebackContent>
+          </CampbookFeebackTitleTextSecondary>
+        </CampbookFeebackTitleSecondary>
 
         <CampbookFeebackContent>
           <CampbookFeebackContentTitle>

@@ -38,10 +38,8 @@ export const StudentPDF = ({ student, locationsList }) => {
     useState(parentEmail);
   const [campbookRecipientEmail, setCampbookRecipientEmail] =
     useState(parentEmail);
-  const [photosUrl, setPhotosUrl] = useState("");
-  const [teacherName, setTeacherName] = useState("");
-  const [tutorName, setTutorName] = useState("");
   const [feedback, setFeedback] = useState({
+    group: "",
     materialsTaught: "",
     testResult: "",
     topicsCovered: "",
@@ -113,16 +111,7 @@ export const StudentPDF = ({ student, locationsList }) => {
   function validateCampbook() {
     const isEmptyFeedback = Object.keys(feedback).some((key) => !feedback[key]);
 
-    if (
-      !photosUrl.trim() ||
-      !teacherName.trim() ||
-      !tutorName.trim() ||
-      isEmptyFeedback
-    ) {
-      return false;
-    }
-
-    return true;
+    return !isEmptyFeedback;
   }
 
   return (
@@ -229,16 +218,13 @@ export const StudentPDF = ({ student, locationsList }) => {
               <ClientPdf className="campbook__pdf">
                 <campbook.Campbook
                   student={student}
-                  teacherName={teacherName}
-                  tutorName={tutorName}
                   feedback={feedback}
-                  photosUrl={photosUrl}
                   locationsList={locationsList}
                 />
               </ClientPdf>
             </PdfWrapper>
             <ImageUploader
-              stylesClasses="parent mt20"
+              stylesClasses="parent mt20 mb20"
               inputId="firstImageUpload"
               interimImageId="first-image-interim"
               resultImageId="mainPageImage"
@@ -247,91 +233,6 @@ export const StudentPDF = ({ student, locationsList }) => {
               requiredHeight={517}
               imageName="main"
             />
-            <ImageUploader
-              stylesClasses="parent mt20"
-              inputId="secondImageUpload"
-              interimImageId="second-image-interim"
-              resultImageId="sessionPageImage"
-              previewImageId="second-image-preview"
-              requiredWidth={673}
-              requiredHeight={517}
-              imageName="summary"
-            />
-            <ImageUploader
-              stylesClasses="parent mt20"
-              inputId="thirdImageUpload"
-              interimImageId="third-image-interim"
-              resultImageId="teacherImage"
-              previewImageId="third-image-preview"
-              requiredWidth={243}
-              requiredHeight={243}
-              imageName="teacher"
-            />
-            <ImageUploader
-              stylesClasses="parent mt20"
-              inputId="fourthImageUpload"
-              interimImageId="fourth-image-interim"
-              resultImageId="tutorImage"
-              previewImageId="fourth-image-preview"
-              requiredWidth={243}
-              requiredHeight={243}
-              imageName="tutor"
-            />
-            <ImageUploader
-              stylesClasses="parent mt20 mb20"
-              inputId="fifthImageUpload"
-              interimImageId="fifth-image-interim"
-              resultImageId="heroesPageImage"
-              previewImageId="fifth-image-preview"
-              requiredWidth={608}
-              requiredHeight={362}
-              imageName="group"
-            />
-            <ListItemFieldWrapper>
-              <ListItemFormLabel htmlFor="photosLink">
-                Put photos link
-              </ListItemFormLabel>
-              <ListItemFormInput
-                id="photosLink"
-                value={photosUrl}
-                onChange={(e) => setPhotosUrl(e.target.value)}
-              />
-            </ListItemFieldWrapper>
-            <InputResultWrapper>
-              <InputResultInfo>The photos link</InputResultInfo>
-
-              <InputResultAttantion>{photosUrl}</InputResultAttantion>
-            </InputResultWrapper>
-            <ListItemFieldWrapper>
-              <ListItemFormLabel htmlFor="teacherName">
-                Put teacher name
-              </ListItemFormLabel>
-              <ListItemFormInput
-                id="teacherName"
-                value={teacherName}
-                onChange={(e) => setTeacherName(e.target.value)}
-              />
-            </ListItemFieldWrapper>
-            <InputResultWrapper>
-              <InputResultInfo>The teacher name is</InputResultInfo>
-
-              <InputResultAttantion>{teacherName}</InputResultAttantion>
-            </InputResultWrapper>
-            <ListItemFieldWrapper>
-              <ListItemFormLabel htmlFor="tutorName">
-                Put tutor name
-              </ListItemFormLabel>
-              <ListItemFormInput
-                id="tutorName"
-                value={tutorName}
-                onChange={(e) => setTutorName(e.target.value)}
-              />
-            </ListItemFieldWrapper>
-            <InputResultWrapper>
-              <InputResultInfo>The tutor name is </InputResultInfo>
-
-              <InputResultAttantion>{tutorName}</InputResultAttantion>
-            </InputResultWrapper>
 
             <InnerFormWrapper>
               <CommonButtonToggler
@@ -354,6 +255,21 @@ export const StudentPDF = ({ student, locationsList }) => {
               {isFeedbackVisible && (
                 <>
                   <ListItemFieldWrapper>
+                    <ListItemFormLabel htmlFor="group">Group</ListItemFormLabel>
+
+                    <ListItemFormInput
+                      id="group"
+                      value={feedback.group}
+                      onChange={(e) =>
+                        setFeedback({
+                          ...feedback,
+                          group: e.target.value,
+                        })
+                      }
+                    />
+                  </ListItemFieldWrapper>
+
+                  <ListItemFieldWrapper>
                     <ListItemFormLabel htmlFor="materialsTaught">
                       Level of the materials taught
                     </ListItemFormLabel>
@@ -369,16 +285,6 @@ export const StudentPDF = ({ student, locationsList }) => {
                       }
                     />
                   </ListItemFieldWrapper>
-
-                  <InputResultWrapper>
-                    <InputResultInfo>
-                      Level of the materials taught
-                    </InputResultInfo>
-
-                    <InputResultAttantion>
-                      {feedback.materialsTaught}
-                    </InputResultAttantion>
-                  </InputResultWrapper>
 
                   <ListItemFieldWrapper>
                     <ListItemFormLabel htmlFor="testResult">
@@ -397,14 +303,6 @@ export const StudentPDF = ({ student, locationsList }) => {
                     />
                   </ListItemFieldWrapper>
 
-                  <InputResultWrapper>
-                    <InputResultInfo>Final test result</InputResultInfo>
-
-                    <InputResultAttantion>
-                      {feedback.testResult}
-                    </InputResultAttantion>
-                  </InputResultWrapper>
-
                   <ListItemFieldWrapper>
                     <ListItemFormLabel htmlFor="topicsCovered">
                       Topics covered
@@ -421,14 +319,6 @@ export const StudentPDF = ({ student, locationsList }) => {
                       }
                     />
                   </ListItemFieldWrapper>
-
-                  <InputResultWrapper>
-                    <InputResultInfo>Topics covered</InputResultInfo>
-
-                    <InputResultAttantion>
-                      {feedback.topicsCovered}
-                    </InputResultAttantion>
-                  </InputResultWrapper>
 
                   <ListItemFieldWrapper>
                     <ListItemFormLabel htmlFor="workingMode">
@@ -447,14 +337,6 @@ export const StudentPDF = ({ student, locationsList }) => {
                     />
                   </ListItemFieldWrapper>
 
-                  <InputResultWrapper>
-                    <InputResultInfo>Working mode</InputResultInfo>
-
-                    <InputResultAttantion>
-                      {feedback.workingMode}
-                    </InputResultAttantion>
-                  </InputResultWrapper>
-
                   <ListItemFieldWrapper>
                     <ListItemFormLabel htmlFor="speakingSkills">
                       In order to further improve speaking skills
@@ -471,16 +353,6 @@ export const StudentPDF = ({ student, locationsList }) => {
                       }
                     />
                   </ListItemFieldWrapper>
-
-                  <InputResultWrapper>
-                    <InputResultInfo>
-                      In order to further improve speaking skills
-                    </InputResultInfo>
-
-                    <InputResultAttantion>
-                      {feedback.speakingSkills}
-                    </InputResultAttantion>
-                  </InputResultWrapper>
 
                   <ListItemFieldWrapper>
                     <ListItemFormLabel htmlFor="readingSkills">
@@ -499,16 +371,6 @@ export const StudentPDF = ({ student, locationsList }) => {
                     />
                   </ListItemFieldWrapper>
 
-                  <InputResultWrapper>
-                    <InputResultInfo>
-                      In order to further develop reading skills
-                    </InputResultInfo>
-
-                    <InputResultAttantion>
-                      {feedback.readingSkills}
-                    </InputResultAttantion>
-                  </InputResultWrapper>
-
                   <ListItemFieldWrapper>
                     <ListItemFormLabel htmlFor="listeningSkills">
                       Listening skills can be further developed by
@@ -525,16 +387,6 @@ export const StudentPDF = ({ student, locationsList }) => {
                       }
                     />
                   </ListItemFieldWrapper>
-
-                  <InputResultWrapper>
-                    <InputResultInfo>
-                      Listening skills can be further developed by
-                    </InputResultInfo>
-
-                    <InputResultAttantion>
-                      {feedback.listeningSkills}
-                    </InputResultAttantion>
-                  </InputResultWrapper>
 
                   <ListItemFieldWrapper>
                     <ListItemFormLabel htmlFor="writingSkills">
@@ -553,16 +405,6 @@ export const StudentPDF = ({ student, locationsList }) => {
                     />
                   </ListItemFieldWrapper>
 
-                  <InputResultWrapper>
-                    <InputResultInfo>
-                      While speaking of writing skills
-                    </InputResultInfo>
-
-                    <InputResultAttantion>
-                      {feedback.writingSkills}
-                    </InputResultAttantion>
-                  </InputResultWrapper>
-
                   <ListItemFieldWrapper>
                     <ListItemFormLabel htmlFor="additionalInfo">
                       Additional information about the camper:
@@ -579,16 +421,6 @@ export const StudentPDF = ({ student, locationsList }) => {
                       }
                     />
                   </ListItemFieldWrapper>
-
-                  <InputResultWrapper>
-                    <InputResultInfo>
-                      Additional information about the camper:
-                    </InputResultInfo>
-
-                    <InputResultAttantion>
-                      {feedback.additionalInfo}
-                    </InputResultAttantion>
-                  </InputResultWrapper>
                 </>
               )}
             </InnerFormWrapper>

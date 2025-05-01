@@ -262,7 +262,7 @@ export const Voucher = ({ student, locationsList }) => {
             </VoucherSectionList>
 
             <VoucherBodySubtitleS $mb={"16px"}>
-              Details of the Camp Participant:
+              Szczegóły uczestnika campu:
             </VoucherBodySubtitleS>
 
             <VoucherSectionList>
