@@ -22,6 +22,18 @@ import {
 
 export const Campbook = ({ student, feedback, locationsList }) => {
   const { locationSlug, studentName, campPeriod } = student;
+  const {
+    group,
+    materialsTaught,
+    finalTestResult,
+    topicsCovered,
+    workingMode,
+    speaking,
+    reading,
+    listening,
+    speakingOfWriting,
+    additionalInfo,
+  } = feedback;
 
   const [periodStart, setPeriodStart] = useState(null);
   const [periodEnd, setPeriodEnd] = useState(null);
@@ -105,9 +117,7 @@ export const Campbook = ({ student, feedback, locationsList }) => {
           {studentName}
         </CampbookMainPageSecondaryText>
 
-        <CampbookMainPageGroup>
-          Group {feedback.group && feedback.group}
-        </CampbookMainPageGroup>
+        <CampbookMainPageGroup>Group {group && group}</CampbookMainPageGroup>
       </CampbookPage>
 
       <span className="nextPage"></span>
@@ -127,28 +137,28 @@ export const Campbook = ({ student, feedback, locationsList }) => {
           <CampbookFeebackContentTitle>
             LEVEL OF THE MATERIALS TAUGHT:{" "}
           </CampbookFeebackContentTitle>
-          {feedback.materialsTaught && feedback.materialsTaught}
+          {materialsTaught && materialsTaught}
         </CampbookFeebackContent>
 
         <CampbookFeebackContent>
           <CampbookFeebackContentTitle>
             FINAL TEST RESULTS:{" "}
           </CampbookFeebackContentTitle>
-          {feedback.testResult && feedback.testResult}
+          {finalTestResult && finalTestResult}
         </CampbookFeebackContent>
 
         <CampbookFeebackContent>
           <CampbookFeebackContentTitle>
             TOPICS COVERED:{" "}
           </CampbookFeebackContentTitle>
-          {feedback.topicsCovered && feedback.topicsCovered}
+          {topicsCovered && topicsCovered}
         </CampbookFeebackContent>
 
         <CampbookFeebackContent $mb={"52px"}>
           <CampbookFeebackContentTitle>
             WORKING MODE:{" "}
           </CampbookFeebackContentTitle>
-          {feedback.workingMode && feedback.workingMode}
+          {workingMode && workingMode}
         </CampbookFeebackContent>
 
         <CampbookFeebackTitleSecondary>
@@ -161,31 +171,31 @@ export const Campbook = ({ student, feedback, locationsList }) => {
           <CampbookFeebackContentTitle>
             In order to further improve speaking skills,{" "}
           </CampbookFeebackContentTitle>
-          {feedback.speakingSkills && feedback.speakingSkills}
+          {speaking && speaking}
         </CampbookFeebackContent>
         <CampbookFeebackContent>
           <CampbookFeebackContentTitle>
             In order to further develop reading skills,{" "}
           </CampbookFeebackContentTitle>
-          {feedback.readingSkills && feedback.readingSkills}
+          {reading && reading}
         </CampbookFeebackContent>
         <CampbookFeebackContent>
           <CampbookFeebackContentTitle>
             Listening skills can be further developed by{" "}
           </CampbookFeebackContentTitle>
-          {feedback.listeningSkills && feedback.listeningSkills}
+          {listening && listening}
         </CampbookFeebackContent>
         <CampbookFeebackContent>
           <CampbookFeebackContentTitle>
             While speaking of writing skills,{" "}
           </CampbookFeebackContentTitle>
-          {feedback.writingSkills && feedback.writingSkills}
+          {speakingOfWriting && speakingOfWriting}
         </CampbookFeebackContent>
         <CampbookFeebackContent>
           <CampbookFeebackContentTitle>
             Additional information about the camper:{" "}
           </CampbookFeebackContentTitle>
-          {feedback.additionalInfo && feedback.additionalInfo}
+          {additionalInfo && additionalInfo}
         </CampbookFeebackContent>
 
         <CampbookFeebackBottomIcons />

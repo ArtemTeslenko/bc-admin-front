@@ -24,6 +24,7 @@ import {
 import { arrowStyles, controlStyles, multiValueStyles } from "@/assets/utils";
 import { studentsCountriesOptions } from "@/assets/constants";
 import { Loader } from "@/assets/components/Loader";
+import { StudentPDF } from "@/assets/components/StudentPDF";
 
 export const StudentForm = ({
   student,
@@ -45,7 +46,21 @@ export const StudentForm = ({
     campPeriod,
     agreementDate,
     comments,
+    campbookInfo = {},
   } = student;
+
+  const {
+    group,
+    materialsTaught,
+    finalTestResult,
+    topicsCovered,
+    workingMode,
+    speaking,
+    reading,
+    listening,
+    speakingOfWriting,
+    additionalInfo,
+  } = campbookInfo;
 
   const [countryState, setCountryState] = useState({});
   const [locationState, setLocationState] = useState({});
@@ -66,6 +81,18 @@ export const StudentForm = ({
   const [parentEmailState, setParentEmailState] = useState(parentEmail);
   const [isParentVisible, setIsParentVisible] = useState(false);
   const [periodsList, setPeriodsList] = useState([]);
+  const [feedback, setFeedback] = useState({
+    group,
+    materialsTaught,
+    finalTestResult,
+    topicsCovered,
+    workingMode,
+    speaking,
+    reading,
+    listening,
+    speakingOfWriting,
+    additionalInfo,
+  });
   const [locationsOptions, setLocationsOptions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -134,6 +161,7 @@ export const StudentForm = ({
       campPeriod: preparedPeriods,
       comments: commentState,
       country: countryState.value,
+      campbookInfo: feedback,
       agreementDate: moment(agreementDateState, "DD.MM.YYYY").toISOString(),
     };
 
@@ -206,7 +234,6 @@ export const StudentForm = ({
               />
             </ListItemFieldWrapperGrid>
           </ListItemFieldsGrid>
-
           <ListItemFieldWrapper>
             <ListItemFormLabel htmlFor="studentName">
               Student name
@@ -217,7 +244,6 @@ export const StudentForm = ({
               onChange={(e) => setStudentNameState(e.target.value)}
             />
           </ListItemFieldWrapper>
-
           <ListItemFieldWrapper>
             <ListItemFormLabel htmlFor="studentBirthday">
               Student birthday
@@ -228,7 +254,6 @@ export const StudentForm = ({
               onChange={(e) => setStudentBirthdayState(e.target.value)}
             />
           </ListItemFieldWrapper>
-
           <ListItemFieldWrapper>
             <ListItemFormLabel htmlFor="campPeriod">
               Camp period
@@ -245,7 +270,6 @@ export const StudentForm = ({
               }}
             />
           </ListItemFieldWrapper>
-
           <ListItemFieldWrapper>
             <ListItemFormLabel htmlFor="agreementDate">
               Agreement date
@@ -259,7 +283,6 @@ export const StudentForm = ({
               icon={<GoCalendar style={{ width: "14px", height: "14px" }} />}
             />
           </ListItemFieldWrapper>
-
           <ListItemFieldWrapper>
             <ListItemFormLabel htmlFor="comments">Comments</ListItemFormLabel>
             <ListItemFormTextarea
@@ -268,7 +291,6 @@ export const StudentForm = ({
               onChange={(e) => setCommentState(e.target.value)}
             />
           </ListItemFieldWrapper>
-
           <InnerFormWrapper>
             <CommonButtonToggler
               type="button"
@@ -362,11 +384,18 @@ export const StudentForm = ({
 
           <CommonButtonPrimary
             type="submit"
-            className="right"
+            className="right mb20"
             onClick={(e) => handleUpdateAction(e)}
           >
             Update student
           </CommonButtonPrimary>
+
+          <StudentPDF
+            student={student}
+            locationsList={locationsList}
+            feedback={feedback}
+            setFeedback={setFeedback}
+          />
         </ListItemForm>
       )}
       <Loader isLoading={isLoading} />

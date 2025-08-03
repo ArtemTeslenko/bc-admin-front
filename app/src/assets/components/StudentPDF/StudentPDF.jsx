@@ -27,7 +27,12 @@ import { arrowStyles, handlePdfSend, handlePdfLoad } from "@/assets/utils";
 import { ImageUploader } from "@/assets/components/ImageUploader";
 import { Loader } from "@/assets/components/Loader";
 
-export const StudentPDF = ({ student, locationsList }) => {
+export const StudentPDF = ({
+  student,
+  locationsList,
+  feedback,
+  setFeedback,
+}) => {
   const { country, parentEmail } = student;
 
   const [isCampbookVisible, setIsCampbookVisible] = useState(false);
@@ -38,18 +43,6 @@ export const StudentPDF = ({ student, locationsList }) => {
     useState(parentEmail);
   const [campbookRecipientEmail, setCampbookRecipientEmail] =
     useState(parentEmail);
-  const [feedback, setFeedback] = useState({
-    group: "",
-    materialsTaught: "",
-    testResult: "",
-    topicsCovered: "",
-    workingMode: "",
-    speakingSkills: "",
-    readingSkills: "",
-    listeningSkills: "",
-    writingSkills: "",
-    additionalInfo: "",
-  });
   const [isFeedbackVisible, setIsFeedbackVisible] = useState(true);
   const [isNotificationVisible, setIsNotificationVisible] = useState(false);
   const [isSendSuccess, setIsSendSuccess] = useState(false);
@@ -259,12 +252,12 @@ export const StudentPDF = ({ student, locationsList }) => {
 
                     <ListItemFormInput
                       id="group"
-                      value={feedback.group}
+                      value={feedback.group ?? ""}
                       onChange={(e) =>
-                        setFeedback({
-                          ...feedback,
+                        setFeedback((prevValue) => ({
+                          ...prevValue,
                           group: e.target.value,
-                        })
+                        }))
                       }
                     />
                   </ListItemFieldWrapper>
@@ -276,7 +269,7 @@ export const StudentPDF = ({ student, locationsList }) => {
 
                     <ListItemFormInput
                       id="materialsTaught"
-                      value={feedback.materialsTaught}
+                      value={feedback.materialsTaught ?? ""}
                       onChange={(e) =>
                         setFeedback({
                           ...feedback,
@@ -293,11 +286,11 @@ export const StudentPDF = ({ student, locationsList }) => {
 
                     <ListItemFormInput
                       id="testResult"
-                      value={feedback.testResult}
+                      value={feedback.finalTestResult ?? ""}
                       onChange={(e) =>
                         setFeedback({
                           ...feedback,
-                          testResult: e.target.value,
+                          finalTestResult: e.target.value,
                         })
                       }
                     />
@@ -310,7 +303,7 @@ export const StudentPDF = ({ student, locationsList }) => {
 
                     <ListItemFormTextarea
                       id="topicsCovered"
-                      value={feedback.topicsCovered}
+                      value={feedback.topicsCovered ?? ""}
                       onChange={(e) =>
                         setFeedback({
                           ...feedback,
@@ -327,7 +320,7 @@ export const StudentPDF = ({ student, locationsList }) => {
 
                     <ListItemFormTextarea
                       id="workingMode"
-                      value={feedback.workingMode}
+                      value={feedback.workingMode ?? ""}
                       onChange={(e) =>
                         setFeedback({
                           ...feedback,
@@ -344,11 +337,11 @@ export const StudentPDF = ({ student, locationsList }) => {
 
                     <ListItemFormTextarea
                       id="speakingSkills"
-                      value={feedback.speakingSkills}
+                      value={feedback.speaking ?? ""}
                       onChange={(e) =>
                         setFeedback({
                           ...feedback,
-                          speakingSkills: e.target.value,
+                          speaking: e.target.value,
                         })
                       }
                     />
@@ -361,11 +354,11 @@ export const StudentPDF = ({ student, locationsList }) => {
 
                     <ListItemFormTextarea
                       id="readingSkills"
-                      value={feedback.readingSkills}
+                      value={feedback.reading ?? ""}
                       onChange={(e) =>
                         setFeedback({
                           ...feedback,
-                          readingSkills: e.target.value,
+                          reading: e.target.value,
                         })
                       }
                     />
@@ -378,11 +371,11 @@ export const StudentPDF = ({ student, locationsList }) => {
 
                     <ListItemFormTextarea
                       id="listeningSkills"
-                      value={feedback.listeningSkills}
+                      value={feedback.listening ?? ""}
                       onChange={(e) =>
                         setFeedback({
                           ...feedback,
-                          listeningSkills: e.target.value,
+                          listening: e.target.value,
                         })
                       }
                     />
@@ -395,11 +388,11 @@ export const StudentPDF = ({ student, locationsList }) => {
 
                     <ListItemFormTextarea
                       id="writingSkills"
-                      value={feedback.writingSkills}
+                      value={feedback.speakingOfWriting ?? ""}
                       onChange={(e) =>
                         setFeedback({
                           ...feedback,
-                          writingSkills: e.target.value,
+                          speakingOfWriting: e.target.value,
                         })
                       }
                     />
@@ -412,7 +405,7 @@ export const StudentPDF = ({ student, locationsList }) => {
 
                     <ListItemFormTextarea
                       id="additionalInfo"
-                      value={feedback.additionalInfo}
+                      value={feedback.additionalInfo ?? ""}
                       onChange={(e) =>
                         setFeedback({
                           ...feedback,

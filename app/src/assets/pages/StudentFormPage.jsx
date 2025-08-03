@@ -2,7 +2,6 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { StudentForm } from "@/assets/components/StudentForm";
 import { useParams, useLocation } from "react-router-dom";
-import { StudentPDF } from "@/assets/components/StudentPDF";
 import { setLocationToStorage } from "@/assets/utils";
 import { Loader } from "@/assets/components/Loader";
 
@@ -51,8 +50,6 @@ const StudentFormPage = () => {
             submitStudentChange={handleStudentChange}
             locationsList={locationsList}
           />
-
-          <StudentPDF student={student} locationsList={locationsList} />
         </>
       )}
       <Loader isLoading={isLoading} />
