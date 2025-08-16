@@ -68,7 +68,9 @@ export const StudentForm = ({
   const [studentBirthdayState, setStudentBirthdayState] =
     useState(studentBirthday);
   const [periodState, setPeriodState] = useState(campPeriod);
-  const [agreementDateState, setAgreementDateState] = useState(agreementDate);
+  const [agreementDateState, setAgreementDateState] = useState(
+    new Date(agreementDate)
+  );
   const [commentState, setCommentState] = useState(comments);
   const [parentNameState, setParentNameState] = useState(parentName);
   const [parentPassportState, setParentPassportState] =
