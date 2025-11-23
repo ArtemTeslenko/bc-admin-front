@@ -99,10 +99,12 @@ export const StudentForm = ({
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const periods = Object.keys(campPeriod).map((key) => {
-      return { label: campPeriod[key], value: key };
-    });
-    setPeriodState(periods);
+    if (campPeriod) {
+      const periods = Object.keys(campPeriod).map((key) => {
+        return { label: campPeriod[key], value: key };
+      });
+      setPeriodState(periods);
+    }
   }, [student]);
 
   useEffect(() => {
