@@ -102,7 +102,10 @@ export const StudentPDF = ({
   }
 
   function validateCampbook() {
-    const isEmptyFeedback = Object.keys(feedback).some((key) => !feedback[key]);
+    const exceptionKeys = ["additionalInfo"];
+    const isEmptyFeedback = Object.keys(feedback).some(
+      (key) => !feedback[key] && !exceptionKeys.includes(key)
+    );
 
     return !isEmptyFeedback;
   }
